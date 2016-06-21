@@ -11,7 +11,7 @@ export default {
 	BACKWARD: 'BACKWARD',
 
 	HOME: 'HOME',
-	DIPTYQUE: 'DIPTYQUE',
+	ABOUT: 'ABOUT',
 
 	LEFT: 'LEFT',
 	RIGHT: 'RIGHT',

@@ -39,7 +39,9 @@ module.exports = {
       'is-retina',
       'mobile-detect',
       'object-assign',
-      'to-slug-case'
+      'to-slug-case',
+      'gsap',
+      'raf'
     ]
   },
   output: {
@@ -70,11 +72,17 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         loaders: [
-          'react-hot',
           'babel-loader'
         ]
       },
+      { 
+        test: /\.hbs/, 
+        loader: "handlebars-template-loader" 
+      }
     ],
+  },
+  node: {
+    fs: "empty" // avoids error messages
   },
   resolve: {
     extensions: ['', '.js', '.jsx']

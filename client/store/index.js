@@ -77,33 +77,33 @@ import isRetina from 'is-retina'
 // }
 // function _getTypeOfPage(hash) {
 //     var h = hash || Router.getNewHash()
-//     if(h.parts.length == 2) return Constants.DIPTYQUE
+//     if(h.parts.length == 2) return Constants.ABOUT
 //     else return Constants.HOME
 // }
-// function _getPageContent() {
-//     var hashObj = Router.getNewHash()
-//     var hash = hashObj.hash.length < 1 ? '/' : hashObj.hash
-//     var content = data.routing[hash]
-//     return content
-// }
-// function _getContentByLang(lang) {
-//     return data.content.lang[lang]
-// }
-// function _getGlobalContent() {
-//     return _getContentByLang(Store.lang())
-// }
+function _getPageContent() {
+    var hashObj = Router.getNewHash()
+    var hash = hashObj.hash.length < 1 ? '/' : hashObj.hash
+    var content = data.routing[hash]
+    return content
+}
+function _getContentByLang(lang) {
+    return data.content.lang[lang]
+}
+function _getGlobalContent() {
+    return _getContentByLang(Store.lang())
+}
 // function _getAppData() {
 //     return data
 // }
 // function _getDefaultRoute() {
 //     return data['default-route']
 // }
-// function _windowWidthHeight() {
-//     return {
-//         w: window.innerWidth,
-//         h: window.innerHeight
-//     }
-// }
+function _windowWidthHeight() {
+    return {
+        w: window.innerWidth,
+        h: window.innerHeight
+    }
+}
 // function _getDiptyqueShoes() {
 //     var hashObj = Router.getNewHash()
 //     var baseurl = _getPageAssetsBasePathById(hashObj.parent, hashObj.target)
@@ -114,18 +114,18 @@ var Store = assign({}, EventEmitter2.prototype, {
     emitChange: function(type, item) {
         this.emit(type, item)
     },
-    // pageContent: function() {
-    //     return _getPageContent()
-    // },
+    pageContent: function() {
+        return _getPageContent()
+    },
     // appData: function() {
     //     return _getAppData()
     // },
     // defaultRoute: function() {
     //     return _getDefaultRoute()
     // },
-    // globalContent: function() {
-    //     return _getGlobalContent()
-    // },
+    globalContent: function() {
+        return _getGlobalContent()
+    },
     // pageAssetsToLoad: function() {
     //     return _getPageAssetsToLoad()
     // },
@@ -148,9 +148,9 @@ var Store = assign({}, EventEmitter2.prototype, {
     // getHomeVideos: function() {
     //     return data['home-videos']
     // },
-    // generalInfos: function() {
-    //     return data.content
-    // },
+    generalInfos: function() {
+        return data.content
+    },
     // diptyqueShoes: function() {
     //     return _getDiptyqueShoes()
     // },
@@ -196,19 +196,19 @@ var Store = assign({}, EventEmitter2.prototype, {
     // getFeed: function() {
     //     return data.feed
     // },
-    // lang: function() {
-    //     var defaultLang = true
-    //     for (var i = 0; i < data.langs.length; i++) {
-    //         var lang = data.langs[i]
-    //         if(lang == JS_lang) {
-    //             defaultLang = false
-    //         }
-    //     };
-    //     return (defaultLang == true) ? 'en' : JS_lang
-    // },
-    // Window: function() {
-    //     return _windowWidthHeight()
-    // },
+    lang: function() {
+        var defaultLang = true
+        for (var i = 0; i < data.langs.length; i++) {
+            var lang = data.langs[i]
+            if(lang == JS_lang) {
+                defaultLang = false
+            }
+        };
+        return (defaultLang == true) ? 'en' : JS_lang
+    },
+    Window: function() {
+        return _windowWidthHeight()
+    },
     // addPXChild: function(item) {
     //     Store.PXContainer.add(item.child)
     // },
@@ -217,11 +217,8 @@ var Store = assign({}, EventEmitter2.prototype, {
     // },
     Parent: undefined,
     Canvas: undefined,
-    FrontBlock: undefined,
     Orientation: Constants.LANDSCAPE,
-    Detector: {
-        isMobile: undefined
-    },
+    Detector: {},
     dispatcherIndex: Dispatcher.register(function(payload){
         var action = payload.action
         switch(action.actionType) {
