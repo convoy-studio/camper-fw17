@@ -50,7 +50,7 @@ const PagerConstants = {
 // Dispatcher
 const PagerDispatcher = assign(new Flux.Dispatcher(), {
     handlePagerAction: (action) => {
-        this.dispatch(action)
+        PagerDispatcher.dispatch(action)
     }
 })
 

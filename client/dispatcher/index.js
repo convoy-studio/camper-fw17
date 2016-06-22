@@ -2,8 +2,8 @@ import Flux from 'flux'
 import assign from 'object-assign'
 
 const AppDispatcher = assign(new Flux.Dispatcher(), {
-    handleViewAction: function(action) {
-        this.dispatch({
+    handleViewAction: (action) => {
+        AppDispatcher.dispatch({
             source: 'VIEW_ACTION',
             action: action
         })

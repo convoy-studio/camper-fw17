@@ -112,7 +112,7 @@ function _windowWidthHeight() {
 
 const Store = assign({}, EventEmitter2.prototype, {
     emitChange: (type, item) => {
-        this.emit(type, item)
+        Store.emit(type, item)
     },
     pageContent: () => {
         return _getPageContent()

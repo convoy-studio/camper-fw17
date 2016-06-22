@@ -31,7 +31,6 @@ class PagesContainer extends BasePager {
             this.templateSelection(newHash)
         } else {
             PagerActions.onTransitionOut()
-            // this.willPageTransitionOut()
         }
     }
     templateSelection(newHash) {

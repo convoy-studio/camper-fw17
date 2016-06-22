@@ -29,7 +29,9 @@ class BaseComponent {
             const t = template(object)
             this.element.innerHTML = t
         }
-        if (this.element.getAttribute('id') === undefined) this.element.setAttribute('id', slug(childId))
+        if (this.element.getAttribute('id') === null) {
+            this.element.setAttribute('id', slug(childId))
+        }
         dom.tree.add(this.parent, this.element)
         setTimeout(this.componentDidMount, 0)
     }

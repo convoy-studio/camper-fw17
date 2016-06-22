@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server -d --history-api-fallback --hot --inline --progress --colors --port 3000",
     "build": "NODE_ENV=production webpack --progress --colors",
-    "lint": "eslint --config=./.eslintrc client/**/*.js *.js"
+    "lint": "eslint --color --config .eslintrc --ext .js client"
   },
   "license": "MIT",
   "devDependencies": {
