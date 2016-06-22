@@ -41,7 +41,8 @@ module.exports = {
       'object-assign',
       'to-slug-case',
       'gsap',
-      'raf'
+      'raf',
+      'page'
     ]
   },
   output: {

@@ -1,6 +1,7 @@
 import Constants from '../constants'
 import Dispatcher from '../dispatcher'
 import Store from '../store'
+import router from '../services/router'
 
 function _proceedTransitionInAction(pageId) {
     Dispatcher.handleViewAction({
@@ -9,15 +10,15 @@ function _proceedTransitionInAction(pageId) {
     })  
 }
 
-var Actions = {
-    pageHasherChanged: function(pageId) {
+const Actions = {
+    pageHasherChanged: function() {
         Dispatcher.handleViewAction({
             actionType: Constants.PAGE_HASHER_CHANGED,
-            item: pageId
+            item: undefined
         })
     },
     loadPageAssets: function(pageId) {
-        var manifest = Store.pageAssetsToLoad()
+        const manifest = Store.pageAssetsToLoad()
         if(manifest.length < 1) {
             _proceedTransitionInAction(pageId)
         }else{

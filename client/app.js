@@ -56,8 +56,9 @@ class App {
 		// 		setTimeout(()=>Actions.pageHasherChanged())
 		// 	}, 200)
 		// }, 1500)
+		
 		setTimeout(()=>Actions.appStart())
-		setTimeout(()=>Actions.pageHasherChanged())
+		// setTimeout(()=>Actions.pageHasherChanged())
 	}
 }
 

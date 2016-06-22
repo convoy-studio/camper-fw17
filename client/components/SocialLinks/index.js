@@ -2,36 +2,34 @@ import Store from '../../store'
 import Constants from '../../constants'
 import dom from 'dom-hand'
 
-var socialLinks = (parent)=> {
+const socialLinks = (parent)=> {
+    let scope
+    const wrapper = dom.select('#footer #social-wrapper', parent)
+    scope = {
+        resize: ()=> {
+            const windowW = Store.Window.w
+            const windowH = Store.Window.h
+            const padding = Constants.PADDING_AROUND * 0.4
 
-	var scope;
-	var wrapper = dom.select("#footer #social-wrapper", parent)
+            const wrapperSize = dom.size(wrapper)
 
-	scope = {
-		resize: ()=> {
-			var windowW = Store.Window.w
-			var windowH = Store.Window.h
-			var padding = Constants.PADDING_AROUND * 0.4
+            const socialCss = {
+                left: windowW - padding - wrapperSize[0],
+                top: windowH - padding - wrapperSize[1]
+            }
 
-			var wrapperSize = dom.size(wrapper)
+            wrapper.style.left = socialCss.left + 'px'
+            wrapper.style.top = socialCss.top + 'px'
+        },
+        show: ()=> {
+            setTimeout(()=>dom.classes.remove(wrapper, 'hide'), 1000)
+        },
+        hide: ()=> {
+            setTimeout(()=>dom.classes.add(wrapper, 'hide'), 500)
+        }
+    }
 
-			var socialCss = {
-				left: windowW - padding - wrapperSize[0],
-				top: windowH - padding - wrapperSize[1],
-			}
-
-			wrapper.style.left = socialCss.left + 'px'
-			wrapper.style.top = socialCss.top + 'px'
-		},
-		show: ()=> {
-			setTimeout(()=>dom.classes.remove(wrapper, 'hide'), 1000)
-		},
-		hide: ()=> {
-			setTimeout(()=>dom.classes.add(wrapper, 'hide'), 500)
-		}
-	}
-
-	return scope
+    return scope
 }
 
 export default socialLinks

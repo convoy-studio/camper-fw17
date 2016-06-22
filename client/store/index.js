@@ -95,9 +95,9 @@ function _getGlobalContent() {
 // function _getAppData() {
 //     return data
 // }
-// function _getDefaultRoute() {
-//     return data['default-route']
-// }
+function _getDefaultRoute() {
+    return data['default-route']
+}
 function _windowWidthHeight() {
     return {
         w: window.innerWidth,
@@ -120,9 +120,9 @@ var Store = assign({}, EventEmitter2.prototype, {
     // appData: function() {
     //     return _getAppData()
     // },
-    // defaultRoute: function() {
-    //     return _getDefaultRoute()
-    // },
+    defaultRoute: function() {
+        return _getDefaultRoute()
+    },
     globalContent: function() {
         return _getGlobalContent()
     },
