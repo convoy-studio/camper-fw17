@@ -77,10 +77,20 @@ module.exports = {
                 test: /\.hbs/,
                 loader: 'handlebars-template-loader'
             }
+        ],
+        preLoaders: [
+            {
+                test: /\.js$/,
+                loaders: ['eslint'],
+                include: [new RegExp(path.join(__dirname, 'client'))]
+            }
         ]
     },
     node: {
         fs: 'empty' // avoids error messages
+    },
+    eslint: {
+        configFile: '.eslintrc'
     },
     resolve: {
         extensions: ['', '.js', '.jsx']
