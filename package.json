@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server -d --history-api-fallback --hot --inline --progress --colors --port 3000",
     "build": "NODE_ENV=production webpack --progress --colors",
-    "lint": "eslint --config=./.eslintrc client/**/**/*.js"
+    "lint": "eslint --config=./.eslintrc client/**/*.js *.js"
   },
   "license": "MIT",
   "devDependencies": {
@@ -19,6 +19,7 @@
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
+    "babel-register": "^6.9.0",
     "babel-runtime": "^6.5.0",
     "classnames": "^2.2.3",
     "crossroads": "^0.12.2",

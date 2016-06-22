@@ -14,7 +14,7 @@ import isRetina from 'is-retina'
 //     var scope = _getContentScope()
 //     var hashObj = Router.getNewHash()
 //     var type = _getTypeOfPage()
-//     var manifest;
+//     var manifest
 
 //     if(type != Constants.HOME) {
 //         var filenames = [
@@ -32,7 +32,7 @@ import isRetina from 'is-retina'
 //         if(type == Constants.HOME) {
 //             assetsManifest = _addBasePathsToUrls(assets, 'home', hashObj.target, type)
 //         }else{
-//             assetsManifest = _addBasePathsToUrls(assets, hashObj.parent, hashObj.target, type)       
+//             assetsManifest = _addBasePathsToUrls(assets, hashObj.parent, hashObj.target, type)
 //         }
 //         manifest = (manifest == undefined) ? assetsManifest : manifest.concat(assetsManifest)
 //     }
@@ -62,15 +62,15 @@ import isRetina from 'is-retina'
 // function _getHomePageAssetsBasePath() {
 //     return Store.baseMediaPath() + 'image/home/'
 // }
-// function _getImageDeviceExtension() {
-//     var retina = _isRetina()
-//     var str = '@1x'
-//     if(retina == true) str = '@2x'
-//     return str
-// }
-// function _isRetina() {
-//     return isRetina()
-// }
+function _isRetina() {
+    return isRetina()
+}
+function _getImageDeviceExtension() {
+    const retina = _isRetina()
+    let str = '@1x'
+    if (retina === true) str = '@2x'
+    return str
+}
 // function _getDeviceRatio() {
 //     var scale = (window.devicePixelRatio == undefined) ? 1 : window.devicePixelRatio
 //     return (scale > 1) ? 2 : 1
@@ -81,9 +81,9 @@ import isRetina from 'is-retina'
 //     else return Constants.HOME
 // }
 function _getPageContent() {
-    var hashObj = Router.getNewHash()
-    var hash = hashObj.hash.length < 1 ? '/' : hashObj.hash
-    var content = data.routing[hash]
+    const hashObj = Router.getNewHash()
+    const hash = hashObj.hash.length < 1 ? '/' : hashObj.hash
+    const content = data.routing[hash]
     return content
 }
 function _getContentByLang(lang) {
@@ -110,20 +110,20 @@ function _windowWidthHeight() {
 //     return _getContentScope().shoes
 // }
 
-var Store = assign({}, EventEmitter2.prototype, {
-    emitChange: function(type, item) {
+const Store = assign({}, EventEmitter2.prototype, {
+    emitChange: (type, item) => {
         this.emit(type, item)
     },
-    pageContent: function() {
+    pageContent: () => {
         return _getPageContent()
     },
     // appData: function() {
     //     return _getAppData()
     // },
-    defaultRoute: function() {
+    defaultRoute: () => {
         return _getDefaultRoute()
     },
-    globalContent: function() {
+    globalContent: () => {
         return _getGlobalContent()
     },
     // pageAssetsToLoad: function() {
@@ -148,7 +148,7 @@ var Store = assign({}, EventEmitter2.prototype, {
     // getHomeVideos: function() {
     //     return data['home-videos']
     // },
-    generalInfos: function() {
+    generalInfos: () => {
         return data.content
     },
     // diptyqueShoes: function() {
@@ -189,24 +189,24 @@ var Store = assign({}, EventEmitter2.prototype, {
     //         }
     //     };
     // },
-    // getImageDeviceExtension: _getImageDeviceExtension,
+    getImageDeviceExtension: _getImageDeviceExtension,
     // getPreviewUrlByHash: function(hash) {
     //     return Store.baseMediaPath() + 'image/diptyque/' + hash + '/preview.gif'
     // },
     // getFeed: function() {
     //     return data.feed
     // },
-    lang: function() {
-        var defaultLang = true
-        for (var i = 0; i < data.langs.length; i++) {
-            var lang = data.langs[i]
-            if(lang == JS_lang) {
+    lang: () => {
+        let defaultLang = true
+        for (let i = 0; i < data.langs.length; i++) {
+            const lang = data.langs[i]
+            if (lang === JSLang) {
                 defaultLang = false
             }
-        };
-        return (defaultLang == true) ? 'en' : JS_lang
+        }
+        return (defaultLang === true) ? 'en' : JSLang
     },
-    Window: function() {
+    Window: () => {
         return _windowWidthHeight()
     },
     // addPXChild: function(item) {
@@ -219,23 +219,21 @@ var Store = assign({}, EventEmitter2.prototype, {
     Canvas: undefined,
     Orientation: Constants.LANDSCAPE,
     Detector: {},
-    dispatcherIndex: Dispatcher.register(function(payload){
-        var action = payload.action
-        switch(action.actionType) {
-            case Constants.WINDOW_RESIZE:
-                Store.Window.w = action.item.windowW
-                Store.Window.h = action.item.windowH
-                Store.Orientation = (Store.Window.w > Store.Window.h) ? Constants.LANDSCAPE : Constants.PORTRAIT
-                Store.emitChange(action.actionType)
-                break
-            default:
-                Store.emitChange(action.actionType, action.item) 
-                break
+    dispatcherIndex: Dispatcher.register((payload) => {
+        const action = payload.action
+        switch (action.actionType) {
+        case Constants.WINDOW_RESIZE:
+            Store.Window.w = action.item.windowW
+            Store.Window.h = action.item.windowH
+            Store.Orientation = (Store.Window.w > Store.Window.h) ? Constants.LANDSCAPE : Constants.PORTRAIT
+            Store.emitChange(action.actionType)
+            break
+        default:
+            Store.emitChange(action.actionType, action.item)
+            break
         }
         return true
     })
 })
 
-
 export default Store
-
