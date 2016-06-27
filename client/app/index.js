@@ -13,8 +13,6 @@ class App {
         this.loadMainAssets = this.loadMainAssets.bind(this)
     }
     init() {
-        // console.log(require('../images/DesertVillage.png'))
-
         // Init router
         this.router = new Router()
         this.router.init()

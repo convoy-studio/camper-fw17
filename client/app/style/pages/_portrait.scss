@@ -1,0 +1,9 @@
+#portrait-page {
+	#background-video-container {
+		@extend .full-block;
+		video {
+			width: 100%;
+			height: 100%;
+		}
+	}	
+}

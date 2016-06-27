@@ -50,7 +50,7 @@ export default {
 
     ENVIRONMENTS: {
         PREPROD: {
-            static: ''
+            static: 'http://localhost:3000/'
         },
         PROD: {
             static: JSUrlStatic + '/'

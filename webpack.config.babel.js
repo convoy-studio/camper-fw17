@@ -25,25 +25,13 @@ module.exports = {
     context: path.join(__dirname, './client'),
     entry: {
         jsx: './index.js',
-        html: './index.html',
+        // html: './index.html',
         vendor: [
-            'dom-hand',
-            'crossroads',
-            'eventemitter2',
-            'flux',
-            'hasher',
-            'img',
-            'is-retina',
-            'mobile-detect',
-            'object-assign',
-            'to-slug-case',
-            'gsap',
-            'raf',
-            'page'
+            'gsap'
         ]
     },
     output: {
-        path: path.join(__dirname, './static'),
+        path: ('./dev'),
         filename: 'bundle.js'
     },
     module: {
@@ -114,7 +102,7 @@ module.exports = {
     ],
     plugins: plugins,
     devServer: {
-        contentBase: './client',
+        contentBase: './dev',
         hot: true
     }
 }
