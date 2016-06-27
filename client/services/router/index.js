@@ -9,14 +9,11 @@ class Router {
     init() {
         this.onParseUrl = this.onParseUrl.bind(this)
         this.routing = data.routing
-        this.baseName = '/group/'
+        this.baseName = ''
         this.firstPass = true
-        this.newHashFounded = false
+        this.newRouteFounded = false
         this.setupRoutes()
         this.setupPage()
-        setTimeout(() => {
-            page('/group/deia/marta')
-        }, 4000)
     }
     beginRouting() {
         page()
@@ -27,18 +24,21 @@ class Router {
     }
     onParseUrl(ctx) {
         // Swallow the action if we are alredy on that url
-        if (routerStore.newHash !== undefined) {
-            if (routerStore.newHash.hash === ctx.path) return
-        }
-        this.newHashFounded = false
+        if (routerStore.newRoute !== undefined) { if (this.areSimilarURL(routerStore.newRoute.path, ctx.path)) return }
+        this.newRouteFounded = false
         routerStore.ctx = ctx
-        this.newHashFounded = this.routeValidation()
+        this.newRouteFounded = this.routeValidation()
         // If URL don't match a pattern, send to default
-        if (!this.newHashFounded) {
+        if (!this.newRouteFounded) {
             this.onDefaultURLHandler()
             return
         }
         this.assignRoute()
+    }
+    areSimilarURL(previous, next) {
+        let bool = false
+        if (previous === next) bool = true
+        return bool
     }
     routeValidation() {
         for (let i = 0; i < routerStore.routes.length; i++) {
@@ -53,35 +53,27 @@ class Router {
         this.sendToDefault()
     }
     assignRoute() {
-        const hash = routerStore.ctx.path
+        const path = routerStore.ctx.path
         const parts = this.getURLParts(routerStore.ctx.path)
-        this.updatePageRoute(hash, parts, parts[0], (parts[1] === undefined) ? '' : parts[1])
+        this.updatePageRoute(path, parts, parts[0], (parts[1] === undefined) ? '' : parts[1])
     }
     getURLParts(url) {
-        const hash = url
-        const split = hash.split('/')
+        const path = url
+        const split = path.split('/')
         let parts = []
-        split.forEach((part) => {
-            if (part.length > 1) parts.push(part)
-        })
+        split.forEach((part) => { if (part.length > 1) parts.push(part) })
         return parts
     }
-    updatePageRoute(hash, parts, parent, target) {
-        routerStore.oldHash = routerStore.newHash
-        routerStore.newHash = {
-            hash: hash,
-            parts: parts,
-            parent: parent,
-            target: target
+    updatePageRoute(path, parts, parent, target) {
+        routerStore.oldRoute = routerStore.newRoute
+        routerStore.newRoute = { path, parts, parent, target }
+        routerStore.newRoute.type = routerStore.newRoute.parts.length === 3 ? Constants.PRODUCT : Constants.PORTRAIT
+        // If first pass send the action from App.js when all assets are ready
+        if (this.firstPass) {
+            this.firstPass = false
+        } else {
+            Actions.routeChanged()
         }
-        routerStore.newHash.type = routerStore.newHash.hash === '' ? Constants.HOME : Constants.ABOUT
-        // // If first pass send the action from App.js when all assets are ready
-        // if(this.firstPass) {
-        //  this.firstPass = false
-        // }else{
-        //  Actions.pageHasherChanged()
-        // }
-        Actions.pageHasherChanged()
     }
     sendToDefault() {
         page(Store.defaultRoute())
@@ -91,29 +83,31 @@ class Router {
         let i = 0, k
         const baseName = this.baseName
         for (k in this.routing) {
-            let portraitUrl = baseName + k
-            let productUrl = baseName + k + '/product'
-            routerStore.routes.push(portraitUrl, productUrl)
-            i++
+            if ({}.hasOwnProperty.call(this.routing, k)) {
+                let portraitUrl = baseName + k
+                let productUrl = baseName + k + '/product'
+                routerStore.routes.push(portraitUrl, productUrl)
+                i++
+            }
         }
     }
     static getBaseURL() {
         return document.URL.split('#')[0]
     }
-    static getHash() {
+    static getRoute() {
         return routerStore.ctx.path
     }
     static getRoutes() {
         return routerStore.routes
     }
-    static getNewHash() {
-        return routerStore.newHash
+    static getNewRoute() {
+        return routerStore.newRoute
     }
-    static getOldHash() {
-        return routerStore.oldHash
+    static getOldRoute() {
+        return routerStore.oldRoute
     }
-    static setHash(url) {
-        page(url)
+    static setRoute(path) {
+        page(path)
     }
 }
 

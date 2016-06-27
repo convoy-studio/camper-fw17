@@ -6,62 +6,62 @@ import data from '../data'
 import Router from '../services/router'
 import isRetina from 'is-retina'
 
-// function _getContentScope() {
-//     var hashObj = Router.getNewHash()
-//     return Store.getRoutePathScopeById(hashObj.hash)
-// }
-// function _getPageAssetsToLoad() {
-//     var scope = _getContentScope()
-//     var hashObj = Router.getNewHash()
-//     var type = _getTypeOfPage()
-//     var manifest
+function _getContentScope() {
+    const routeObj = Router.getNewRoute()
+    return Store.getRoutePathScopeById(routeObj.path)
+}
+function _getPageAssetsToLoad() {
+    const scope = _getContentScope()
+    const routeObj = Router.getNewRoute()
+    const type = _getTypeOfPage()
+    let manifest = []
 
-//     if(type != Constants.HOME) {
-//         var filenames = [
-//             'character' + _getImageDeviceExtension() +'.png',
-//             'character-bg.jpg',
-//             'shoe-bg.jpg'
-//         ]
-//         manifest = _addBasePathsToUrls(filenames, hashObj.parent, hashObj.target, type)
-//     }
+    if (type !== Constants.PORTRAIT) {
+        const filenames = [
+            'character' + _getImageDeviceExtension() + '.png',
+            'character-bg.jpg',
+            'shoe-bg.jpg'
+        ]
+        manifest = _addBasePathsToUrls(filenames, routeObj.parent, routeObj.target, type)
+    }
 
-//     // In case of extra assets
-//     if(scope.assets != undefined) {
-//         var assets = scope.assets
-//         var assetsManifest;
-//         if(type == Constants.HOME) {
-//             assetsManifest = _addBasePathsToUrls(assets, 'home', hashObj.target, type)
-//         }else{
-//             assetsManifest = _addBasePathsToUrls(assets, hashObj.parent, hashObj.target, type)
-//         }
-//         manifest = (manifest == undefined) ? assetsManifest : manifest.concat(assetsManifest)
-//     }
+    // In case of extra assets
+    if (scope.assets !== undefined) {
+        const assets = scope.assets
+        let assetsManifest
+        if (type === Constants.PORTRAIT) {
+            assetsManifest = _addBasePathsToUrls(assets, 'home', routeObj.target, type)
+        } else {
+            assetsManifest = _addBasePathsToUrls(assets, routeObj.parent, routeObj.target, type)
+        }
+        manifest = (manifest === undefined) ? assetsManifest : manifest.concat(assetsManifest)
+    }
 
-//     return manifest
-// }
-// function _addBasePathsToUrls(urls, pageId, targetId, type) {
-//     var basePath = (type == Constants.HOME) ? _getHomePageAssetsBasePath() : _getPageAssetsBasePathById(pageId, targetId)
-//     var manifest = []
-//     for (var i = 0; i < urls.length; i++) {
-//         var splitter = urls[i].split('.')
-//         var fileName = splitter[0]
-//         var extension = splitter[1]
-//         var id = pageId + '-'
-//         if(targetId) id += targetId + '-'
-//         id += fileName
-//         manifest[i] = {
-//             id: id,
-//             src: basePath + fileName + '.' + extension
-//         }
-//     }
-//     return manifest
-// }
-// function _getPageAssetsBasePathById(id, assetGroupId) {
-//     return Store.baseMediaPath() + 'image/diptyque/' + id + '/' + assetGroupId + '/'
-// }
-// function _getHomePageAssetsBasePath() {
-//     return Store.baseMediaPath() + 'image/home/'
-// }
+    return manifest
+}
+function _addBasePathsToUrls(urls, pageId, targetId, type) {
+    const basePath = (type === Constants.PORTRAIT) ? _getHomePageAssetsBasePath() : _getPageAssetsBasePathById(pageId, targetId)
+    let manifest = []
+    for (let i = 0; i < urls.length; i++) {
+        const splitter = urls[i].split('.')
+        const fileName = splitter[0]
+        const extension = splitter[1]
+        let id = pageId + '-'
+        if (targetId) id += targetId + '-'
+        id += fileName
+        manifest[i] = {
+            id: id,
+            src: '../' + basePath + fileName + '.' + extension
+        }
+    }
+    return manifest
+}
+function _getPageAssetsBasePathById(id, assetGroupId) {
+    return Store.baseMediaPath() + 'image/diptyque/' + id + '/' + assetGroupId + '/'
+}
+function _getHomePageAssetsBasePath() {
+    return Store.baseMediaPath() + 'image/home/'
+}
 function _isRetina() {
     return isRetina()
 }
@@ -75,15 +75,17 @@ function _getImageDeviceExtension() {
 //     var scale = (window.devicePixelRatio == undefined) ? 1 : window.devicePixelRatio
 //     return (scale > 1) ? 2 : 1
 // }
-// function _getTypeOfPage(hash) {
-//     var h = hash || Router.getNewHash()
-//     if(h.parts.length == 2) return Constants.ABOUT
-//     else return Constants.HOME
-// }
+function _getTypeOfPage(route) {
+    let type
+    const h = route || Router.getNewRoute()
+    if (h.parts.length === 2) type = Constants.ABOUT
+    else type = Constants.PORTRAIT
+    return type
+}
 function _getPageContent() {
-    const hashObj = Router.getNewHash()
-    const hash = hashObj.hash.length < 1 ? '/' : hashObj.hash
-    const content = data.routing[hash]
+    const routeObj = Router.getNewRoute()
+    const path = routeObj.path.length < 1 ? '/' : routeObj.path
+    const content = data.routing[path]
     return content
 }
 function _getContentByLang(lang) {
@@ -92,9 +94,9 @@ function _getContentByLang(lang) {
 function _getGlobalContent() {
     return _getContentByLang(Store.lang())
 }
-// function _getAppData() {
-//     return data
-// }
+function _getAppData() {
+    return data
+}
 function _getDefaultRoute() {
     return data['default-route']
 }
@@ -104,11 +106,6 @@ function _windowWidthHeight() {
         h: window.innerHeight
     }
 }
-// function _getDiptyqueShoes() {
-//     var hashObj = Router.getNewHash()
-//     var baseurl = _getPageAssetsBasePathById(hashObj.parent, hashObj.target)
-//     return _getContentScope().shoes
-// }
 
 const Store = assign({}, EventEmitter2.prototype, {
     emitChange: (type, item) => {
@@ -117,31 +114,32 @@ const Store = assign({}, EventEmitter2.prototype, {
     pageContent: () => {
         return _getPageContent()
     },
-    // appData: function() {
-    //     return _getAppData()
-    // },
+    appData: () => {
+        return _getAppData()
+    },
     defaultRoute: () => {
         return _getDefaultRoute()
     },
     globalContent: () => {
         return _getGlobalContent()
     },
-    // pageAssetsToLoad: function() {
-    //     return _getPageAssetsToLoad()
-    // },
-    // getRoutePathScopeById: function(id) {
-    //     id = id.length < 1 ? '/' : id
-    //     return data.routing[id]
-    // },
-    // baseMediaPath: function() {
-    //     return Store.getEnvironment().static
-    // },
+    pageAssetsToLoad: () => {
+        return _getPageAssetsToLoad()
+    },
+    getRoutePathScopeById: (id) => {
+        let key = id.length < 1 ? '/' : id
+        if (key.indexOf('product')) key = key.replace('/product', '')
+        return data.routing[key]
+    },
+    baseMediaPath: () => {
+        return Store.getEnvironment().static
+    },
     // getPageAssetsBasePathById: function(parent, target) {
     //     return _getPageAssetsBasePathById(parent, target)
     // },
-    // getEnvironment: function() {
-    //     return Constants.ENVIRONMENTS[ENV]
-    // },
+    getEnvironment: () => {
+        return Constants.ENVIRONMENTS[ENV]
+    },
     // getTypeOfPage: function(hash) {
     //     return _getTypeOfPage(hash)
     // },
@@ -155,7 +153,7 @@ const Store = assign({}, EventEmitter2.prototype, {
     //     return _getDiptyqueShoes()
     // },
     // getNextDiptyque: function() {
-    //     var hashObj = Router.getNewHash()
+    //     var hashObj = Router.getNewRoute()
     //     var routes = Router.getDiptyqueRoutes()
     //     var current = hashObj.hash
     //     for (var i = 0; i < routes.length; i++) {
@@ -167,7 +165,7 @@ const Store = assign({}, EventEmitter2.prototype, {
     //     };
     // },
     // getPreviousDiptyque: function() {
-    //     var hashObj = Router.getNewHash()
+    //     var hashObj = Router.getNewRoute()
     //     var routes = Router.getDiptyqueRoutes()
     //     var current = hashObj.hash
     //     for (var i = 0; i < routes.length; i++) {
@@ -179,7 +177,7 @@ const Store = assign({}, EventEmitter2.prototype, {
     //     };
     // },
     // getDiptyquePageIndex: function() {
-    //     var hashObj = Router.getNewHash()
+    //     var hashObj = Router.getNewRoute()
     //     var routes = Router.getDiptyqueRoutes()
     //     var current = hashObj.hash
     //     for (var i = 0; i < routes.length; i++) {
@@ -217,7 +215,7 @@ const Store = assign({}, EventEmitter2.prototype, {
     // },
     Parent: undefined,
     Canvas: undefined,
-    Orientation: Constants.LANDSCAPE,
+    Orientation: Constants.ORIENTATION.LANDSCAPE,
     Detector: {},
     dispatcherIndex: Dispatcher.register((payload) => {
         const action = payload.action
@@ -225,7 +223,7 @@ const Store = assign({}, EventEmitter2.prototype, {
         case Constants.WINDOW_RESIZE:
             Store.Window.w = action.item.windowW
             Store.Window.h = action.item.windowH
-            Store.Orientation = (Store.Window.w > Store.Window.h) ? Constants.LANDSCAPE : Constants.PORTRAIT
+            Store.Orientation = (Store.Window.w > Store.Window.h) ? Constants.ORIENTATION.LANDSCAPE : Constants.ORIENTATION.PORTRAIT
             Store.emitChange(action.actionType)
             break
         default:

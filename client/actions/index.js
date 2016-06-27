@@ -9,9 +9,9 @@ function _proceedTransitionInAction(pageId) {
     })
 }
 const Actions = {
-    pageHasherChanged: () => {
+    routeChanged: () => {
         Dispatcher.handleViewAction({
-            actionType: Constants.PAGE_HASHER_CHANGED,
+            actionType: Constants.ROUTE_CHANGED,
             item: undefined
         })
     },

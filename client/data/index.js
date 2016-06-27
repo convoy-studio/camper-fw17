@@ -86,31 +86,32 @@ export default {
         'arelluf-paradise.mp4'
     ],
 
-    'default-route': '/group/deia/dub',
+    'default-route': '/king/fidelius',
 
     'routing': {
-        'deia/dub': {
+        '/king/fidelius': {
+            product: {}
         },
-        'deia/mateo': {
+        '/king/wilma': {
+            product: {}
         },
-        'deia/marta': {
+        '/armour/wilma-extreme': {
+            product: {}
         },
-        'es-trenc/beluga': {
+        '/armour/gorka': {
+            product: {}
         },
-        'es-trenc/isamu': {
+        '/dino/rex': {
+            product: {}
         },
-        'arelluf/capas': {
+        '/dino/wilma-extreme': {
+            product: {}
         },
-        'arelluf/pelotas': {
+        '/sport/marges': {
+            product: {}
         },
-        'arelluf/marta': {
-        },
-        'arelluf/kobarah': {
-        },
-        'arelluf/dub': {
-        },
-        'arelluf/paradise': {
+        '/sport/bowie': {
+            product: {}
         }
-
     }
 }

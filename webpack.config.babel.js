@@ -67,6 +67,18 @@ module.exports = {
                 loader: 'style!css'
             },
             {
+                test: /\.scss$/,
+                loaders: ["style", "css", "sass"]
+            },
+            { 
+                test: /\.(png|jpe?g|gif)$/, 
+                loader: 'url-loader?limit=8192'
+            },
+            {
+                test: /\.(woff|woff2|ttf|eot|svg)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: 'file?name=static/fonts/[name].[ext]'
+            },
+            {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 loaders: [

@@ -56,15 +56,15 @@ class BasePager extends BaseComponent {
         if (newComponent !== undefined) newComponent.parent.style['z-index'] = 2
         if (oldComponent !== undefined) oldComponent.parent.style['z-index'] = 1
     }
-    setupNewComponent(hash, Type, tmpl) {
-        const id = Utils.capitalizeFirstLetter(hash.parent.replace('/', ''))
+    setupNewComponent(route, Type, tmpl) {
+        const id = Utils.capitalizeFirstLetter(route.parent.replace('/', ''))
         this.oldPageDivRef = this.currentPageDivRef
         this.currentPageDivRef = (this.currentPageDivRef === 'page-a') ? 'page-b' : 'page-a'
         const el = document.getElementById(this.currentPageDivRef)
         const props = {
             id: this.currentPageDivRef,
             isReady: this.onPageReady,
-            hash: hash,
+            route: route,
             didTransitionInComplete: this.didPageTransitionInComplete,
             didTransitionOutComplete: this.didPageTransitionOutComplete,
             data: Store.pageContent()
@@ -78,8 +78,8 @@ class BasePager extends BaseComponent {
             this.components['old-component'].forceUnmount()
         }
     }
-    onPageReady(hash) {
-        PagerActions.onPageReady(hash)
+    onPageReady(route) {
+        PagerActions.onPageReady(route)
     }
     componentDidMount() {
         super.componentDidMount()

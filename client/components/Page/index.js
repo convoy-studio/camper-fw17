@@ -26,11 +26,11 @@ export default class Page extends BasePage {
         super.setupAnimations()
     }
     getImageUrlById(id) {
-        const url = this.props.hash.type === Constants.HOME ? 'home-' + id : this.props.hash.parent + '-' + this.props.hash.target + '-' + id
+        const url = this.props.page.type === Constants.PORTRAIT ? 'portrait-' + id : this.props.page.parent + '-' + this.props.page.target + '-' + id
         return Store.Preloader.getImageURL(url)
     }
     getImageSizeById(id) {
-        const url = this.props.hash.type === Constants.HOME ? 'home-' + id : this.props.hash.parent + '-' + this.props.hash.target + '-' + id
+        const url = this.props.page.type === Constants.PORTRAIT ? 'portrait-' + id : this.props.page.parent + '-' + this.props.page.target + '-' + id
         return Store.Preloader.getImageSize(url)
     }
     resize() {

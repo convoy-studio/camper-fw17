@@ -1,0 +1,104 @@
+.diptyque-page {
+	@extend .full;
+
+	.arrows-wrapper {
+		position: absolute;
+		z-index: 29;
+	}
+	.fun-fact-wrapper {
+		position: absolute;
+		& > div {
+			position: absolute;
+		}
+		.video-wrapper {
+			overflow: hidden;
+			background-color: yellow;
+			@include opacity(0);
+			video {
+				position: absolute;
+			}
+		}
+		.message-wrapper {
+			background-color: red;
+			font-size: 60px;
+			color: #FFFFFF;
+			letter-spacing: 2px;
+			line-height: 80px;
+			text-align: center;
+			text-transform: uppercase;
+			@include opacity(0);
+			.message-inner {
+				position: absolute;
+				width: 65%;
+			}
+		}
+		.cursor-cross {
+			width: $iconsSize;
+			height: $iconsSize;
+
+			svg {
+				@include opacity(0);
+        		@include anim(.3s, .0s, $easeInOutElastic, scale(0.5, 0.5), 50%, 50%, transform opacity);
+			}
+
+			&.active {
+				svg {
+					@include opacity(1);
+        			@include anim(.3s, .0s, $easeInOutElastic, scale(1, 1), 50%, 50%, transform opacity);
+				}
+			}
+		}
+	}
+	.main-btns-wrapper {
+		position: absolute;
+		z-index: 28;
+		.main-btn {
+			cursor: pointer;
+			position: absolute;
+			.img-wrapper {
+				position: absolute;
+			}
+			img {
+				position: absolute;
+			}
+		}
+	}
+	.selfie-stick-wrapper {
+		cursor: pointer;
+		position: absolute;
+		z-index: 30;
+		@include opacity(0);
+		.screen-wrapper {
+			z-index: 1;
+		}
+		.background {
+			background-color: #ff0000;
+			@include opacity(0);
+		}
+		& > div {
+			position: absolute;
+		}
+		.screen-wrapper {
+			width: 100%;
+			& > div {
+				position: absolute;
+			}
+			.colorifier {
+				$size: 25.0%;
+				width: $size;
+				height: $size;
+				z-index: 3;
+			}
+			.screen-holder {
+				z-index: 1;
+			}
+			.video-holder {
+				width: 84%;
+			}
+			video {
+				width: 100%;
+			}
+		}
+	}
+
+}

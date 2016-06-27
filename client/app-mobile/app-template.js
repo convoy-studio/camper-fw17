@@ -1,9 +1,9 @@
-import BaseComponent from './pager/components/BaseComponent'
-import FrontContainer from './components/FrontContainer'
-import PagesContainer from './components/PagesContainer'
-import Store from './store'
-import Constants from './constants'
-import { resize as globalResize } from './services/global-events'
+import BaseComponent from '../pager/components/BaseComponent'
+import FrontContainer from '../components/FrontContainer'
+import PagesContainer from '../components/PagesContainer'
+import Store from '../store'
+import Constants from '../constants'
+import { resize as globalResize } from '../services/global-events'
 
 class AppTemplate extends BaseComponent {
     constructor() {
