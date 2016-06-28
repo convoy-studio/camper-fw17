@@ -41,9 +41,9 @@ class Router {
         return bool
     }
     routeValidation() {
-        for (let i = 0; i < routerStore.routes.length; i++) {
-            let route = routerStore.routes[i]
-            if (route === routerStore.ctx.path) {
+        for (let i = 0; i < routerStore.pageRoutes.length; i++) {
+            let path = routerStore.pageRoutes[i].path
+            if (path === routerStore.ctx.path) {
                 return true
             }
         }
@@ -54,8 +54,26 @@ class Router {
     }
     assignRoute() {
         const path = routerStore.ctx.path
-        const parts = this.getURLParts(routerStore.ctx.path)
-        this.updatePageRoute(path, parts, parts[0], (parts[1] === undefined) ? '' : parts[1])
+        this.updatePageRoute(path)
+    }
+    createRoute(path) {
+        const parts = this.getURLParts(path)
+        const type = (parts.length === 3) ? Constants.PRODUCT : Constants.PORTRAIT
+        return {
+            path: path,
+            parts: parts,
+            parent: parts[0],
+            target: (parts[1] === undefined) ? '' : parts[1],
+            type: type
+        }
+    }
+    getRouteByPath(path) {
+        const routes = routerStore.pageRoutes
+        for (let i = 0; i < routes.length; i++) {
+            const route = routes[i]
+            if (route.path === path) { return route }
+        }
+        return undefined
     }
     getURLParts(url) {
         const path = url
@@ -64,10 +82,9 @@ class Router {
         split.forEach((part) => { if (part.length > 1) parts.push(part) })
         return parts
     }
-    updatePageRoute(path, parts, parent, target) {
+    updatePageRoute(path) {
         routerStore.oldRoute = routerStore.newRoute
-        routerStore.newRoute = { path, parts, parent, target }
-        routerStore.newRoute.type = routerStore.newRoute.parts.length === 3 ? Constants.PRODUCT : Constants.PORTRAIT
+        routerStore.newRoute = this.getRouteByPath(path)
         // If first pass send the action from App.js when all assets are ready
         if (this.firstPass) {
             this.firstPass = false
@@ -79,16 +96,18 @@ class Router {
         page(Store.defaultRoute())
     }
     setupRoutes() {
-        routerStore.routes = []
         routerStore.portraitRoutes = []
+        routerStore.pageRoutes = []
         let i = 0, k
         const baseName = this.baseName
         for (k in this.routing) {
             if ({}.hasOwnProperty.call(this.routing, k)) {
-                let portraitUrl = baseName + k
-                let productUrl = baseName + k + '/product'
-                routerStore.portraitRoutes.push(portraitUrl)
-                routerStore.routes.push(portraitUrl, productUrl)
+                const portraitUrl = baseName + k
+                const productUrl = baseName + k + '/product'
+                const portraitRoute = this.createRoute(portraitUrl)
+                const productRoute = this.createRoute(productUrl)
+                routerStore.portraitRoutes.push(portraitRoute)
+                routerStore.pageRoutes.push(portraitRoute, productRoute)
                 i++
             }
         }
@@ -99,8 +118,8 @@ class Router {
     static getRoute() {
         return routerStore.ctx.path
     }
-    static getRoutes() {
-        return routerStore.routes
+    static getPageRoutes() {
+        return routerStore.pageRoutes
     }
     static getPortraitRoutes() {
         return routerStore.portraitRoutes

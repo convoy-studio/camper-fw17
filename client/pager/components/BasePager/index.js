@@ -33,7 +33,7 @@ class BasePager extends BaseComponent {
         if (this.components['new-component'] !== undefined) this.components['new-component'].willTransitionIn()
     }
     willPageTransitionOut() {
-        Actions.loadPageAssets()
+        setTimeout(Actions.loadPageAssets, 0)
     }
     pageAssetsLoaded() {
         if (this.components['new-component'] !== undefined) this.components['new-component'].willTransitionOut()
@@ -48,6 +48,7 @@ class BasePager extends BaseComponent {
         PagerActions.onTransitionOutComplete()
     }
     pageTransitionDidFinish() {
+        Actions.loadNextPreviousPageAssets()
         this.unmountComponent('old-component')
     }
     switchPagesDivIndex() {

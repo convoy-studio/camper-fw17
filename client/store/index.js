@@ -6,14 +6,14 @@ import data from '../data'
 import Router from '../services/router'
 import isRetina from 'is-retina'
 
-function _getContentScope() {
-    const routeObj = Router.getNewRoute()
-    return Store.getRoutePathScopeById(routeObj.path)
+function _getContentScope(route) {
+    return Store.getRoutePathScopeById(route.path)
 }
-function _getPageAssetsToLoad() {
-    const scope = _getContentScope()
-    const routeObj = Router.getNewRoute()
+function _getPageAssetsToLoad(route) {
+    const routeObj = (route === undefined) ? Router.getNewRoute() : route
+    const scope = _getContentScope(routeObj)
     const type = _getTypeOfPage()
+    const id = type.toLowerCase()
     let manifest = []
 
     if (type !== Constants.PORTRAIT) {
@@ -23,8 +23,15 @@ function _getPageAssetsToLoad() {
             'shoe-bg.jpg'
         ]
         manifest = _addBasePathsToUrls(filenames, routeObj.parent, routeObj.target, type)
+    } else {
+        let filenames = []
+        scope[id].assets.forEach((asset) => {
+            const name = asset.name + '.' + asset.ext
+            // const name = asset.name + _getImageDeviceExtension() + '.' + asset.ext
+            filenames.push(name)
+        })
+        manifest = _addBasePathsToUrls(filenames, routeObj.parent, routeObj.target, type, id)
     }
-
     // In case of extra assets
     if (scope.assets !== undefined) {
         const assets = scope.assets
@@ -39,8 +46,9 @@ function _getPageAssetsToLoad() {
 
     return manifest
 }
-function _addBasePathsToUrls(urls, pageId, targetId, type) {
-    const basePath = (type === Constants.PORTRAIT) ? _getHomePageAssetsBasePath() : _getPageAssetsBasePathById(pageId, targetId)
+function _addBasePathsToUrls(urls, pageId, targetId, type, typeId) {
+    let basePath = (type === Constants.PORTRAIT) ? _getPortraitPageAssetsBasePath() : _getPageAssetsBasePathById(pageId, targetId)
+    basePath += pageId + '/' + targetId + '/' + typeId + '/'
     let manifest = []
     for (let i = 0; i < urls.length; i++) {
         const splitter = urls[i].split('.')
@@ -50,17 +58,17 @@ function _addBasePathsToUrls(urls, pageId, targetId, type) {
         if (targetId) id += targetId + '-'
         id += fileName
         manifest[i] = {
-            id: id,
-            src: '../' + basePath + fileName + '.' + extension
+            id,
+            src: basePath + fileName + '.' + extension
         }
     }
     return manifest
 }
 function _getPageAssetsBasePathById(id, assetGroupId) {
-    return Store.baseMediaPath() + 'image/diptyque/' + id + '/' + assetGroupId + '/'
+    return Store.baseMediaPath() + 'media/diptyque/' + id + '/' + assetGroupId + '/'
 }
-function _getHomePageAssetsBasePath() {
-    return Store.baseMediaPath() + 'image/home/'
+function _getPortraitPageAssetsBasePath() {
+    return Store.baseMediaPath() + 'media/group/'
 }
 function _isRetina() {
     return isRetina()
@@ -72,13 +80,13 @@ function _getImageDeviceExtension() {
     return str
 }
 // function _getDeviceRatio() {
-//     var scale = (window.devicePixelRatio == undefined) ? 1 : window.devicePixelRatio
+//     const scale = (window.devicePixelRatio === undefined) ? 1 : window.devicePixelRatio
 //     return (scale > 1) ? 2 : 1
 // }
 function _getTypeOfPage(route) {
     let type
     const h = route || Router.getNewRoute()
-    if (h.parts.length === 2) type = Constants.ABOUT
+    if (h.parts.length === 3) type = Constants.PRODUCT
     else type = Constants.PORTRAIT
     return type
 }
@@ -123,8 +131,8 @@ const Store = assign({}, EventEmitter2.prototype, {
     globalContent: () => {
         return _getGlobalContent()
     },
-    pageAssetsToLoad: () => {
-        return _getPageAssetsToLoad()
+    pageAssetsToLoad: (route) => {
+        return _getPageAssetsToLoad(route)
     },
     getRoutePathScopeById: (id) => {
         let key = id.length < 1 ? '/' : id
@@ -166,7 +174,7 @@ const Store = assign({}, EventEmitter2.prototype, {
         let nextRoute = undefined
         for (let i = 0; i < routes.length; i++) {
             const route = routes[i]
-            if (route === current) {
+            if (route.path === current) {
                 const index = (i + 1) > routes.length - 1 ? 0 : (i + 1)
                 nextRoute = routes[index]
                 break
@@ -181,13 +189,19 @@ const Store = assign({}, EventEmitter2.prototype, {
         let previousRoute = undefined
         for (let i = 0; i < routes.length; i++) {
             const route = routes[i]
-            if (route === current) {
+            if (route.path === current) {
                 const index = (i - 1) < 0 ? routes.length - 1 : (i - 1)
                 previousRoute = routes[index]
                 break
             }
         }
         return previousRoute
+    },
+    getNextPath: () => {
+        return Store.getNextRoute().path
+    },
+    getPreviousPath: () => {
+        return Store.getPreviousRoute().path
     },
     // getDiptyquePageIndex: function() {
     //     var hashObj = Router.getNewRoute()
@@ -201,12 +215,6 @@ const Store = assign({}, EventEmitter2.prototype, {
     //     };
     // },
     getImageDeviceExtension: _getImageDeviceExtension,
-    // getPreviewUrlByHash: function(hash) {
-    //     return Store.baseMediaPath() + 'image/diptyque/' + hash + '/preview.gif'
-    // },
-    // getFeed: function() {
-    //     return data.feed
-    // },
     lang: () => {
         let defaultLang = true
         for (let i = 0; i < data.langs.length; i++) {

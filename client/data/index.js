@@ -1,3 +1,15 @@
+const page = {
+    product: {
+    },
+    portrait: {
+        assets: [
+            { name: 'bump', ext: 'jpg' },
+            { name: 'diffuse', ext: 'jpg' },
+            { name: 'roughness', ext: 'jpg' }
+        ]
+    }
+}
+
 export default {
     'content': {
         'twitter_url': 'https://twitter.com/camper',
@@ -87,40 +99,24 @@ export default {
             color: '#4700B3'
         },
         armour: {
-            color: '#4700B3'
+            color: '#A1A5B5'
         },
         dino: {
-            color: '#4700B3'
+            color: '#CFEF33'
         },
         sport: {
-            color: '#4700B3'
+            color: '#FF9F00'
         }
     },
 
     'routing': {
-        '/king/fidelius': {
-            product: {}
-        },
-        '/king/wilma': {
-            product: {}
-        },
-        '/armour/wilma-extreme': {
-            product: {}
-        },
-        '/armour/gorka': {
-            product: {}
-        },
-        '/dino/rex': {
-            product: {}
-        },
-        '/dino/wilma-extreme': {
-            product: {}
-        },
-        '/sport/marges': {
-            product: {}
-        },
-        '/sport/bowie': {
-            product: {}
-        }
+        '/king/fidelius': page,
+        '/king/wilma': page,
+        '/armour/wilma-extreme': page,
+        '/armour/gorka': page,
+        '/dino/rex': page,
+        '/dino/wilma-extreme': page,
+        '/sport/marges': page,
+        '/sport/bowie': page
     }
 }

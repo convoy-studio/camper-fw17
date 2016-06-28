@@ -12,7 +12,7 @@ export default class Home extends Page {
     }
     componentDidMount() {
         const bgVideoContainer = dom.select('#background-video-container', this.element)
-        const videoUrl = Store.baseMediaPath() + 'media/group/' + this.props.route.parent + '/' + this.props.route.target + '/portrait-loop.mp4'
+        const videoUrl = Store.baseMediaPath() + 'media/group/' + this.props.route.parent + '/' + this.props.route.target + '/portrait/loop.mp4'
         this.bgVideo = miniVideo({
             autoplay: false,
             loop: true

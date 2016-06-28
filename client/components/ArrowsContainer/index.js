@@ -28,11 +28,11 @@ class ArrowsContainer extends BaseComponent {
     }
     onLeftArrowClicked(e) {
         e.preventDefault()
-        Router.setRoute(Store.getPreviousRoute())
+        Router.setRoute(Store.getPreviousPath())
     }
     onRightArrowClicked(e) {
         e.preventDefault()
-        Router.setRoute(Store.getNextRoute())
+        Router.setRoute(Store.getNextPath())
     }
     changeColor(color) {
         this.leftArrow.changeColor(color)
