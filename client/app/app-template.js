@@ -1,6 +1,7 @@
 import BaseComponent from '../pager/components/BaseComponent'
 import FrontContainer from '../components/FrontContainer'
 import PagesContainer from '../components/PagesContainer'
+import CanvasContainer from '../components/CanvasContainer'
 import Store from '../store'
 import Constants from '../constants'
 import { resize as globalResize } from '../services/global-events'
@@ -24,6 +25,9 @@ class AppTemplate extends BaseComponent {
         this.pagesContainer = new PagesContainer()
         this.pagesContainer.render('#app-template')
 
+        this.canvasContainer = new CanvasContainer()
+        this.canvasContainer.render('#app-template')
+
         setTimeout(()=>{
             this.isReady()
             this.onReady()
@@ -41,10 +45,12 @@ class AppTemplate extends BaseComponent {
     animate() {
         requestAnimationFrame(this.animate)
         this.pagesContainer.update()
+        this.canvasContainer.update()
     }
     resize() {
         this.frontContainer.resize()
         this.pagesContainer.resize()
+        this.canvasContainer.resize()
         super.resize()
     }
 }

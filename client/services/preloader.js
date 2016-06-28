@@ -26,7 +26,9 @@ class Preloader  {
         return this.queue.getResult(id)
     }
     getImageURL(id) {
-        return this.getContentById(id).getAttribute('src')
+        const content = this.getContentById(id)
+        console.log(content)
+        return content.getAttribute('src')
     }
     getImageSize(id) {
         const content = this.getContentById(id)

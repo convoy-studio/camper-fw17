@@ -64,7 +64,7 @@ html {
     visibility: hidden;
 }
 
-#px-container {
+#canvas-container {
     position: absolute;
     z-index: 5;
     @extend .top-left;

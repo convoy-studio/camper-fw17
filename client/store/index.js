@@ -54,7 +54,7 @@ function _addBasePathsToUrls(urls, pageId, targetId, type, typeId) {
         const splitter = urls[i].split('.')
         const fileName = splitter[0]
         const extension = splitter[1]
-        let id = pageId + '-'
+        let id = typeId + '-' + pageId + '-'
         if (targetId) id += targetId + '-'
         id += fileName
         manifest[i] = {
@@ -79,10 +79,10 @@ function _getImageDeviceExtension() {
     if (retina === true) str = '@2x'
     return str
 }
-// function _getDeviceRatio() {
-//     const scale = (window.devicePixelRatio === undefined) ? 1 : window.devicePixelRatio
-//     return (scale > 1) ? 2 : 1
-// }
+function _getDeviceRatio() {
+    const scale = (window.devicePixelRatio === undefined) ? 1 : window.devicePixelRatio
+    return (scale > 1) ? 2 : 1
+}
 function _getTypeOfPage(route) {
     let type
     const h = route || Router.getNewRoute()
@@ -139,6 +139,10 @@ const Store = assign({}, EventEmitter2.prototype, {
         if (key.indexOf('product')) key = key.replace('/product', '')
         return data.routing[key]
     },
+    pagePreloaderId: () => {
+        const route = Router.getNewRoute()
+        return route.type.toLowerCase() + '-' + route.parts[0] + '-' + route.parts[1] + '-'
+    },
     baseMediaPath: () => {
         return Store.getEnvironment().static
     },
@@ -164,9 +168,9 @@ const Store = assign({}, EventEmitter2.prototype, {
     generalInfos: () => {
         return data.content
     },
-    // diptyqueShoes: function() {
-    //     return _getDiptyqueShoes()
-    // },
+    devicePixelRatio: () => {
+        return _getDeviceRatio()
+    },
     getNextRoute: () => {
         const hashObj = Router.getNewRoute()
         const routes = Router.getPortraitRoutes()
