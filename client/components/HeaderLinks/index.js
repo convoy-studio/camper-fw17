@@ -15,6 +15,17 @@ const headerLinks = (parent)=> {
         dom.classes.remove(e.currentTarget, 'hovered')
     }
 
+    const changeColor = (color) => {
+        const btns = dom.select.all('a', parent)
+        const logoSvg = dom.select('.logo svg', parent)
+        const textTitle = dom.select('.shop-title .text-title', parent)
+        btns.forEach((btn) => {
+            btn.style.color = color
+        })
+        textTitle.style.color = color
+        logoSvg.setAttribute('fill', color)
+    }
+
     const simpleTextBtnsEl = dom.select.all('.text-btn', parent)
     let simpleBtns = []
     let i, s, el
@@ -29,6 +40,7 @@ const headerLinks = (parent)=> {
     shopWrapper.addEventListener('mouseleave', onSubMenuMouseLeave)
 
     scope = {
+        changeColor,
         resize: ()=> {
             const windowW = Store.Window.w
             const padding = Constants.PADDING_AROUND / 3

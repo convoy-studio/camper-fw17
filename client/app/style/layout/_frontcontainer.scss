@@ -22,9 +22,6 @@
 	    }
 		left: $PADDING_AROUND;
 		top: $PADDING_AROUND;
-		svg > * {
-			fill: $white;
-		}
 	}
 	header {
 		& > * {
@@ -74,6 +71,21 @@
 				position: relative;
 				top: 15px;
 			}
+		}
+	}
+	#arrows-container {
+		.arrow {
+			@extend .full-block;
+		}
+		.right-arrow {
+			svg {
+				@include rotate(180);
+			}
+		}
+		svg {
+			$scale: 1.4;
+			width: 12px * $scale;
+			height: 13px * $scale;
 		}
 	}
 	footer {

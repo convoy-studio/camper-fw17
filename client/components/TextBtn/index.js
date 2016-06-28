@@ -12,17 +12,17 @@ export default (container)=> {
     let size = dom.size(textTitle)
     let currentTl, tlLeft, tlRight
     let isActivated = false
-    let tweenIn = (direction)=> {
-        if (direction === Constants.LEFT) {
-            currentTl = tlLeft
-            tlLeft.timeScale(2).tweenFromTo(0, 'in')
-        } else {
-            currentTl = tlRight
-            tlRight.timeScale(2).tweenFromTo(0, 'in')
-        }
+    let tweenIn = ()=> {
+        // if (direction === Constants.LEFT) {
+        //     currentTl = tlLeft
+        //     tlLeft.timeScale(2).tweenFromTo(0, 'in')
+        // } else {
+        //     currentTl = tlRight
+        //     tlRight.timeScale(2).tweenFromTo(0, 'in')
+        // }
     }
     let tweenOut = ()=> {
-        currentTl.timeScale(2.6).tweenTo('out')
+        // currentTl.timeScale(2.6).tweenTo('out')
     }
     let mouseEnter = (e)=> {
         e.preventDefault()
@@ -52,8 +52,8 @@ export default (container)=> {
         tlRight.timeScale(3).tweenTo('out')
     }
 
-    dom.event.on(container, 'mouseenter', mouseEnter)
-    dom.event.on(container, 'mouseleave', mouseLeave)
+    // dom.event.on(container, 'mouseenter', mouseEnter)
+    // dom.event.on(container, 'mouseleave', mouseLeave)
 
     scope = {
         size: size,

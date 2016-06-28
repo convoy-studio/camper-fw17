@@ -80,12 +80,14 @@ class Router {
     }
     setupRoutes() {
         routerStore.routes = []
+        routerStore.portraitRoutes = []
         let i = 0, k
         const baseName = this.baseName
         for (k in this.routing) {
             if ({}.hasOwnProperty.call(this.routing, k)) {
                 let portraitUrl = baseName + k
                 let productUrl = baseName + k + '/product'
+                routerStore.portraitRoutes.push(portraitUrl)
                 routerStore.routes.push(portraitUrl, productUrl)
                 i++
             }
@@ -99,6 +101,9 @@ class Router {
     }
     static getRoutes() {
         return routerStore.routes
+    }
+    static getPortraitRoutes() {
+        return routerStore.portraitRoutes
     }
     static getNewRoute() {
         return routerStore.newRoute

@@ -33,10 +33,10 @@ class BasePager extends BaseComponent {
         if (this.components['new-component'] !== undefined) this.components['new-component'].willTransitionIn()
     }
     willPageTransitionOut() {
-        if (this.components['new-component'] !== undefined) this.components['new-component'].willTransitionOut()
+        Actions.loadPageAssets()
     }
     pageAssetsLoaded() {
-        PagerActions.onTransitionOutComplete()
+        if (this.components['new-component'] !== undefined) this.components['new-component'].willTransitionOut()
     }
     didPageTransitionInComplete() {
         Store.Parent.style.cursor = 'auto'
@@ -45,7 +45,7 @@ class BasePager extends BaseComponent {
         PagerActions.pageTransitionDidFinish()
     }
     didPageTransitionOutComplete() {
-        Actions.loadPageAssets()
+        PagerActions.onTransitionOutComplete()
     }
     pageTransitionDidFinish() {
         this.unmountComponent('old-component')

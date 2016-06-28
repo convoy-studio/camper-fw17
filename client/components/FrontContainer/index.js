@@ -3,12 +3,14 @@ import template from './template.hbs'
 import Store from '../../store'
 import Constants from '../../constants'
 import headerLinks from '../HeaderLinks'
+import ArrowsContainer from '../ArrowsContainer'
 import dom from 'dom-hand'
 
 class FrontContainer extends BaseComponent {
     constructor() {
         super()
         this.onAppStarted = this.onAppStarted.bind(this)
+        this.didRouteChange = this.didRouteChange.bind(this)
     }
     render(parent) {
         let scope = {}
@@ -21,10 +23,21 @@ class FrontContainer extends BaseComponent {
         super.componentWillMount()
     }
     componentDidMount() {
-        this.headerEl = dom.select('header', this.element)
         Store.on(Constants.APP_START, this.onAppStarted)
+        Store.on(Constants.ROUTE_CHANGED, this.didRouteChange)
+
+        this.headerEl = dom.select('header', this.element)
         this.headerLinks = headerLinks(this.element)
+
+        this.arrowsContainer = new ArrowsContainer()
+        this.arrowsContainer.render(this.element)
+
         super.componentDidMount()
+    }
+    didRouteChange() {
+        const color = Store.getGroupColor()
+        this.arrowsContainer.changeColor(color)
+        this.headerLinks.changeColor(color)
     }
     onAppStarted() {
         Store.off(Constants.APP_START, this.onAppStarted)
@@ -32,6 +45,7 @@ class FrontContainer extends BaseComponent {
     }
     resize() {
         if (!this.domIsReady) return
+        this.arrowsContainer.resize()
         this.headerLinks.resize()
     }
 }

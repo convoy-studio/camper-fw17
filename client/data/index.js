@@ -8,64 +8,58 @@ export default {
         'women_shop_url': 'http://www.camper.com/int/women/shoes/ss16_inspiration',
         'lang': {
             'en': {
-                'home': 'MAP',
-                'grid': 'INDEX',
+                'home': 'INDEX',
                 'lab': 'LAB',
                 'camper_lab': 'Camper Lab',
                 'shop_title': 'Shop',
                 'shop_men': 'Men',
                 'shop_women': 'Women',
-                'map_txt': 'MAP'
+                'map_txt': 'INDEX'
             },
             'fr': {
-                'home': 'MAP',
-                'grid': 'INDEX',
+                'home': 'INDEX',
                 'lab': 'LAB',
                 'camper_lab': 'Camper Lab',
                 'shop_title': 'Acheter',
                 'shop_men': 'homme',
                 'shop_women': 'femme',
-                'map_txt': 'MAP'
+                'map_txt': 'INDEX'
             },
             'es': {
-                'home': 'MAP',
-                'grid': 'INDEX',
+                'home': 'INDEX',
                 'lab': 'LAB',
                 'camper_lab': 'Camper Lab',
                 'shop_title': 'Comprar',
                 'shop_men': 'hombre',
                 'shop_women': 'mujer',
-                'map_txt': 'MAP'
+                'map_txt': 'INDEX'
             },
             'it': {
-                'home': 'MAP',
-                'grid': 'INDEX',
+                'home': 'INDEX',
                 'lab': 'LAB',
                 'camper_lab': 'Camper Lab',
                 'shop_title': 'Acquisiti',
                 'shop_men': 'uomo',
                 'shop_women': 'donna',
-                'map_txt': 'MAP'
+                'map_txt': 'INDEX'
             },
             'de': {
-                'home': 'MAP',
-                'grid': 'INDEX',
+                'home': 'INDEX',
                 'lab': 'LAB',
                 'camper_lab': 'Camper Lab',
                 'shop_title': 'Shop',
                 'shop_men': 'Herren',
                 'shop_women': 'Damen',
-                'map_txt': 'MAP'
+                'map_txt': 'INDEX'
             },
             'pt': {
-                'home': 'MAP',
-                'grid': 'INDEX',
+                'home': 'INDEX',
                 'lab': 'LAB',
                 'camper_lab': 'Camper Lab',
                 'shop_title': 'Compre',
                 'shop_men': 'Homen',
                 'shop_women': 'Mulher',
-                'map_txt': 'MAP'
+                'map_txt': 'INDEX'
             }
         }
     },
@@ -87,6 +81,21 @@ export default {
     ],
 
     'default-route': '/king/fidelius',
+
+    'groups': {
+        king: {
+            color: '#4700B3'
+        },
+        armour: {
+            color: '#4700B3'
+        },
+        dino: {
+            color: '#4700B3'
+        },
+        sport: {
+            color: '#4700B3'
+        }
+    },
 
     'routing': {
         '/king/fidelius': {

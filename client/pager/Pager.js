@@ -4,10 +4,10 @@ import assign from 'object-assign'
 
 // Actions
 const PagerActions = {
-    onPageReady: (hash) => {
+    onPageReady: (path) => {
         PagerDispatcher.handlePagerAction({
             type: PagerConstants.PAGE_IS_READY,
-            item: hash
+            item: path
         })
     },
     onTransitionOut: () => {

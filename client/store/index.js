@@ -134,6 +134,13 @@ const Store = assign({}, EventEmitter2.prototype, {
     baseMediaPath: () => {
         return Store.getEnvironment().static
     },
+    getCurrentGroup: () => {
+        return Router.getNewRoute().parent
+    },
+    getGroupColor: () => {
+        const id = Store.getCurrentGroup()
+        return data.groups[id].color
+    },
     // getPageAssetsBasePathById: function(parent, target) {
     //     return _getPageAssetsBasePathById(parent, target)
     // },
@@ -152,30 +159,36 @@ const Store = assign({}, EventEmitter2.prototype, {
     // diptyqueShoes: function() {
     //     return _getDiptyqueShoes()
     // },
-    // getNextDiptyque: function() {
-    //     var hashObj = Router.getNewRoute()
-    //     var routes = Router.getDiptyqueRoutes()
-    //     var current = hashObj.hash
-    //     for (var i = 0; i < routes.length; i++) {
-    //         var route = routes[i]
-    //         if(route == current) {
-    //             var index = (i+1) > routes.length-1 ? 0 : (i+1)
-    //             return routes[index]
-    //         }
-    //     };
-    // },
-    // getPreviousDiptyque: function() {
-    //     var hashObj = Router.getNewRoute()
-    //     var routes = Router.getDiptyqueRoutes()
-    //     var current = hashObj.hash
-    //     for (var i = 0; i < routes.length; i++) {
-    //         var route = routes[i]
-    //         if(route == current) {
-    //             var index = (i-1) < 0 ? routes.length-1 : (i-1)
-    //             return routes[index]
-    //         }
-    //     };
-    // },
+    getNextRoute: () => {
+        const hashObj = Router.getNewRoute()
+        const routes = Router.getPortraitRoutes()
+        const current = hashObj.path
+        let nextRoute = undefined
+        for (let i = 0; i < routes.length; i++) {
+            const route = routes[i]
+            if (route === current) {
+                const index = (i + 1) > routes.length - 1 ? 0 : (i + 1)
+                nextRoute = routes[index]
+                break
+            }
+        }
+        return nextRoute
+    },
+    getPreviousRoute: () => {
+        const hashObj = Router.getNewRoute()
+        const routes = Router.getPortraitRoutes()
+        const current = hashObj.path
+        let previousRoute = undefined
+        for (let i = 0; i < routes.length; i++) {
+            const route = routes[i]
+            if (route === current) {
+                const index = (i - 1) < 0 ? routes.length - 1 : (i - 1)
+                previousRoute = routes[index]
+                break
+            }
+        }
+        return previousRoute
+    },
     // getDiptyquePageIndex: function() {
     //     var hashObj = Router.getNewRoute()
     //     var routes = Router.getDiptyqueRoutes()
