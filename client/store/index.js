@@ -11,7 +11,7 @@ function _getContentScope(route) {
 }
 function _getPageAssetsToLoad(route) {
     const routeObj = (route === undefined) ? Router.getNewRoute() : route
-    const scope = _getContentScope(routeObj)
+    // const scope = _getContentScope(routeObj)
     const type = _getTypeOfPage()
     const typeId = type.toLowerCase()
     let manifest = []
@@ -23,7 +23,6 @@ function _getPageAssetsToLoad(route) {
             'background.jpg'
         ]
         manifest = _addBasePathsToUrls(filenames, routeObj.parent, routeObj.target, type, typeId)
-        console.log(manifest)
     }
     // // In case of extra assets
     // if (scope.assets !== undefined) {
@@ -150,6 +149,12 @@ const Store = assign({}, EventEmitter2.prototype, {
         const id = type + '-' + route.parent + '-' + route.target + '-' + name
         return Store.Preloader.getImageURL(id)
     },
+    getImgById: (name) => {
+        const route = Router.getNewRoute()
+        const type = route.type.toLowerCase()
+        const id = type + '-' + route.parent + '-' + route.target + '-' + name
+        return Store.Preloader.getContentById(id)
+    },
     getTextureSrc: (group, name) => {
         return Store.Preloader.getImageURL(group + '-texture-' + name)
     },
@@ -258,6 +263,7 @@ const Store = assign({}, EventEmitter2.prototype, {
     // removePXChild: function(item) {
     //     Store.PXContainer.remove(item.child)
     // },
+    Mouse: { x:0, y:0, nX:0, nY:0 },
     Parent: undefined,
     Canvas: undefined,
     Orientation: Constants.ORIENTATION.LANDSCAPE,

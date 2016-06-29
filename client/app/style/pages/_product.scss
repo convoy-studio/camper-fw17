@@ -3,4 +3,20 @@
 	.background {
 		@extend .full;
 	}
+	.diptyque-parts {
+		@extend .full;
+		@extend .top-left;
+		position: absolute;
+		& > * {
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+		.left-part {
+			// background-color: red;
+		}
+		.right-part {
+			// background-color: blue;
+		}
+	}
 }
