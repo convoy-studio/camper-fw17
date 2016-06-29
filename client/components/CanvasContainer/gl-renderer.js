@@ -4,7 +4,6 @@ import sportText from './text/sport'
 import kingText from './text/king'
 import armourText from './text/armour'
 import dinoText from './text/dino'
-import raf from 'raf'
 
 class GlRenderer {
     init(element) {
@@ -14,9 +13,7 @@ class GlRenderer {
         const windowH = Store.Window.h
         this.element = element
         this.cameraHeight = 500
-        this.renderer = new THREE.WebGLRenderer({
-            alpha: true
-        })
+        this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
         this.renderer.setPixelRatio( Store.devicePixelRatio() )
         this.renderer.setSize( windowW, windowH )
         this.element.appendChild( this.renderer.domElement )
@@ -52,14 +49,19 @@ class GlRenderer {
                 point_2: pointLight3
             }
         }
-        this.sportText = sportText(this.props)
-        this.kingText = kingText(this.props)
-        this.armourText = armourText(this.props)
-        this.dinoText = dinoText(this.props)
-        this.currentText = undefined
+        this.sportText = sportText(Constants.GROUP.SPORT, this.props)
+        this.kingText = kingText(Constants.GROUP.KING, this.props)
+        this.armourText = armourText(Constants.GROUP.ARMOUR, this.props)
+        this.dinoText = dinoText(Constants.GROUP.DINO, this.props)
+        this.currentText = this.oldText = undefined
     }
-    updateStage(route) {
-        switch (route.parent) {
+    updateStage(newRoute, oldRoute) {
+        if (oldRoute !== undefined && newRoute.parent === oldRoute.parent) {
+            this.currentText.updateStyle(newRoute.target)
+            return
+        }
+        this.oldText = this.currentText
+        switch (newRoute.parent) {
         case Constants.GROUP.KING:
             this.currentText = this.kingText
             break
@@ -75,7 +77,9 @@ class GlRenderer {
         default:
             break
         }
-        this.currentText.update()
+        if (this.oldText !== undefined) this.oldText.deactivate()
+        this.currentText.activate()
+        this.currentText.updateStyle(newRoute.target)
         this.resize()
     }
     resize() {
@@ -98,7 +102,7 @@ class GlRenderer {
     }
     render() {
         if (this.currentText === undefined) return
-        this.raf = raf(this.render)
+        this.renderer.render(this.scene, this.camera)
         this.controls.update()
         this.currentText.render()
     }

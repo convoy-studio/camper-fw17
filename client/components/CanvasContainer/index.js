@@ -4,6 +4,7 @@ import GlRenderer from './gl-renderer'
 import Store from '../../store'
 import Constants from '../../constants'
 import Router from '../../services/router'
+import dom from 'dom-hand'
 
 class CanvasContainer extends BaseComponent {
     constructor() {
@@ -20,7 +21,14 @@ class CanvasContainer extends BaseComponent {
         super.componentWillMount()
     }
     componentDidMount() {
+        dom.event.on(this.element, 'click', this.didCanvasClick)
         super.componentDidMount()
+    }
+    didCanvasClick(e) {
+        e.preventDefault()
+        const route = Router.getNewRoute()
+        const newRoute = '/' + route.parent + '/' + route.target + '/product'
+        Router.setRoute(newRoute)
     }
     pageInitialAssetsLoaded() {
         Store.off(Constants.APP_START, this.pageInitialAssetsLoaded)
@@ -33,9 +41,13 @@ class CanvasContainer extends BaseComponent {
         this.updateStage()
     }
     updateStage() {
-        const route = Router.getNewRoute()
-        if (route.type === Constants.PRODUCT) return
-        this.renderer.updateStage(route)
+        const newRoute = Router.getNewRoute()
+        const oldRoute = Router.getOldRoute()
+        if (newRoute.type === Constants.PRODUCT) {
+            console.log('')
+        } else {
+            this.renderer.updateStage(newRoute, oldRoute)
+        }
     }
     update() {
         if (this.renderer === undefined) return

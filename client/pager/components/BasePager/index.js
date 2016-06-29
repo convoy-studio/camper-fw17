@@ -48,7 +48,7 @@ class BasePager extends BaseComponent {
         PagerActions.onTransitionOutComplete()
     }
     pageTransitionDidFinish() {
-        Actions.loadNextPreviousPageAssets()
+        // Actions.loadNextPreviousPageAssets()
         this.unmountComponent('old-component')
     }
     switchPagesDivIndex() {

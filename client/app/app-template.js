@@ -5,6 +5,7 @@ import CanvasContainer from '../components/CanvasContainer'
 import Store from '../store'
 import Constants from '../constants'
 import { resize as globalResize } from '../services/global-events'
+import raf from 'raf'
 
 class AppTemplate extends BaseComponent {
     constructor() {
@@ -43,7 +44,7 @@ class AppTemplate extends BaseComponent {
         this.animate()
     }
     animate() {
-        requestAnimationFrame(this.animate)
+        this.raf = raf(this.animate)
         this.pagesContainer.update()
         this.canvasContainer.update()
     }

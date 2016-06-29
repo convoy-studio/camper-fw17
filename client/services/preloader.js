@@ -6,6 +6,7 @@ class Preloader  {
         this.allManifests = []
     }
     load(manifest, onLoaded) {
+        if (manifest.length <= 0) return
         if (this.allManifests.length > 0) {
             for (let i = 0; i < this.allManifests.length; i++) {
                 let m = this.allManifests[i]

@@ -35,6 +35,10 @@ html {
     @extend .full;
 }
 
+#base-pager, #pages-container {
+    @extend .full;
+}
+
 #pages-container {
     position: absolute;
     z-index: 10;
@@ -68,6 +72,7 @@ html {
     position: absolute;
     z-index: 9999;
     @extend .top-left;
+    @extend .btn;
     canvas {
         border: 1px solid red;
     }

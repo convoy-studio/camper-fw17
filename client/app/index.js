@@ -31,7 +31,6 @@ class App {
         const pageManifest = Store.pageAssetsToLoad()
         const texturesManifest = Store.getAllTexturesManifest()
         const manifest = pageManifest.concat(texturesManifest)
-        console.log(manifest)
         Store.Preloader.load(manifest, this.onAppReady)
     }
     onAppReady() {

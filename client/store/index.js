@@ -13,31 +13,33 @@ function _getPageAssetsToLoad(route) {
     const routeObj = (route === undefined) ? Router.getNewRoute() : route
     const scope = _getContentScope(routeObj)
     const type = _getTypeOfPage()
+    const typeId = type.toLowerCase()
     let manifest = []
     if (type !== Constants.PORTRAIT) {
         const filenames = [
-            'character' + _getImageDeviceExtension() + '.png',
-            'character-bg.jpg',
-            'shoe-bg.jpg'
+            // 'face' + _getImageDeviceExtension() + '.png',
+            'face.png',
+            'shoe.png',
+            'background.jpg'
         ]
-        manifest = _addBasePathsToUrls(filenames, routeObj.parent, routeObj.target, type)
+        manifest = _addBasePathsToUrls(filenames, routeObj.parent, routeObj.target, type, typeId)
+        console.log(manifest)
     }
-    // In case of extra assets
-    if (scope.assets !== undefined) {
-        const assets = scope.assets
-        let assetsManifest
-        if (type === Constants.PORTRAIT) {
-            assetsManifest = _addBasePathsToUrls(assets, 'home', routeObj.target, type)
-        } else {
-            assetsManifest = _addBasePathsToUrls(assets, routeObj.parent, routeObj.target, type)
-        }
-        manifest = (manifest === undefined) ? assetsManifest : manifest.concat(assetsManifest)
-    }
-
+    // // In case of extra assets
+    // if (scope.assets !== undefined) {
+    //     const assets = scope.assets
+    //     let assetsManifest
+    //     if (type === Constants.PORTRAIT) {
+    //         assetsManifest = _addBasePathsToUrls(assets, 'home', routeObj.target, type)
+    //     } else {
+    //         assetsManifest = _addBasePathsToUrls(assets, routeObj.parent, routeObj.target, type)
+    //     }
+    //     manifest = (manifest === undefined) ? assetsManifest : manifest.concat(assetsManifest)
+    // }
     return manifest
 }
 function _addBasePathsToUrls(urls, pageId, targetId, type, typeId) {
-    let basePath = (type === Constants.PORTRAIT) ? _getPortraitPageAssetsBasePath() : _getPageAssetsBasePathById(pageId, targetId)
+    let basePath = Store.baseMediaPath() + 'media/group/'
     basePath += pageId + '/' + targetId + '/' + typeId + '/'
     let manifest = []
     for (let i = 0; i < urls.length; i++) {
@@ -53,12 +55,6 @@ function _addBasePathsToUrls(urls, pageId, targetId, type, typeId) {
         }
     }
     return manifest
-}
-function _getPageAssetsBasePathById(id, assetGroupId) {
-    return Store.baseMediaPath() + 'media/diptyque/' + id + '/' + assetGroupId + '/'
-}
-function _getPortraitPageAssetsBasePath() {
-    return Store.baseMediaPath() + 'media/group/'
 }
 function _isRetina() {
     return isRetina()
@@ -96,8 +92,8 @@ function _getTypeOfPage(route) {
     return type
 }
 function _getPageContent() {
-    const routeObj = Router.getNewRoute()
-    const path = routeObj.path.length < 1 ? '/' : routeObj.path
+    const route = Router.getNewRoute()
+    const path = (route.type === Constants.PRODUCT) ? route.path.replace('/product', '') : route.path
     const content = data.routing[path]
     return content
 }
@@ -147,6 +143,12 @@ const Store = assign({}, EventEmitter2.prototype, {
     pagePreloaderId: () => {
         const route = Router.getNewRoute()
         return route.type.toLowerCase() + '-' + route.parts[0] + '-' + route.parts[1] + '-'
+    },
+    getImgSrcById: (name) => {
+        const route = Router.getNewRoute()
+        const type = route.type.toLowerCase()
+        const id = type + '-' + route.parent + '-' + route.target + '-' + name
+        return Store.Preloader.getImageURL(id)
     },
     getTextureSrc: (group, name) => {
         return Store.Preloader.getImageURL(group + '-texture-' + name)
