@@ -2,11 +2,6 @@ const page = {
     product: {
     },
     portrait: {
-        assets: [
-            { name: 'bump', ext: 'jpg' },
-            { name: 'diffuse', ext: 'jpg' },
-            { name: 'roughness', ext: 'jpg' }
-        ]
     }
 }
 
@@ -96,16 +91,36 @@ export default {
 
     'groups': {
         king: {
-            color: '#4700B3'
+            color: '#4700B3',
+            textures: [
+                { name: 'bump', ext: 'jpg' },
+                { name: 'diffuse', ext: 'jpg' },
+                { name: 'roughness', ext: 'jpg' }
+            ]
         },
         armour: {
-            color: '#A1A5B5'
+            color: '#A1A5B5',
+            textures: [
+                { name: 'bump', ext: 'jpg' },
+                { name: 'diffuse', ext: 'jpg' },
+                { name: 'roughness', ext: 'jpg' }
+            ]
         },
         dino: {
-            color: '#CFEF33'
+            color: '#CFEF33',
+            textures: [
+                { name: 'bump', ext: 'jpg' },
+                { name: 'diffuse', ext: 'jpg' },
+                { name: 'roughness', ext: 'jpg' }
+            ]
         },
         sport: {
-            color: '#FF9F00'
+            color: '#FF9F00',
+            textures: [
+                { name: 'bump', ext: 'jpg' },
+                { name: 'diffuse', ext: 'jpg' },
+                { name: 'roughness', ext: 'jpg' }
+            ]
         }
     },
 

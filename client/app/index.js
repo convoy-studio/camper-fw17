@@ -27,9 +27,12 @@ class App {
         setTimeout(()=>this.router.beginRouting())
     }
     loadMainAssets() {
-        const manifest = Store.pageAssetsToLoad()
-        if (manifest.length < 1) this.onAppReady()
-        else Store.Preloader.load(manifest, this.onAppReady)
+        // Collect page manifest and textures manifest and load
+        const pageManifest = Store.pageAssetsToLoad()
+        const texturesManifest = Store.getAllTexturesManifest()
+        const manifest = pageManifest.concat(texturesManifest)
+        console.log(manifest)
+        Store.Preloader.load(manifest, this.onAppReady)
     }
     onAppReady() {
         setTimeout(()=>Actions.appStart())

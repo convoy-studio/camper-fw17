@@ -13,9 +13,7 @@ function _getPageAssetsToLoad(route) {
     const routeObj = (route === undefined) ? Router.getNewRoute() : route
     const scope = _getContentScope(routeObj)
     const type = _getTypeOfPage()
-    const id = type.toLowerCase()
     let manifest = []
-
     if (type !== Constants.PORTRAIT) {
         const filenames = [
             'character' + _getImageDeviceExtension() + '.png',
@@ -23,14 +21,6 @@ function _getPageAssetsToLoad(route) {
             'shoe-bg.jpg'
         ]
         manifest = _addBasePathsToUrls(filenames, routeObj.parent, routeObj.target, type)
-    } else {
-        let filenames = []
-        scope[id].assets.forEach((asset) => {
-            const name = asset.name + '.' + asset.ext
-            // const name = asset.name + _getImageDeviceExtension() + '.' + asset.ext
-            filenames.push(name)
-        })
-        manifest = _addBasePathsToUrls(filenames, routeObj.parent, routeObj.target, type, id)
     }
     // In case of extra assets
     if (scope.assets !== undefined) {
@@ -72,6 +62,21 @@ function _getPortraitPageAssetsBasePath() {
 }
 function _isRetina() {
     return isRetina()
+}
+function _getAllGroupsTexturesManifest() {
+    let manifest = []
+    const mainPath = Store.baseMediaPath()
+    for (let k in data.groups) {
+        if ({}.hasOwnProperty.call(data.groups, k)) {
+            const textures = data.groups[k].textures
+            textures.forEach((tex) => {
+                const id = k + '-texture-' + tex.name
+                const src = mainPath + 'media/group/' + k + '/common/' + tex.name + '.' + tex.ext
+                manifest.push({ id, src })
+            })
+        }
+    }
+    return manifest
 }
 function _getImageDeviceExtension() {
     const retina = _isRetina()
@@ -143,6 +148,16 @@ const Store = assign({}, EventEmitter2.prototype, {
         const route = Router.getNewRoute()
         return route.type.toLowerCase() + '-' + route.parts[0] + '-' + route.parts[1] + '-'
     },
+    getTextureSrc: (group, name) => {
+        return Store.Preloader.getImageURL(group + '-texture-' + name)
+    },
+    getTexture: (group, name) => {
+        const img = Store.Preloader.getContentById(group + '-texture-' + name)
+        const texture = new THREE.Texture()
+        texture.image = img
+        texture.needsUpdate = true
+        return texture
+    },
     baseMediaPath: () => {
         return Store.getEnvironment().static
     },
@@ -152,6 +167,9 @@ const Store = assign({}, EventEmitter2.prototype, {
     getGroupColor: () => {
         const id = Store.getCurrentGroup()
         return data.groups[id].color
+    },
+    getAllTexturesManifest: () => {
+        return _getAllGroupsTexturesManifest()
     },
     // getPageAssetsBasePathById: function(parent, target) {
     //     return _getPageAssetsBasePathById(parent, target)

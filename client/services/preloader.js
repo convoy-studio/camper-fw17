@@ -27,7 +27,6 @@ class Preloader  {
     }
     getImageURL(id) {
         const content = this.getContentById(id)
-        console.log(content)
         return content.getAttribute('src')
     }
     getImageSize(id) {

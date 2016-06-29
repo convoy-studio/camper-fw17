@@ -1,22 +1,22 @@
 import Store from '../../store'
-import sportText from './sport-text'
+import Constants from '../../constants'
+import sportText from './text/sport'
+import kingText from './text/king'
+import armourText from './text/armour'
+import dinoText from './text/dino'
+import raf from 'raf'
 
 class GlRenderer {
     init(element) {
+        this.render = this.render.bind(this)
+
         const windowW = Store.Window.w
         const windowH = Store.Window.h
-        this.settings = {
-            metalness: 1.0,
-            roughness: 0.4,
-            ambientIntensity: 0.2,
-            aoMapIntensity: 1.0,
-            envMapIntensity: 1.0,
-            displacementScale: 2.436143, // from original model
-            normalScale: 1.0
-        }
         this.element = element
         this.cameraHeight = 500
-        this.renderer = new THREE.WebGLRenderer()
+        this.renderer = new THREE.WebGLRenderer({
+            alpha: true
+        })
         this.renderer.setPixelRatio( Store.devicePixelRatio() )
         this.renderer.setSize( windowW, windowH )
         this.element.appendChild( this.renderer.domElement )
@@ -30,7 +30,7 @@ class GlRenderer {
         this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement )
         this.controls.enableZoom = false
         this.controls.enableDamping = true
-        const ambientLight = new THREE.AmbientLight( 0xffffff, this.settings.ambientIntensity )
+        const ambientLight = new THREE.AmbientLight( 0xffffff, 0.2 )
         this.scene.add( ambientLight )
         this.pointLight = new THREE.PointLight( 0xff0000, 0.5 )
         this.pointLight.position.z = 2500
@@ -41,14 +41,66 @@ class GlRenderer {
         pointLight3.position.x = - 1000
         pointLight3.position.z = 1000
         this.scene.add( pointLight3 )
-
-
-        const imgsrc = Store.pagePreloaderId() + 'bump'
-        console.log(Store.Preloader.getImageURL(imgsrc))
-
-        this.sportText = sportText()
+        this.props = {
+            renderer: this.renderer,
+            scene: this.scene,
+            camera: this.camera,
+            lights: {
+                ambient: ambientLight,
+                point_0: this.pointLight,
+                point_1: pointLight2,
+                point_2: pointLight3
+            }
+        }
+        this.sportText = sportText(this.props)
+        this.kingText = kingText(this.props)
+        this.armourText = armourText(this.props)
+        this.dinoText = dinoText(this.props)
+        this.currentText = undefined
+    }
+    updateStage(route) {
+        switch (route.parent) {
+        case Constants.GROUP.KING:
+            this.currentText = this.kingText
+            break
+        case Constants.GROUP.ARMOUR:
+            this.currentText = this.armourText
+            break
+        case Constants.GROUP.DINO:
+            this.currentText = this.dinoText
+            break
+        case Constants.GROUP.SPORT:
+            this.currentText = this.sportText
+            break
+        default:
+            break
+        }
+        this.currentText.update()
+        this.resize()
+    }
+    resize() {
+        if (this.currentText === undefined) return
+        const windowW = Store.Window.w
+        const windowH = Store.Window.h
+        const size = this.currentText.size
+        const canvasW = (windowW / Constants.MEDIA_GLOBAL_W) * size[0]
+        const canvasH = (windowH / Constants.MEDIA_GLOBAL_H) * size[1]
+        const aspect = canvasW / canvasH
+        this.camera.left = - this.cameraHeight * aspect
+        this.camera.right = this.cameraHeight * aspect
+        this.camera.top = this.cameraHeight
+        this.camera.bottom = - this.cameraHeight
+        this.camera.updateProjectionMatrix()
+        this.renderer.setSize( canvasW, canvasH )
+        this.element.style.left = (windowW >> 1) - (canvasW >> 1) + 'px'
+        this.element.style.top = windowH - canvasH - (windowH * 0.1) + 'px'
+        this.currentText.resize()
     }
     render() {
+        if (this.currentText === undefined) return
+        this.raf = raf(this.render)
+        this.controls.update()
+        this.currentText.render()
     }
 }
 

@@ -5,13 +5,12 @@ import Constants from '../../constants'
 import miniVideo from 'mini-video'
 import dom from 'dom-hand'
 
-export default class Home extends Page {
+export default class Portrait extends Page {
     constructor(props) {
         // props.data['test-image'] = Store.baseMediaPath() + 'image/DesertVillage.png'
         super(props)
     }
     componentDidMount() {
-        console.log(this)
         const bgVideoContainer = dom.select('#background-video-container', this.element)
         const videoUrl = Store.baseMediaPath() + 'media/group/' + this.props.route.parent + '/' + this.props.route.target + '/portrait/loop.mp4'
         this.bgVideo = miniVideo({
