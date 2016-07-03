@@ -20100,6 +20100,7 @@ Object.assign( THREE.CubeTextureLoader.prototype, {
 		function loadTexture( i ) {
 
 			loader.load( urls[ i ], function ( image ) {
+				console.log(image)
 
 				texture.images[ i ] = image;
 

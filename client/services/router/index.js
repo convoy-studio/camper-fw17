@@ -97,6 +97,7 @@ class Router {
     }
     setupRoutes() {
         routerStore.portraitRoutes = []
+        routerStore.productRoutes = []
         routerStore.pageRoutes = []
         let i = 0, k
         const baseName = this.baseName
@@ -107,6 +108,7 @@ class Router {
                 const portraitRoute = this.createRoute(portraitUrl)
                 const productRoute = this.createRoute(productUrl)
                 routerStore.portraitRoutes.push(portraitRoute)
+                routerStore.productRoutes.push(productRoute)
                 routerStore.pageRoutes.push(portraitRoute, productRoute)
                 i++
             }
@@ -123,6 +125,9 @@ class Router {
     }
     static getPortraitRoutes() {
         return routerStore.portraitRoutes
+    }
+    static getProductRoutes() {
+        return routerStore.productRoutes
     }
     static getNewRoute() {
         return routerStore.newRoute

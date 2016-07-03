@@ -4,6 +4,7 @@ import GlRenderer from './gl-renderer'
 import Store from '../../store'
 import Constants from '../../constants'
 import Router from '../../services/router'
+import {PagerStore, PagerConstants} from '../../pager/Pager'
 import dom from 'dom-hand'
 
 class CanvasContainer extends BaseComponent {
@@ -11,8 +12,10 @@ class CanvasContainer extends BaseComponent {
         super()
         this.pageAssetsLoaded = this.pageAssetsLoaded.bind(this)
         this.pageInitialAssetsLoaded = this.pageInitialAssetsLoaded.bind(this)
+        this.pageTransitionDidFinish = this.pageTransitionDidFinish.bind(this)
         Store.on(Constants.PAGE_ASSETS_LOADED, this.pageAssetsLoaded)
         Store.on(Constants.APP_START, this.pageInitialAssetsLoaded)
+        PagerStore.on(PagerConstants.PAGE_TRANSITION_DID_FINISH, this.pageTransitionDidFinish)
     }
     render(parent) {
         super.render('CanvasContainer', parent)
@@ -28,7 +31,7 @@ class CanvasContainer extends BaseComponent {
         e.preventDefault()
         const route = Router.getNewRoute()
         const newRoute = '/' + route.parent + '/' + route.target + '/product'
-        Router.setRoute(newRoute)
+        // Router.setRoute(newRoute)
     }
     pageInitialAssetsLoaded() {
         Store.off(Constants.APP_START, this.pageInitialAssetsLoaded)
@@ -36,6 +39,14 @@ class CanvasContainer extends BaseComponent {
         else this.renderer = new NormalRenderer()
         this.renderer.init(this.element)
         this.updateStage()
+    }
+    pageTransitionDidFinish() {
+        const newRoute = Router.getNewRoute()
+        if (newRoute.type === Constants.PRODUCT) {
+            this.element.style.display = 'none'
+        } else {
+            this.element.style.display = 'block'
+        }
     }
     pageAssetsLoaded() {
         this.updateStage()

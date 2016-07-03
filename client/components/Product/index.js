@@ -5,7 +5,7 @@ import Utils from '../../utils'
 import Constants from '../../constants'
 import diptyquePart from './diptyque-part'
 
-export default class About extends Page {
+export default class Product extends Page {
     constructor(props) {
         props.data['background-src'] = Store.getImgSrcById('background')
         props.data['shoe-src'] = Store.getImgSrcById('shoe')
@@ -55,6 +55,7 @@ export default class About extends Page {
         super.resize()
     }
     update() {
+        if (this.leftPart === undefined || this.rightPart === undefined) return
         this.leftPart.update(1)
         this.rightPart.update(-1)
     }

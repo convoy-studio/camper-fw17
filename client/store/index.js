@@ -159,11 +159,14 @@ const Store = assign({}, EventEmitter2.prototype, {
         return Store.Preloader.getImageURL(group + '-texture-' + name)
     },
     getTexture: (group, name) => {
-        const img = Store.Preloader.getContentById(group + '-texture-' + name)
+        const img = Store.getTextureImg(group, name)
         const texture = new THREE.Texture()
         texture.image = img
         texture.needsUpdate = true
         return texture
+    },
+    getTextureImg: (group, name) => {
+        return Store.Preloader.getContentById(group + '-texture-' + name)
     },
     baseMediaPath: () => {
         return Store.getEnvironment().static
@@ -178,18 +181,9 @@ const Store = assign({}, EventEmitter2.prototype, {
     getAllTexturesManifest: () => {
         return _getAllGroupsTexturesManifest()
     },
-    // getPageAssetsBasePathById: function(parent, target) {
-    //     return _getPageAssetsBasePathById(parent, target)
-    // },
     getEnvironment: () => {
         return Constants.ENVIRONMENTS[ENV]
     },
-    // getTypeOfPage: function(hash) {
-    //     return _getTypeOfPage(hash)
-    // },
-    // getHomeVideos: function() {
-    //     return data['home-videos']
-    // },
     generalInfos: () => {
         return data.content
     },
@@ -197,9 +191,9 @@ const Store = assign({}, EventEmitter2.prototype, {
         return _getDeviceRatio()
     },
     getNextRoute: () => {
-        const hashObj = Router.getNewRoute()
+        const newRoute = Router.getNewRoute()
         const routes = Router.getPortraitRoutes()
-        const current = hashObj.path
+        const current = (newRoute.type === Constants.PORTRAIT) ? newRoute.path : newRoute.path.replace('/product', '')
         let nextRoute = undefined
         for (let i = 0; i < routes.length; i++) {
             const route = routes[i]
@@ -212,9 +206,9 @@ const Store = assign({}, EventEmitter2.prototype, {
         return nextRoute
     },
     getPreviousRoute: () => {
-        const hashObj = Router.getNewRoute()
+        const newRoute = Router.getNewRoute()
         const routes = Router.getPortraitRoutes()
-        const current = hashObj.path
+        const current = (newRoute.type === Constants.PORTRAIT) ? newRoute.path : newRoute.path.replace('/product', '')
         let previousRoute = undefined
         for (let i = 0; i < routes.length; i++) {
             const route = routes[i]
@@ -232,17 +226,6 @@ const Store = assign({}, EventEmitter2.prototype, {
     getPreviousPath: () => {
         return Store.getPreviousRoute().path
     },
-    // getDiptyquePageIndex: function() {
-    //     var hashObj = Router.getNewRoute()
-    //     var routes = Router.getDiptyqueRoutes()
-    //     var current = hashObj.hash
-    //     for (var i = 0; i < routes.length; i++) {
-    //         var route = routes[i]
-    //         if(route == current) {
-    //             return i
-    //         }
-    //     };
-    // },
     getImageDeviceExtension: _getImageDeviceExtension,
     lang: () => {
         let defaultLang = true
@@ -257,12 +240,6 @@ const Store = assign({}, EventEmitter2.prototype, {
     Window: () => {
         return _windowWidthHeight()
     },
-    // addPXChild: function(item) {
-    //     Store.PXContainer.add(item.child)
-    // },
-    // removePXChild: function(item) {
-    //     Store.PXContainer.remove(item.child)
-    // },
     Mouse: { x:0, y:0, nX:0, nY:0 },
     Parent: undefined,
     Canvas: undefined,

@@ -19,22 +19,25 @@ class GlRenderer {
         this.element.appendChild( this.renderer.domElement )
         this.renderer.gammaInput = true
         this.renderer.gammaOutput = true
+        this.renderer.setFaceCulling(THREE.CullFaceNone)
         this.scene = new THREE.Scene()
         let aspect = windowW / windowH
-        this.camera = new THREE.OrthographicCamera( - this.cameraHeight * aspect, this.cameraHeight * aspect, this.cameraHeight, - this.cameraHeight, 1, 10000 )
-        this.camera.position.z = 1500
+        // this.camera = new THREE.OrthographicCamera( - this.cameraHeight * aspect, this.cameraHeight * aspect, this.cameraHeight, - this.cameraHeight, 1, 10000 )
+        // this.camera.position.z = 1300
+        this.camera = new THREE.PerspectiveCamera( 70, windowW / windowH, 1, 100000 )
+        this.camera.position.z = 800
         this.scene.add( this.camera )
         this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement )
         this.controls.enableZoom = false
         this.controls.enableDamping = true
-        const ambientLight = new THREE.AmbientLight( 0xffffff, 0.2 )
+        const ambientLight = new THREE.AmbientLight( 0xffffff, 1.8 )
         this.scene.add( ambientLight )
-        this.pointLight = new THREE.PointLight( 0xff0000, 0.5 )
+        this.pointLight = new THREE.PointLight( 0x69A524, 0.5 )
         this.pointLight.position.z = 2500
         this.scene.add( this.pointLight )
-        const pointLight2 = new THREE.PointLight( 0xff6666, 1 )
+        const pointLight2 = new THREE.PointLight( 0x69A524, 1 )
         this.camera.add( pointLight2 )
-        const pointLight3 = new THREE.PointLight( 0x0000ff, 0.5 )
+        const pointLight3 = new THREE.PointLight( 0x9CE854, 0.5 )
         pointLight3.position.x = - 1000
         pointLight3.position.z = 1000
         this.scene.add( pointLight3 )
@@ -90,14 +93,16 @@ class GlRenderer {
         const canvasW = (windowW / Constants.MEDIA_GLOBAL_W) * size[0]
         const canvasH = (windowH / Constants.MEDIA_GLOBAL_H) * size[1]
         const aspect = canvasW / canvasH
-        this.camera.left = - this.cameraHeight * aspect
-        this.camera.right = this.cameraHeight * aspect
-        this.camera.top = this.cameraHeight
-        this.camera.bottom = - this.cameraHeight
+        // this.camera.left = - this.cameraHeight * aspect
+        // this.camera.right = this.cameraHeight * aspect
+        // this.camera.top = this.cameraHeight
+        // this.camera.bottom = - this.cameraHeight
+        // this.camera.updateProjectionMatrix()
+        this.camera.aspect = canvasW / canvasH
         this.camera.updateProjectionMatrix()
         this.renderer.setSize( canvasW, canvasH )
         this.element.style.left = (windowW >> 1) - (canvasW >> 1) + 'px'
-        this.element.style.top = windowH - canvasH - (windowH * 0.1) + 'px'
+        this.element.style.top = windowH - canvasH - (windowH * 0.05) + 'px'
         this.currentText.resize()
     }
     render() {
