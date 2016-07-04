@@ -92,6 +92,13 @@ class Utils {
             div.style.left = x + 'px'
         }
     }
+    static guiVec3(gui, folderName, vec3, offsetX, offsetY, offsetZ, opened = true) {
+        const folder = gui.addFolder(folderName)
+        folder.add(vec3, 'x', vec3.x - offsetX, vec3.x + offsetX).onChange((value) => { vec3.x = value })
+        folder.add(vec3, 'y', vec3.y - offsetY, vec3.y + offsetY).onChange((value) => { vec3.y = value })
+        folder.add(vec3, 'z', vec3.z - offsetZ, vec3.z + offsetZ).onChange((value) => { vec3.z = value })
+        if (opened) folder.open()
+    }
 }
 
 export default Utils

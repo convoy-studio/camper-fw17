@@ -101,9 +101,17 @@ export default {
         armour: {
             color: '#A1A5B5',
             textures: [
-                { name: 'bump', ext: 'jpg' },
-                { name: 'diffuse', ext: 'jpg' },
-                { name: 'roughness', ext: 'jpg' }
+                { name: 'displacement', ext: 'png' },
+                { name: 'normal', ext: 'png' },
+                { name: 'color', ext: 'png' },
+                { name: 'specular', ext: 'jpg' },
+                { name: 'ao', ext: 'png' },
+                { name: 'nx', ext: 'jpg' },
+                { name: 'ny', ext: 'jpg' },
+                { name: 'nz', ext: 'jpg' },
+                { name: 'px', ext: 'jpg' },
+                { name: 'py', ext: 'jpg' },
+                { name: 'pz', ext: 'jpg' }
             ]
         },
         dino: {
@@ -125,9 +133,17 @@ export default {
         sport: {
             color: '#FF9F00',
             textures: [
-                { name: 'bump', ext: 'jpg' },
-                { name: 'diffuse', ext: 'jpg' },
-                { name: 'roughness', ext: 'jpg' }
+                { name: 'displacement', ext: 'png' },
+                { name: 'normal', ext: 'png' },
+                { name: 'color', ext: 'png' },
+                { name: 'specular', ext: 'jpg' },
+                { name: 'ao', ext: 'png' },
+                { name: 'nx', ext: 'jpg' },
+                { name: 'ny', ext: 'jpg' },
+                { name: 'nz', ext: 'jpg' },
+                { name: 'px', ext: 'jpg' },
+                { name: 'py', ext: 'jpg' },
+                { name: 'pz', ext: 'jpg' }
             ]
         }
     },
