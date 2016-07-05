@@ -133,17 +133,17 @@ export default {
         sport: {
             color: '#FF9F00',
             textures: [
-                { name: 'displacement', ext: 'png' },
-                { name: 'normal', ext: 'png' },
+                { name: 'displacement', ext: 'jpg' },
+                { name: 'normal', ext: 'jpg' },
                 { name: 'color', ext: 'png' },
                 { name: 'specular', ext: 'jpg' },
                 { name: 'ao', ext: 'png' },
-                { name: 'nx', ext: 'jpg' },
-                { name: 'ny', ext: 'jpg' },
-                { name: 'nz', ext: 'jpg' },
-                { name: 'px', ext: 'jpg' },
-                { name: 'py', ext: 'jpg' },
-                { name: 'pz', ext: 'jpg' }
+                { name: 'nx', ext: 'png' },
+                { name: 'ny', ext: 'png' },
+                { name: 'nz', ext: 'png' },
+                { name: 'px', ext: 'png' },
+                { name: 'py', ext: 'png' },
+                { name: 'pz', ext: 'png' }
             ]
         }
     },

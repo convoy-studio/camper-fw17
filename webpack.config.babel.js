@@ -79,11 +79,11 @@ module.exports = {
             }
         ],
         preLoaders: [
-            {
-                test: /\.js$/,
-                loaders: ['eslint'],
-                include: [new RegExp(path.join(__dirname, 'client'))]
-            }
+            // {
+            //     test: /\.js$/,
+            //     loaders: ['eslint'],
+            //     include: [new RegExp(path.join(__dirname, 'client'))]
+            // }
         ]
     },
     node: {
