@@ -33,22 +33,9 @@ export default (id, props) => {
         point2Intensity: props.lights.point_2.intensity,
         ambientLightIntensity: props.lights.ambient.intensity
     }
-    // Lights
+    
     const normalMap = Store.getTexture(id, 'normal')
-    const aoMap = Store.getTexture(id, 'ao')
     const specularMap = Store.getTexture(id, 'specular')
-    // const colorMap = Store.getTexture(id, 'color')
-    // const displacementMap = Store.getTexture(id, 'displacement')
-    // specularMap.wrapS = specularMap.wrapT = THREE.RepeatWrapping
-    // normalMap.wrapS = normalMap.wrapT = THREE.RepeatWrapping
-    // aoMap.wrapS = aoMap.wrapT = THREE.RepeatWrapping
-    // displacementMap.wrapS = displacementMap.wrapT = THREE.RepeatWrapping
-    // colorMap.wrapS = colorMap.wrapT = THREE.RepeatWrapping
-    // normalMap.repeat.set( 2, 2 )
-    // specularMap.repeat.set( 1.2, 1.2 )
-    // aoMap.repeat.set( 2, 2 )
-    // displacementMap.repeat.set( 2, 2 )
-
     const cubeTexture = new THREE.CubeTexture()
     cubeTexture.images[0] = Store.getTextureImg(id, 'px')
     cubeTexture.images[1] = Store.getTextureImg(id, 'nx')
@@ -63,22 +50,13 @@ export default (id, props) => {
     let mesh
     const material = new THREE.MeshStandardMaterial({
         color: 0xa1a5b5,
-        // emissive: 0x424242,
         roughness: settings.roughness,
         metalness: settings.metalness,
         normalMap: normalMap,
         normalScale: new THREE.Vector2(0.2, 0.2), // why does the normal map require negation in this case?
-        aoMap: aoMap,
-        aoMapIntensity: settings.aoMapIntensity,
-        // lightMap: colorMap,
-        // lightMapIntensity: settings.lightMapIntensity,
-        // displacementMap: displacementMap,
-        // displacementScale: settings.displacementScale,
-        // displacementBias: settings.displacementBias,
         map: specularMap,
         envMap: cubeTexture,
         envMapIntensity: settings.envMapIntensity
-        // side: THREE.DoubleSide
     })
 
     // // GUI

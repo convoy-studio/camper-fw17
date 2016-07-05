@@ -73,6 +73,10 @@ module.exports = {
                     'babel-loader'
                 ]
             },
+            { 
+                test: /\.glsl$/,
+                loader: 'shader'
+            },
             {
                 test: /\.hbs/,
                 loader: 'handlebars-template-loader'
@@ -91,6 +95,9 @@ module.exports = {
     },
     eslint: {
         configFile: '.eslintrc'
+    },
+    glsl: {
+        chunkPath: __dirname + '/glsl'
     },
     resolve: {
         extensions: ['', '.js', '.jsx']

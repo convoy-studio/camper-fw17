@@ -55,6 +55,7 @@
     "redux-actions": "^0.9.1",
     "rucksack-css": "^0.8.5",
     "sass-loader": "^3.2.1",
+    "shader-loader": "^1.1.4",
     "style-loader": "^0.13.0",
     "to-slug-case": "^1.0.0",
     "webpack": "^1.13.1",

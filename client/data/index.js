@@ -93,19 +93,14 @@ export default {
         king: {
             color: '#4700B3',
             textures: [
-                { name: 'bump', ext: 'jpg' },
-                { name: 'diffuse', ext: 'jpg' },
-                { name: 'roughness', ext: 'jpg' }
+                { name: 'diffuse', ext: 'jpg' }
             ]
         },
         armour: {
             color: '#A1A5B5',
             textures: [
-                { name: 'displacement', ext: 'png' },
                 { name: 'normal', ext: 'png' },
-                { name: 'color', ext: 'png' },
                 { name: 'specular', ext: 'jpg' },
-                { name: 'ao', ext: 'png' },
                 { name: 'nx', ext: 'jpg' },
                 { name: 'ny', ext: 'jpg' },
                 { name: 'nz', ext: 'jpg' },
