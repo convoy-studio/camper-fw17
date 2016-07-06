@@ -114,9 +114,6 @@ export default {
             textures: [
                 { name: 'displacement', ext: 'png' },
                 { name: 'normal', ext: 'png' },
-                { name: 'specular', ext: 'png' },
-                { name: 'color', ext: 'png' },
-                { name: 'ao', ext: 'png' },
                 { name: 'nx', ext: 'jpg' },
                 { name: 'ny', ext: 'jpg' },
                 { name: 'nz', ext: 'jpg' },
@@ -130,9 +127,7 @@ export default {
             textures: [
                 { name: 'displacement', ext: 'jpg' },
                 { name: 'normal', ext: 'jpg' },
-                { name: 'color', ext: 'png' },
                 { name: 'specular', ext: 'jpg' },
-                { name: 'ao', ext: 'png' },
                 { name: 'nx', ext: 'png' },
                 { name: 'ny', ext: 'png' },
                 { name: 'nz', ext: 'png' },

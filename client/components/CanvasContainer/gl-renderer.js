@@ -1,5 +1,6 @@
 import Store from '../../store'
 import Constants from '../../constants'
+import Utils from '../../utils'
 import sportText from './text/sport'
 import kingText from './text/king'
 import armourText from './text/armour'
@@ -27,9 +28,9 @@ class GlRenderer {
         // this.camera = new THREE.PerspectiveCamera( 70, windowW / windowH, 1, 100000 )
         // this.camera.position.z = 800
         this.scene.add( this.camera )
-        this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement )
-        this.controls.enableZoom = false
-        this.controls.enableDamping = true
+        // this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement )
+        // this.controls.enableZoom = false
+        // this.controls.enableDamping = true
         const ambientLight = new THREE.AmbientLight( 0xffffff, 1.8 )
         this.scene.add( ambientLight )
         this.pointLight = new THREE.PointLight( 0x69A524, 0.5 )
@@ -90,8 +91,10 @@ class GlRenderer {
         const windowW = Store.Window.w
         const windowH = Store.Window.h
         const size = this.currentText.size
-        const canvasW = (windowW / Constants.MEDIA_GLOBAL_W) * size[0]
-        const canvasH = (windowH / Constants.MEDIA_GLOBAL_H) * size[1]
+        const viewportScale = 0.32
+        const resizeVars = Utils.resizePositionProportionally(windowW * viewportScale, windowH * viewportScale, size[0], size[1])
+        const canvasW = resizeVars.width
+        const canvasH = resizeVars.height
         const aspect = canvasW / canvasH
         this.camera.left = - this.cameraHeight * aspect
         this.camera.right = this.cameraHeight * aspect
@@ -108,7 +111,7 @@ class GlRenderer {
     render() {
         if (this.currentText === undefined) return
         this.renderer.render(this.scene, this.camera)
-        this.controls.update()
+        // this.controls.update()
         this.currentText.render()
     }
 }

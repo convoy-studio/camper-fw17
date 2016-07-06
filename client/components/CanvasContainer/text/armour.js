@@ -3,28 +3,21 @@ import dom from 'dom-hand'
 import Utils from '../../../utils'
 
 export default (id, props) => {
-    props.lights.point_0.color = new THREE.Color(0xffffff)
-    props.lights.point_1.color = new THREE.Color(0xffffff)
-    props.lights.point_2.color = new THREE.Color(0xffffff)
-    props.lights.ambient.color = new THREE.Color(0xffffff)
-    props.lights.point_0.intensity = 2
-    props.lights.point_1.intensity = 2
-    props.lights.point_2.intensity = 2
-    props.lights.ambient.intensity = 0.8
-    props.lights.point_0.position.set(1617, -147, -625)
-    props.lights.point_1.position.set(73, 73, -5000)
-    props.lights.point_2.position.set(617, 1397, 2838)
-
     let scope
-    const size = [ 850*1.2, 300*1.2 ]
+    let mesh
+    const size = [ 800, 270 ]
     const container = new THREE.Object3D()
+    const containerScale = 1.0
+    container.scale.set(containerScale, containerScale, containerScale)
+    container.position.set(0, -80, 0)
+    container.visible = false
     const settings = {
-        metalness: 0.3,
-        roughness: 0.46,
+        metalness: 0.5,
+        roughness: 0.26,
         ambientIntensity: 0.3,
         aoMapIntensity: 0.0,
         lightMapIntensity: 1.0,
-        envMapIntensity: 5,
+        envMapIntensity: 0.5,
         displacementScale: 1.436143,
         displacementBias: -0.428408,
         normalScale: 1.0,
@@ -33,7 +26,7 @@ export default (id, props) => {
         point2Intensity: props.lights.point_2.intensity,
         ambientLightIntensity: props.lights.ambient.intensity
     }
-    
+
     const normalMap = Store.getTexture(id, 'normal')
     const specularMap = Store.getTexture(id, 'specular')
     const cubeTexture = new THREE.CubeTexture()
@@ -47,7 +40,6 @@ export default (id, props) => {
     cubeTexture.format = THREE.RGBFormat
     cubeTexture.mapping = THREE.CubeReflectionMapping
     
-    let mesh
     const material = new THREE.MeshStandardMaterial({
         color: 0xa1a5b5,
         roughness: settings.roughness,
@@ -84,23 +76,38 @@ export default (id, props) => {
         const scale = 0.06
         mesh.scale.set(scale, scale, scale)
         container.add(mesh)
+        props.scene.add(container)
     })
 
     const render = () => {
         if (mesh === undefined) return
-        // mesh.rotation.x += .01
-        // mesh.rotation.y += .01
-        // mesh.rotation.z += .01
+        const smoothing = 0.1
+        container.rotation.x += (-0.005) + ((Math.cos(Store.Mouse.nY) * 0.4) - container.rotation.x) * smoothing
+        container.rotation.y += ((Math.sin(Store.Mouse.nX) * 0.3) - container.rotation.y) * smoothing
+        container.rotation.z += ((Math.sin(Store.Mouse.nX) * 0.1) - container.rotation.z) * smoothing
     }
     const activate = () => {
-        props.scene.add(container)
+        // props.scene.add(container)
+        container.visible = true
     }
     const deactivate = () => {
-        props.scene.remove(container)
+        // props.scene.remove(container)
+        container.visible = false
     }
     const resize = () => {
     }
     const updateStyle = (id) => {
+        props.lights.point_0.color = new THREE.Color(0xffffff)
+        props.lights.point_1.color = new THREE.Color(0xffffff)
+        props.lights.point_2.color = new THREE.Color(0xffffff)
+        props.lights.ambient.color = new THREE.Color(0xffffff)
+        props.lights.point_0.intensity = 0.4
+        props.lights.point_1.intensity = 1
+        props.lights.point_2.intensity = 0.7
+        props.lights.ambient.intensity = 0.8
+        props.lights.point_0.position.set(1617, -147, -625)
+        props.lights.point_1.position.set(73, 73, -5000)
+        props.lights.point_2.position.set(617, 1397, 2838)
     }
     scope = {
         id,

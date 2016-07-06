@@ -31,7 +31,7 @@ class CanvasContainer extends BaseComponent {
         e.preventDefault()
         const route = Router.getNewRoute()
         const newRoute = '/' + route.parent + '/' + route.target + '/product'
-        // Router.setRoute(newRoute)
+        Router.setRoute(newRoute)
     }
     pageInitialAssetsLoaded() {
         Store.off(Constants.APP_START, this.pageInitialAssetsLoaded)

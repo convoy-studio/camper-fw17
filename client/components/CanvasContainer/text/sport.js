@@ -3,21 +3,14 @@ import dom from 'dom-hand'
 import Utils from '../../../utils'
 
 export default (id, props) => {
-    props.lights.point_0.color = new THREE.Color(0xffffff)
-    props.lights.point_1.color = new THREE.Color(0xffffff)
-    props.lights.point_2.color = new THREE.Color(0xffffff)
-    props.lights.ambient.color = new THREE.Color(0xffffff)
-    props.lights.point_0.intensity = 2
-    props.lights.point_1.intensity = 2
-    props.lights.point_2.intensity = 2
-    props.lights.ambient.intensity = 0.8
-    props.lights.point_0.position.set(918, -956, -662)
-    props.lights.point_1.position.set(-9817, -4553, -4081)
-    props.lights.point_2.position.set(580, -405, 4786)
-
     let scope
-    const size = [ 850*4, 410 ]
+    let mesh
+    const size = [ 950, 400 ]
     const container = new THREE.Object3D()
+    const containerScale = 1.4
+    container.scale.set(containerScale, containerScale, containerScale)
+    container.position.set(0, -200, 0)
+    container.visible = false
     const settings = {
         metalness: 0.3,
         roughness: 0.46,
@@ -35,7 +28,6 @@ export default (id, props) => {
     }
     // Lights
     const normalMap = Store.getTexture(id, 'normal')
-    const aoMap = Store.getTexture(id, 'ao')
     const specularMap = Store.getTexture(id, 'specular')
     const displacementMap = Store.getTexture(id, 'displacement')
     specularMap.wrapS = specularMap.wrapT = THREE.RepeatWrapping
@@ -54,18 +46,12 @@ export default (id, props) => {
     cubeTexture.format = THREE.RGBFormat
     cubeTexture.mapping = THREE.CubeReflectionMapping
     
-    let mesh
     const material = new THREE.MeshStandardMaterial({
         color: 0xDC883C,
-        // emissive: 0xDC883C,
         roughness: settings.roughness,
         metalness: settings.metalness,
         normalMap: normalMap,
         normalScale: new THREE.Vector2(1, -1), // why does the normal map require negation in this case?
-        aoMap: aoMap,
-        aoMapIntensity: settings.aoMapIntensity,
-        // lightMap: colorMap,
-        // lightMapIntensity: settings.lightMapIntensity,
         displacementMap: displacementMap,
         displacementScale: settings.displacementScale,
         displacementBias: settings.displacementBias,
@@ -77,14 +63,14 @@ export default (id, props) => {
     // // GUI
     // const gui = new dat.GUI({ autoplace: false })
     // dom.select('#gui', document).appendChild(gui.domElement)
-    // gui.add(settings, 'metalness', 0, 2.0).onChange((value) => { material.metalness = value })
-    // gui.add(settings, 'roughness', 0, 1.0).onChange((value) => { material.roughness = value })
-    // gui.add(settings, 'ambientIntensity', 0, 1.0).onChange((value) => { material.ambientIntensity = value })
-    // gui.add(settings, 'aoMapIntensity', 0, 100.0).onChange((value) => { material.aoMapIntensity = value })
-    // gui.add(settings, 'lightMapIntensity', 0, 10.0).onChange((value) => { material.lightMapIntensity = value })
-    // gui.add(settings, 'displacementScale', 0, 5.0).onChange((value) => { material.displacementScale = value })
-    // gui.add(settings, 'displacementBias', -1, 1.0).onChange((value) => { material.displacementBias = value })
-    // gui.add(settings, 'envMapIntensity', material.envMapIntensity - 20, material.envMapIntensity + 50).onChange((value) => { material.envMapIntensity = value })
+    // // gui.add(settings, 'metalness', 0, 2.0).onChange((value) => { material.metalness = value })
+    // // gui.add(settings, 'roughness', 0, 1.0).onChange((value) => { material.roughness = value })
+    // // gui.add(settings, 'ambientIntensity', 0, 1.0).onChange((value) => { material.ambientIntensity = value })
+    // // gui.add(settings, 'aoMapIntensity', 0, 100.0).onChange((value) => { material.aoMapIntensity = value })
+    // // gui.add(settings, 'lightMapIntensity', 0, 10.0).onChange((value) => { material.lightMapIntensity = value })
+    // // gui.add(settings, 'displacementScale', 0, 5.0).onChange((value) => { material.displacementScale = value })
+    // // gui.add(settings, 'displacementBias', -1, 1.0).onChange((value) => { material.displacementBias = value })
+    // // gui.add(settings, 'envMapIntensity', material.envMapIntensity - 20, material.envMapIntensity + 50).onChange((value) => { material.envMapIntensity = value })
     // gui.add(settings, 'point0Intensity', 0, 2.0).onChange((value) => { props.lights.point_0.intensity = value })
     // gui.add(settings, 'point1Intensity', 0, 2.0).onChange((value) => { props.lights.point_1.intensity = value })
     // gui.add(settings, 'point2Intensity', 0, 2.0).onChange((value) => { props.lights.point_2.intensity = value })
@@ -99,23 +85,38 @@ export default (id, props) => {
         const scale = 0.06
         mesh.scale.set(scale, scale, scale)
         container.add(mesh)
+        props.scene.add(container)
     })
 
     const render = () => {
         if (mesh === undefined) return
-        // mesh.rotation.x += .01
-        // mesh.rotation.y += .01
-        // mesh.rotation.z += .01
+        const smoothing = 0.1
+        container.rotation.x += (-0.005) + ((Math.cos(Store.Mouse.nY) * 0.4) - container.rotation.x) * smoothing
+        container.rotation.y += ((Math.sin(Store.Mouse.nX) * 0.3) - container.rotation.y) * smoothing
+        container.rotation.z += ((Math.sin(Store.Mouse.nX) * 0.1) - container.rotation.z) * smoothing
     }
     const activate = () => {
-        props.scene.add(container)
+        // props.scene.add(container)
+        container.visible = true
     }
     const deactivate = () => {
-        props.scene.remove(container)
+        // props.scene.remove(container)
+        container.visible = false
     }
     const resize = () => {
     }
     const updateStyle = (id) => {
+        props.lights.point_0.color = new THREE.Color(0xffffff)
+        props.lights.point_1.color = new THREE.Color(0xffffff)
+        props.lights.point_2.color = new THREE.Color(0xffffff)
+        props.lights.ambient.color = new THREE.Color(0xffffff)
+        props.lights.point_0.intensity = 0
+        props.lights.point_1.intensity = 0
+        props.lights.point_2.intensity = 1.15
+        props.lights.ambient.intensity = 0.8
+        props.lights.point_0.position.set(918, -956, -662)
+        props.lights.point_1.position.set(-9817, -4553, -4081)
+        props.lights.point_2.position.set(580, -405, 4786)
     }
     scope = {
         id,

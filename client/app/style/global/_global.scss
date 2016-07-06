@@ -73,9 +73,10 @@ html {
     z-index: 9999;
     @extend .top-left;
     @extend .btn;
-    canvas {
-        // border: 1px solid red;
-    }
+    // border: 1px solid yellow;
+    // canvas {
+    //     border: 1px solid red;
+    // }
 }
 
 #gui {

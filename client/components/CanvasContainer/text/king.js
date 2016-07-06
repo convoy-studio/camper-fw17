@@ -5,18 +5,6 @@ const shaderVx = require("../../../glsl/fur-vx.glsl")
 const shaderFx = require("../../../glsl/fur-fx.glsl")
 
 export default (id, props) => {
-    props.lights.point_0.color = new THREE.Color(0xffffff)
-    props.lights.point_1.color = new THREE.Color(0xffffff)
-    props.lights.point_2.color = new THREE.Color(0xffffff)
-    props.lights.ambient.color = new THREE.Color(0xffffff)
-    props.lights.point_0.intensity = 2
-    props.lights.point_1.intensity = 2
-    props.lights.point_2.intensity = 2
-    props.lights.ambient.intensity = 10.8
-    props.lights.point_0.position.set(918, -956, -662)
-    props.lights.point_1.position.set(-9817, -4553, -4081)
-    props.lights.point_2.position.set(580, -405, 4786)
-
     const generateTexture = () => {
         var canvas = document.createElement( 'canvas' )
         canvas.width = 256
@@ -37,8 +25,12 @@ export default (id, props) => {
     let mouse = new THREE.Vector2(-0.5, 0.5)
     let currentMouse = { x:0, y:0, vx:0, vy:0 }
     let gravity = new THREE.Vector3(0, -0.75, 0)
-    const size = [ 700, 600 ]
+    const size = [ 700, 400 ]
     const container = new THREE.Object3D()
+    const containerScale = 1.7
+    container.scale.set(containerScale, containerScale, containerScale)
+    container.position.set(0, -140, 0)
+    container.visible = false
 
     // hair texture
     const texture = new THREE.Texture(generateTexture())
@@ -60,7 +52,7 @@ export default (id, props) => {
         const shells = 20
         for (let i = 0; i < shells; i++) {
             const uniforms = {
-                color: { type: 'c', value: new THREE.Color( 0x342675 ) },
+                color: { type: 'c', value: new THREE.Color( 0x5C43CE ) },
                 hairMap: { type: 't', value: texture },
                 colorMap: { type: 't', value: diffuseColor },
                 offset: { type: 'f', value: i / shells },
@@ -78,23 +70,19 @@ export default (id, props) => {
             mesh.frustumCulled = false
             container.add(mesh)
             meshes.push(mesh)
+            props.scene.add(container)
         }
     }
     const render = () => {
         if (meshes.length < 1) return
-
         time = Date.now()
         delta = time - oldTime
         oldTime = time
-
         if (isNaN(delta) || delta > 1000 || delta === 0 ) {
             delta = 1000 / 60
         }
-
         const optimalDivider = delta / 6
         const smoothing = Math.max(12, (20 / optimalDivider) )
-
-        // fake some gravity according to mouse movement
         const xf = (Store.Mouse.nX - currentMouse.x) / (smoothing * 5)
         const yf = (Store.Mouse.nY - currentMouse.y) / (smoothing * 5)
         currentMouse.vx += xf
@@ -103,30 +91,24 @@ export default (id, props) => {
         currentMouse.vy *= 0.94
         currentMouse.x += currentMouse.vx
         currentMouse.y += currentMouse.vy
-
         gravity.x = -(Store.Mouse.nX - currentMouse.x) * 2
-
         const dif = Math.sin(Store.Mouse.nX)*150 - props.camera.position.x
         gravity.y = -0.75 + (Math.abs(dif) / 150) - (Store.Mouse.nY - currentMouse.y) * 2
-
-        // props.camera.position.x += (Math.sin(Store.Mouse.nX) * 150 - props.camera.position.x) / smoothing
-        // props.camera.position.z += (Math.cos(Store.Mouse.nX) * 150 - props.camera.position.z) / smoothing
-        // props.camera.position.y += (Math.sin(Store.Mouse.nY) * 150 - props.camera.position.y) / smoothing
-
-        // props.camera.lookAt(props.scene.position)
-
+        container.rotation.x += 0.01 + ((Math.cos(Store.Mouse.nY) * 0.4) - container.rotation.x) / smoothing
+        container.rotation.y += ((Math.sin(Store.Mouse.nX) * 0.3) - container.rotation.y) / smoothing
+        container.rotation.z += ((Math.sin(Store.Mouse.nX) * 0.07) - container.rotation.z) / smoothing
         shaderTime += delta * 0.005
         for (let i = 0; i < meshes.length; i++) {
             meshes[i].material.uniforms.globalTime.value = shaderTime
         }
     }
     const activate = () => {
-        console.log('activate')
-        props.scene.add(container)
+        // props.scene.add(container)
+        container.visible = true
     }
     const deactivate = () => {
-        console.log('deactivate')
-        props.scene.remove(container)
+        // props.scene.remove(container)
+        container.visible = false
     }
     const resize = () => {
     }
