@@ -12,6 +12,7 @@ class AppTemplate extends BaseComponent {
         super()
         this.resize = this.resize.bind(this)
         this.animate = this.animate.bind(this)
+        this.didStartMorphing = this.didStartMorphing.bind(this)
     }
     render(parent) {
         super.render('AppTemplate', parent, undefined)
@@ -41,7 +42,12 @@ class AppTemplate extends BaseComponent {
     onReady() {
         Store.FrontBlock = document.getElementById('front-block')
         Store.on(Constants.WINDOW_RESIZE, this.resize)
+        Store.on(Constants.START_MORPHING, this.didStartMorphing)
         this.animate()
+    }
+    didStartMorphing() {
+        this.frontContainer.didStartMorphing()
+        this.canvasContainer.didStartMorphing()
     }
     animate() {
         this.raf = raf(this.animate)

@@ -51,6 +51,18 @@ const Actions = {
             actionType: Constants.APP_START,
             item: undefined
         })
+    },
+    startMorphing: (route) => {
+        Dispatcher.handleViewAction({
+            actionType: Constants.START_MORPHING,
+            item: route
+        })
+    },
+    loadMorphing: () => {
+        Dispatcher.handleViewAction({
+            actionType: Constants.LOAD_MORPHING,
+            item: undefined
+        })
     }
 }
 

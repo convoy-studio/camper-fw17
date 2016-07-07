@@ -10,6 +10,9 @@ class GlRenderer {
     init(element) {
         this.render = this.render.bind(this)
 
+        this.tlOpen = new TimelineMax()
+        this.tlClose = new TimelineMax()
+
         const windowW = Store.Window.w
         const windowH = Store.Window.h
         this.element = element
@@ -60,7 +63,7 @@ class GlRenderer {
         this.currentText = this.oldText = undefined
     }
     updateStage(newRoute, oldRoute) {
-        if (oldRoute !== undefined && newRoute.parent === oldRoute.parent) {
+        if (oldRoute !== undefined && newRoute.parent === oldRoute.parent && this.currentText !== undefined) {
             this.currentText.updateStyle(newRoute.target)
             return
         }
@@ -86,6 +89,12 @@ class GlRenderer {
         this.currentText.updateStyle(newRoute.target)
         this.resize()
     }
+    open() {
+        this.tlOpen.timeScale(1.8).play()
+    }
+    close() {
+        this.tlClose.timeScale(1.8).play()
+    }
     resize() {
         if (this.currentText === undefined) return
         const windowW = Store.Window.w
@@ -107,6 +116,14 @@ class GlRenderer {
         this.element.style.left = (windowW >> 1) - (canvasW >> 1) + 'px'
         this.element.style.top = windowH - canvasH - (windowH * 0.05) + 'px'
         this.currentText.resize()
+
+        this.tlOpen.clear()
+        this.tlClose.clear()
+
+        this.tlOpen.fromTo(this.element, 1, { y: size[1] * 2, force3D: true }, { y:0, force3D: true, ease: Expo.easeInOut }, 0)
+        this.tlClose.fromTo(this.element, 1, { y: 0, force3D: true }, { y: size[1] * 2, force3D: true, ease: Expo.easeInOut }, 0)
+        this.tlClose.pause(0)
+        this.tlOpen.pause(0)
     }
     render() {
         if (this.currentText === undefined) return

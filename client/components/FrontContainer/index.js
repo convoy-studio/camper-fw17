@@ -39,6 +39,9 @@ class FrontContainer extends BaseComponent {
         this.arrowsContainer.changeColor(color)
         this.headerLinks.changeColor(color)
     }
+    didStartMorphing() {
+        this.arrowsContainer.close()
+    }
     onAppStarted() {
         Store.off(Constants.APP_START, this.onAppStarted)
         dom.classes.add(this.headerEl, 'show')

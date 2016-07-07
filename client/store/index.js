@@ -245,6 +245,7 @@ const Store = assign({}, EventEmitter2.prototype, {
     Canvas: undefined,
     Orientation: Constants.ORIENTATION.LANDSCAPE,
     Detector: {},
+    AfterMorphingRoute: undefined,
     dispatcherIndex: Dispatcher.register((payload) => {
         const action = payload.action
         switch (action.actionType) {
@@ -253,6 +254,10 @@ const Store = assign({}, EventEmitter2.prototype, {
             Store.Window.h = action.item.windowH
             Store.Orientation = (Store.Window.w > Store.Window.h) ? Constants.ORIENTATION.LANDSCAPE : Constants.ORIENTATION.PORTRAIT
             Store.emitChange(action.actionType)
+            break
+        case Constants.START_MORPHING:
+            Store.AfterMorphingRoute = action.item
+            Store.emitChange(action.actionType, action.item)
             break
         default:
             Store.emitChange(action.actionType, action.item)

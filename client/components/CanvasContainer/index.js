@@ -4,6 +4,7 @@ import GlRenderer from './gl-renderer'
 import Store from '../../store'
 import Constants from '../../constants'
 import Router from '../../services/router'
+import Actions from '../../actions'
 import {PagerStore, PagerConstants} from '../../pager/Pager'
 import dom from 'dom-hand'
 
@@ -13,6 +14,9 @@ class CanvasContainer extends BaseComponent {
         this.pageAssetsLoaded = this.pageAssetsLoaded.bind(this)
         this.pageInitialAssetsLoaded = this.pageInitialAssetsLoaded.bind(this)
         this.pageTransitionDidFinish = this.pageTransitionDidFinish.bind(this)
+        this.didCanvasClick = this.didCanvasClick.bind(this)
+        this.didCanvasMouseEnter = this.didCanvasMouseEnter.bind(this)
+        
         Store.on(Constants.PAGE_ASSETS_LOADED, this.pageAssetsLoaded)
         Store.on(Constants.APP_START, this.pageInitialAssetsLoaded)
         PagerStore.on(PagerConstants.PAGE_TRANSITION_DID_FINISH, this.pageTransitionDidFinish)
@@ -25,13 +29,18 @@ class CanvasContainer extends BaseComponent {
     }
     componentDidMount() {
         dom.event.on(this.element, 'click', this.didCanvasClick)
+        dom.event.on(this.element, 'mouseenter', this.didCanvasMouseEnter)
         super.componentDidMount()
     }
     didCanvasClick(e) {
         e.preventDefault()
         const route = Router.getNewRoute()
         const newRoute = '/' + route.parent + '/' + route.target + '/product'
-        Router.setRoute(newRoute)
+        Actions.startMorphing(newRoute)
+    }
+    didCanvasMouseEnter(e) {
+        e.preventDefault()
+        Actions.loadMorphing()
     }
     pageInitialAssetsLoaded() {
         Store.off(Constants.APP_START, this.pageInitialAssetsLoaded)
@@ -50,6 +59,9 @@ class CanvasContainer extends BaseComponent {
     }
     pageAssetsLoaded() {
         this.updateStage()
+    }
+    didStartMorphing() {
+        this.renderer.close()
     }
     updateStage() {
         const newRoute = Router.getNewRoute()
