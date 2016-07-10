@@ -246,6 +246,7 @@ const Store = assign({}, EventEmitter2.prototype, {
     Orientation: Constants.ORIENTATION.LANDSCAPE,
     Detector: {},
     AfterMorphingRoute: undefined,
+    IndexIsOpened: false,
     dispatcherIndex: Dispatcher.register((payload) => {
         const action = payload.action
         switch (action.actionType) {
@@ -258,6 +259,14 @@ const Store = assign({}, EventEmitter2.prototype, {
         case Constants.START_MORPHING:
             Store.AfterMorphingRoute = action.item
             Store.emitChange(action.actionType, action.item)
+            break
+        case Constants.OPEN_INDEX:
+            Store.IndexIsOpened = true
+            Store.emitChange(action.actionType)
+            break
+        case Constants.CLOSE_INDEX:
+            Store.IndexIsOpened = false
+            Store.emitChange(action.actionType)
             break
         default:
             Store.emitChange(action.actionType, action.item)

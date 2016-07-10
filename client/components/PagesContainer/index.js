@@ -1,6 +1,7 @@
 import Constants from '../../constants'
 import {PagerActions} from '../../pager/Pager'
 import Store from '../../store'
+import Actions from '../../actions'
 import BasePager from '../../pager/components/BasePager'
 import Router from '../../services/router'
 import Portrait from '../Portrait'
@@ -23,6 +24,7 @@ class PagesContainer extends BasePager {
         super.componentDidMount()
     }
     didPageChange() {
+        // setTimeout(() => {Actions.hideInterface()}, 0)
         Store.Parent.style.cursor = 'wait'
         Store.FrontBlock.style.visibility = 'visible'
         const newRoute = Router.getNewRoute()

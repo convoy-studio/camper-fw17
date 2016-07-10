@@ -5,11 +5,15 @@ import Utils from '../../../utils'
 export default (id, props) => {
     let scope
     let mesh
-    const size = [ 800, 270 ]
+    const normalScale = 0.05
+    const indexScale = 0.016
+    const normalPosY = -90
+    const indexPosY = 90
+    const size = [ 700, 270 ]
     const container = new THREE.Object3D()
     const containerScale = 1.0
     container.scale.set(containerScale, containerScale, containerScale)
-    container.position.set(0, -80, 0)
+    container.position.set(0, normalPosY, 0)
     container.visible = false
     const settings = {
         metalness: 0.5,
@@ -73,8 +77,7 @@ export default (id, props) => {
     const loader = new THREE.JSONLoader()
     loader.load(Store.baseMediaPath() + 'mesh/armour.js', (object) => {
         mesh = new THREE.Mesh( object, material )
-        const scale = 0.06
-        mesh.scale.set(scale, scale, scale)
+        mesh.scale.set(normalScale, normalScale, normalScale)
         container.add(mesh)
         props.scene.add(container)
     })
@@ -94,13 +97,20 @@ export default (id, props) => {
         // props.scene.remove(container)
         container.visible = false
     }
+    const indexState = () => {
+        
+    }
     const resize = () => {
+        if (mesh === undefined) return
+        if (Store.IndexIsOpened) {
+            mesh.scale.set(indexScale, indexScale, indexScale)
+            container.position.y = indexPosY
+        } else {
+            mesh.scale.set(normalScale, normalScale, normalScale)
+            container.position.y = normalPosY
+        }
     }
     const updateStyle = (id) => {
-        props.lights.point_0.color = new THREE.Color(0xffffff)
-        props.lights.point_1.color = new THREE.Color(0xffffff)
-        props.lights.point_2.color = new THREE.Color(0xffffff)
-        props.lights.ambient.color = new THREE.Color(0xffffff)
         props.lights.point_0.intensity = 0.4
         props.lights.point_1.intensity = 1
         props.lights.point_2.intensity = 0.7
@@ -108,6 +118,7 @@ export default (id, props) => {
         props.lights.point_0.position.set(1617, -147, -625)
         props.lights.point_1.position.set(73, 73, -5000)
         props.lights.point_2.position.set(617, 1397, 2838)
+        scope.activate()
     }
     scope = {
         id,
@@ -116,7 +127,8 @@ export default (id, props) => {
         deactivate,
         resize,
         render,
-        updateStyle
+        updateStyle,
+        indexState
     }
     return scope
 }

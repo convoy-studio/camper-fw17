@@ -63,6 +63,30 @@ const Actions = {
             actionType: Constants.LOAD_MORPHING,
             item: undefined
         })
+    },
+    showInterface: () => {
+        Dispatcher.handleViewAction({
+            actionType: Constants.SHOW_INTERFACE,
+            item: undefined
+        })
+    },
+    hideInterface: () => {
+        Dispatcher.handleViewAction({
+            actionType: Constants.HIDE_INTERFACE,
+            item: undefined
+        })
+    },
+    openIndex: () => {
+        Dispatcher.handleViewAction({
+            actionType: Constants.OPEN_INDEX,
+            item: undefined
+        })
+    },
+    closeIndex: () => {
+        Dispatcher.handleViewAction({
+            actionType: Constants.CLOSE_INDEX,
+            item: undefined
+        })
     }
 }
 

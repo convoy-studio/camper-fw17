@@ -39,6 +39,7 @@ class BasePager extends BaseComponent {
         if (this.components['new-component'] !== undefined) this.components['new-component'].willTransitionOut()
     }
     didPageTransitionInComplete() {
+        // setTimeout(() => {Actions.showInterface()}, 0)
         Store.Parent.style.cursor = 'auto'
         Store.FrontBlock.style.visibility = 'hidden'
         PagerActions.onTransitionInComplete()

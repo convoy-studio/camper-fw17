@@ -28,20 +28,15 @@ class GlRenderer {
         let aspect = windowW / windowH
         this.camera = new THREE.OrthographicCamera( - this.cameraHeight * aspect, this.cameraHeight * aspect, this.cameraHeight, - this.cameraHeight, 1, 10000 )
         this.camera.position.z = 1300
-        // this.camera = new THREE.PerspectiveCamera( 70, windowW / windowH, 1, 100000 )
-        // this.camera.position.z = 800
         this.scene.add( this.camera )
-        // this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement )
-        // this.controls.enableZoom = false
-        // this.controls.enableDamping = true
-        const ambientLight = new THREE.AmbientLight( 0xffffff, 1.8 )
+        const ambientLight = new THREE.AmbientLight( 0x9E9E9E, 1.8 )
         this.scene.add( ambientLight )
-        this.pointLight = new THREE.PointLight( 0x69A524, 0.5 )
+        this.pointLight = new THREE.PointLight( 0xffffff, 0.5 )
         this.pointLight.position.z = 2500
         this.scene.add( this.pointLight )
-        const pointLight2 = new THREE.PointLight( 0x69A524, 1 )
+        const pointLight2 = new THREE.PointLight( 0xffffff, 1 )
         this.camera.add( pointLight2 )
-        const pointLight3 = new THREE.PointLight( 0x9CE854, 0.5 )
+        const pointLight3 = new THREE.PointLight( 0xffffff, 0.5 )
         pointLight3.position.x = - 1000
         pointLight3.position.z = 1000
         this.scene.add( pointLight3 )
@@ -61,6 +56,7 @@ class GlRenderer {
         this.armourText = armourText(Constants.GROUP.ARMOUR, this.props)
         this.dinoText = dinoText(Constants.GROUP.DINO, this.props)
         this.currentText = this.oldText = undefined
+        this.allTexts = [this.sportText, this.kingText, this.armourText, this.dinoText]
     }
     updateStage(newRoute, oldRoute) {
         if (oldRoute !== undefined && newRoute.parent === oldRoute.parent && this.currentText !== undefined) {
@@ -95,13 +91,39 @@ class GlRenderer {
     close() {
         this.tlClose.timeScale(1.8).play()
     }
+    openIndex() {
+        this.allTexts.forEach((text) => {
+            text.indexState()
+            text.activate()
+            text.resize()
+        })
+        this.resize()
+    }
+    closeIndex() {
+        this.allTexts.forEach((text) => {
+            if (text.id !== this.currentText.id) {
+                text.deactivate()
+            }
+        })
+        this.resize()
+    }
     resize() {
         if (this.currentText === undefined) return
         const windowW = Store.Window.w
         const windowH = Store.Window.h
         const size = this.currentText.size
-        const viewportScale = 0.32
-        const resizeVars = Utils.resizePositionProportionally(windowW * viewportScale, windowH * viewportScale, size[0], size[1])
+        let viewportScale
+        let canvasSize
+        if (Store.IndexIsOpened) {
+            canvasSize = [ size[0], windowH ]
+            viewportScale = 0.8
+        } else {
+            canvasSize = [ size[0], size[1] ]
+            viewportScale = 0.4
+        }
+        const viewportW = windowW * viewportScale
+        const viewportH = windowH * viewportScale
+        const resizeVars = Utils.resizePositionProportionally(viewportW, viewportH, canvasSize[0], canvasSize[1], Constants.ORIENTATION.LANDSCAPE)
         const canvasW = resizeVars.width
         const canvasH = resizeVars.height
         const aspect = canvasW / canvasH
@@ -110,26 +132,32 @@ class GlRenderer {
         this.camera.top = this.cameraHeight
         this.camera.bottom = - this.cameraHeight
         this.camera.updateProjectionMatrix()
-        // this.camera.aspect = canvasW / canvasH
-        // this.camera.updateProjectionMatrix()
         this.renderer.setSize( canvasW, canvasH )
-        this.element.style.left = (windowW >> 1) - (canvasW >> 1) + 'px'
-        this.element.style.top = windowH - canvasH - (windowH * 0.05) + 'px'
+        if (Store.IndexIsOpened) {
+            this.element.style.left = (windowW >> 1) - (canvasW >> 1) + 'px'
+            this.element.style.top = (windowH >> 1) - (canvasH >> 1) + 'px'
+        } else {
+            this.element.style.left = (windowW >> 1) - (canvasW >> 1) + 'px'
+            this.element.style.top = windowH - canvasH - (windowH * 0.05) + 'px'
+        }
         this.currentText.resize()
-
         this.tlOpen.clear()
         this.tlClose.clear()
-
-        this.tlOpen.fromTo(this.element, 1, { y: size[1] * 2, force3D: true }, { y:0, force3D: true, ease: Expo.easeInOut }, 0)
-        this.tlClose.fromTo(this.element, 1, { y: 0, force3D: true }, { y: size[1] * 2, force3D: true, ease: Expo.easeInOut }, 0)
+        this.tlOpen.fromTo(this.element, 1, { y: canvasSize[1] * 2, force3D: true }, { y:0, force3D: true, ease: Expo.easeInOut }, 0)
+        this.tlClose.fromTo(this.element, 1, { y: 0, force3D: true }, { y: canvasSize[1] * 2, force3D: true, ease: Expo.easeInOut }, 0)
         this.tlClose.pause(0)
         this.tlOpen.pause(0)
     }
     render() {
         if (this.currentText === undefined) return
         this.renderer.render(this.scene, this.camera)
-        // this.controls.update()
-        this.currentText.render()
+        if (Store.IndexIsOpened) {
+            this.allTexts.forEach((text) => {
+                text.render()
+            })
+        } else {
+            this.currentText.render()
+        }
     }
 }
 

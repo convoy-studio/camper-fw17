@@ -16,9 +16,13 @@ class CanvasContainer extends BaseComponent {
         this.pageTransitionDidFinish = this.pageTransitionDidFinish.bind(this)
         this.didCanvasClick = this.didCanvasClick.bind(this)
         this.didCanvasMouseEnter = this.didCanvasMouseEnter.bind(this)
+        this.openIndex = this.openIndex.bind(this)
+        this.closeIndex = this.closeIndex.bind(this)
         
         Store.on(Constants.PAGE_ASSETS_LOADED, this.pageAssetsLoaded)
         Store.on(Constants.APP_START, this.pageInitialAssetsLoaded)
+        Store.on(Constants.OPEN_INDEX, this.openIndex)
+        Store.on(Constants.CLOSE_INDEX, this.closeIndex)
         PagerStore.on(PagerConstants.PAGE_TRANSITION_DID_FINISH, this.pageTransitionDidFinish)
     }
     render(parent) {
@@ -61,7 +65,13 @@ class CanvasContainer extends BaseComponent {
         this.updateStage()
     }
     didStartMorphing() {
-        this.renderer.close()
+        // this.renderer.close()
+    }
+    openIndex() {
+        this.renderer.openIndex()
+    }
+    closeIndex() {
+        this.renderer.closeIndex()   
     }
     updateStage() {
         const newRoute = Router.getNewRoute()

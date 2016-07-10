@@ -74,9 +74,9 @@ html {
     @extend .top-left;
     @extend .btn;
     // border: 1px solid yellow;
-    // canvas {
-    //     border: 1px solid red;
-    // }
+    canvas {
+        border: 1px solid red;
+    }
 }
 
 #gui {

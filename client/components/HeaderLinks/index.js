@@ -1,10 +1,12 @@
 import Store from '../../store'
+import Actions from '../../actions'
 import Constants from '../../constants'
 import dom from 'dom-hand'
 import textBtn from '../TextBtn'
 
 const headerLinks = (parent)=> {
     let scope
+    let indexIsOpened = false
 
     const onSubMenuMouseEnter = (e)=> {
         e.preventDefault()
@@ -38,6 +40,17 @@ const headerLinks = (parent)=> {
     const shopWrapper = dom.select('.shop-wrapper', parent)
     shopWrapper.addEventListener('mouseenter', onSubMenuMouseEnter)
     shopWrapper.addEventListener('mouseleave', onSubMenuMouseLeave)
+
+    dom.event.on(simpleTextBtnsEl[0], 'click', (e) => {
+        e.preventDefault()
+        if (indexIsOpened) {
+            Actions.closeIndex()
+            indexIsOpened = false
+        } else {
+            Actions.openIndex()
+            indexIsOpened = true
+        }
+    })
 
     scope = {
         changeColor,

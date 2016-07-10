@@ -13,6 +13,8 @@ class AppTemplate extends BaseComponent {
         this.resize = this.resize.bind(this)
         this.animate = this.animate.bind(this)
         this.didStartMorphing = this.didStartMorphing.bind(this)
+        this.showInterface = this.showInterface.bind(this)
+        this.hideInterface = this.hideInterface.bind(this)
     }
     render(parent) {
         super.render('AppTemplate', parent, undefined)
@@ -43,11 +45,19 @@ class AppTemplate extends BaseComponent {
         Store.FrontBlock = document.getElementById('front-block')
         Store.on(Constants.WINDOW_RESIZE, this.resize)
         Store.on(Constants.START_MORPHING, this.didStartMorphing)
+        Store.on(Constants.SHOW_INTERFACE, this.showInterface)
+        Store.on(Constants.HIDE_INTERFACE, this.hideInterface)
         this.animate()
     }
     didStartMorphing() {
         this.frontContainer.didStartMorphing()
         this.canvasContainer.didStartMorphing()
+    }
+    showInterface() {
+        // this.frontContainer.showInterface()
+    }
+    hideInterface() {
+        // this.frontContainer.hideInterface()
     }
     animate() {
         this.raf = raf(this.animate)

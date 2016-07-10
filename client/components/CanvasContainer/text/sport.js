@@ -5,11 +5,15 @@ import Utils from '../../../utils'
 export default (id, props) => {
     let scope
     let mesh
-    const size = [ 950, 400 ]
+    const normalScale = 0.05
+    const indexScale = 0.017
+    const normalPosY = -220
+    const indexPosY = -380
+    const size = [ 900, 360 ]
     const container = new THREE.Object3D()
     const containerScale = 1.4
     container.scale.set(containerScale, containerScale, containerScale)
-    container.position.set(0, -200, 0)
+    container.position.set(0, normalPosY, 0)
     container.visible = false
     const settings = {
         metalness: 0.3,
@@ -82,8 +86,7 @@ export default (id, props) => {
     const loader = new THREE.JSONLoader()
     loader.load(Store.baseMediaPath() + 'mesh/sport.js', (object) => {
         mesh = new THREE.Mesh( object, material )
-        const scale = 0.06
-        mesh.scale.set(scale, scale, scale)
+        mesh.scale.set(normalScale, normalScale, normalScale)
         container.add(mesh)
         props.scene.add(container)
     })
@@ -103,13 +106,19 @@ export default (id, props) => {
         // props.scene.remove(container)
         container.visible = false
     }
+    const indexState = () => {
+    }
     const resize = () => {
+        if (mesh === undefined) return
+        if (Store.IndexIsOpened) {
+            mesh.scale.set(indexScale, indexScale, indexScale)
+            container.position.y = indexPosY
+        } else {
+            mesh.scale.set(normalScale, normalScale, normalScale)
+            container.position.y = normalPosY
+        }
     }
     const updateStyle = (id) => {
-        props.lights.point_0.color = new THREE.Color(0xffffff)
-        props.lights.point_1.color = new THREE.Color(0xffffff)
-        props.lights.point_2.color = new THREE.Color(0xffffff)
-        props.lights.ambient.color = new THREE.Color(0xffffff)
         props.lights.point_0.intensity = 0
         props.lights.point_1.intensity = 0
         props.lights.point_2.intensity = 1.15
@@ -117,6 +126,7 @@ export default (id, props) => {
         props.lights.point_0.position.set(918, -956, -662)
         props.lights.point_1.position.set(-9817, -4553, -4081)
         props.lights.point_2.position.set(580, -405, 4786)
+        scope.activate()
     }
     scope = {
         id,
@@ -125,7 +135,8 @@ export default (id, props) => {
         deactivate,
         resize,
         render,
-        updateStyle
+        updateStyle,
+        indexState
     }
     return scope
 }

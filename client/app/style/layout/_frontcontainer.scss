@@ -27,6 +27,8 @@
 		& > * {
 			position: absolute;
 		}
+		z-index: 16;
+		position: absolute;
 		@include anim(.6s, .0s, $easeOutExpo, translateY(- $overallMargin - 40), 0%, 100%, transform);
 		&.show {
 			@include anim(.6s, .0s, $easeOutExpo, translateY(0), 0%, 100%, transform);
@@ -116,6 +118,14 @@
 			&.hide {
 				@include anim(.4s, .0s, $easeInOutExpo, translateX(80px), 50%, 50%);
 			}
+		}
+	}
+	.index-layer-container {
+		position: absolute;
+		z-index: 15;
+		.background {
+			background-color: black;
+			opacity: 0.5;
 		}
 	}
 }

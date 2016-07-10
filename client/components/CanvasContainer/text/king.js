@@ -18,6 +18,10 @@ export default (id, props) => {
         return canvas
     }
 
+    const normalScale = 1.6
+    const indexScale = 0.47
+    const normalPosY = -140
+    const indexPosY = 300
     let scope
     let delta, time, oldTime
     let shaderTime = 0
@@ -27,9 +31,8 @@ export default (id, props) => {
     let gravity = new THREE.Vector3(0, -0.75, 0)
     const size = [ 700, 400 ]
     const container = new THREE.Object3D()
-    const containerScale = 1.7
-    container.scale.set(containerScale, containerScale, containerScale)
-    container.position.set(0, -140, 0)
+    container.scale.set(normalScale, normalScale, normalScale)
+    container.position.set(0, normalPosY, 0)
     container.visible = false
 
     // hair texture
@@ -43,8 +46,8 @@ export default (id, props) => {
 
     const loader = new THREE.JSONLoader()
     loader.load(Store.baseMediaPath() + 'mesh/king.js', (geometry) => {
-        const size = 0.06
-        geometry.applyMatrix( new THREE.Matrix4().scale( new THREE.Vector3( size, size, size ) ) )
+        const geomScale = 0.06
+        geometry.applyMatrix( new THREE.Matrix4().scale( new THREE.Vector3( geomScale, geomScale, geomScale ) ) )
         createMeshes(geometry)
     })
 
@@ -91,16 +94,16 @@ export default (id, props) => {
         currentMouse.vy *= 0.94
         currentMouse.x += currentMouse.vx
         currentMouse.y += currentMouse.vy
-        gravity.x = -(Store.Mouse.nX - currentMouse.x) * 2
-        const dif = Math.sin(Store.Mouse.nX)*150 - props.camera.position.x
-        gravity.y = -0.75 + (Math.abs(dif) / 150) - (Store.Mouse.nY - currentMouse.y) * 2
+        // gravity.x = -(Store.Mouse.nX - currentMouse.x) * 2
+        // const dif = Math.sin(Store.Mouse.nX)*150 - props.camera.position.x
+        // gravity.y = -0.75 + (Math.abs(dif) / 150) - (Store.Mouse.nY - currentMouse.y) * 2
         container.rotation.x += 0.01 + ((Math.cos(Store.Mouse.nY) * 0.4) - container.rotation.x) / smoothing
         container.rotation.y += ((Math.sin(Store.Mouse.nX) * 0.3) - container.rotation.y) / smoothing
         container.rotation.z += ((Math.sin(Store.Mouse.nX) * 0.07) - container.rotation.z) / smoothing
-        shaderTime += delta * 0.005
-        for (let i = 0; i < meshes.length; i++) {
-            meshes[i].material.uniforms.globalTime.value = shaderTime
-        }
+        // shaderTime += delta * 0.005
+        // for (let i = 0; i < meshes.length; i++) {
+        //     meshes[i].material.uniforms.globalTime.value = shaderTime
+        // }
     }
     const activate = () => {
         // props.scene.add(container)
@@ -110,9 +113,22 @@ export default (id, props) => {
         // props.scene.remove(container)
         container.visible = false
     }
+    const indexState = () => {
+        
+    }
     const resize = () => {
+        if (meshes.length === 0) return
+        if (Store.IndexIsOpened) {
+            container.scale.set(indexScale, indexScale, indexScale)
+            container.position.y = indexPosY
+        } else {
+            console.log('scale bro')
+            container.scale.set(normalScale, normalScale, normalScale)
+            container.position.y = normalPosY
+        }
     }
     const updateStyle = (id) => {
+        scope.activate()
     }
     scope = {
         id,
@@ -121,7 +137,8 @@ export default (id, props) => {
         deactivate,
         resize,
         render,
-        updateStyle
+        updateStyle,
+        indexState
     }
     return scope
 }
