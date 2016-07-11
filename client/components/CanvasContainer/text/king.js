@@ -122,7 +122,6 @@ export default (id, props) => {
             container.scale.set(indexScale, indexScale, indexScale)
             container.position.y = indexPosY
         } else {
-            console.log('scale bro')
             container.scale.set(normalScale, normalScale, normalScale)
             container.position.y = normalPosY
         }

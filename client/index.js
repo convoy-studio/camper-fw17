@@ -2,8 +2,8 @@ if (!window.console) window.console = { log: () => {} }
 
 import Store from './store'
 import Utils from './utils'
-import App from './app'
-// import AppMobile from './app-mobile'
+import DesktopApp from './app/desktop'
+import MobileApp from './app/mobile'
 import MobileDetect from 'mobile-detect'
 import dom from 'dom-hand'
 
@@ -23,9 +23,9 @@ if (Store.Detector.oldIE) Store.Detector.isMobile = true
 let app
 if (Store.Detector.isMobile) {
     dom.classes.add(dom.select('html'), 'mobile')
-    // app = new AppMobile()
+    app = new MobileApp()
 } else {
-    app = new App()
+    app = new DesktopApp()
 }
 
 app.init()

@@ -1,11 +1,11 @@
-require('./style/app.scss')
+require('../style/app.scss')
 
-import Store from '../store'
-import Actions from '../actions'
-import Template from './app-template'
-import Router from '../services/router'
-import { initGlobalEvents } from '../services/global-events'
-import Preloader from '../services/preloader'
+import Store from '../../store'
+import Actions from '../../actions'
+import Template from './template'
+import Router from '../../services/router'
+import { initGlobalEvents } from '../../services/global-events'
+import Preloader from '../../services/preloader'
 
 class App {
     constructor() {
