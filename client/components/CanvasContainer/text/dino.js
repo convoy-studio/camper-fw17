@@ -4,7 +4,7 @@ import dom from 'dom-hand'
 export default (id, props) => {
     let scope
     let mesh
-    const normalScale = 0.9
+    const normalScale = 0.8
     const indexScale = 0.26
     const normalPosY = 10
     const indexPosY = -150

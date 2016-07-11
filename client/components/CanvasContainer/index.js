@@ -68,19 +68,27 @@ class CanvasContainer extends BaseComponent {
         // this.renderer.close()
     }
     openIndex() {
+        const newRoute = Router.getNewRoute()
+        if (newRoute.type === Constants.PRODUCT) {
+            this.element.style.display = 'block'
+        }
         this.renderer.openIndex()
     }
     closeIndex() {
+        const newRoute = Router.getNewRoute()
+        if (newRoute.type === Constants.PRODUCT) {
+            this.element.style.display = 'none'
+        }
         this.renderer.closeIndex()   
     }
     updateStage() {
         const newRoute = Router.getNewRoute()
         const oldRoute = Router.getOldRoute()
-        if (newRoute.type === Constants.PRODUCT) {
-            console.log('')
-        } else {
-            this.renderer.updateStage(newRoute, oldRoute)
-        }
+        // if (newRoute.type === Constants.PRODUCT) {
+        //     console.log('')
+        // } else {
+        this.renderer.updateStage(newRoute, oldRoute)
+        // }
     }
     update() {
         if (this.renderer === undefined) return

@@ -16,7 +16,7 @@ export default (el)=> {
     }
 
     const openIndex = () => {
-        const color = Store.getGroupColor()
+        const color = Store.getGroupIndexColor()
         background.style.backgroundColor = color
         el.style.opacity = 1
         el.style.visibility = 'visible'

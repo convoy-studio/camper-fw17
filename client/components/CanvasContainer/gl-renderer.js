@@ -29,7 +29,7 @@ class GlRenderer {
         this.camera = new THREE.OrthographicCamera( - this.cameraHeight * aspect, this.cameraHeight * aspect, this.cameraHeight, - this.cameraHeight, 1, 10000 )
         this.camera.position.z = 1300
         this.scene.add( this.camera )
-        const ambientLight = new THREE.AmbientLight( 0x9E9E9E, 1.8 )
+        const ambientLight = new THREE.AmbientLight( 0x666666, 1.8 )
         this.scene.add( ambientLight )
         this.pointLight = new THREE.PointLight( 0xffffff, 0.5 )
         this.pointLight.position.z = 2500

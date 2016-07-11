@@ -92,12 +92,14 @@ export default {
     'groups': {
         king: {
             color: '#4700B3',
+            colorIndex: '#160038',
             textures: [
                 { name: 'diffuse', ext: 'jpg' }
             ]
         },
         armour: {
             color: '#A1A5B5',
+            colorIndex: '#37383D',
             textures: [
                 { name: 'normal', ext: 'png' },
                 { name: 'specular', ext: 'jpg' },
@@ -111,6 +113,7 @@ export default {
         },
         dino: {
             color: '#CFEF33',
+            colorIndex: '#292F0A',
             textures: [
                 { name: 'displacement', ext: 'png' },
                 { name: 'normal', ext: 'png' },
@@ -124,6 +127,7 @@ export default {
         },
         sport: {
             color: '#FF9F00',
+            colorIndex: '#382300',
             textures: [
                 { name: 'displacement', ext: 'jpg' },
                 { name: 'normal', ext: 'jpg' },
