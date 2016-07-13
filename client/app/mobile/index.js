@@ -13,26 +13,21 @@ class App {
         this.loadMainAssets = this.loadMainAssets.bind(this)
     }
     init() {
-        console.log('bam! mobile')
-        // // Init router
-        // this.router = new Router()
-        // this.router.init()
-        // // Init Preloader
-        // Store.Preloader = new Preloader()
-        // // Init global events
-        // initGlobalEvents()
-        // const appTemplate = new Template()
-        // appTemplate.isReady = this.loadMainAssets
-        // appTemplate.render('#app-container')
-        // // Start routing
-        // setTimeout(()=>this.router.beginRouting())
+        // Init router
+        this.router = new Router()
+        this.router.init()
+        // Init Preloader
+        Store.Preloader = new Preloader()
+        // Init global events
+        initGlobalEvents()
+        const appTemplate = new Template()
+        appTemplate.isReady = this.loadMainAssets
+        appTemplate.render('#app-container')
+        // Start routing
+        setTimeout(()=>this.router.beginRouting())
     }
     loadMainAssets() {
-        // Collect page manifest and textures manifest and load
-        const pageManifest = Store.pageAssetsToLoad()
-        const texturesManifest = Store.getAllTexturesManifest()
-        const manifest = pageManifest.concat(texturesManifest)
-        Store.Preloader.load(manifest, this.onAppReady)
+        this.onAppReady()
     }
     onAppReady() {
         setTimeout(()=>Actions.appStart())

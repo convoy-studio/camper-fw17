@@ -1,8 +1,4 @@
 const page = {
-    product: {
-    },
-    portrait: {
-    }
 }
 
 export default {
@@ -15,6 +11,7 @@ export default {
         'women_shop_url': 'http://www.camper.com/int/women/shoes/ss16_inspiration',
         'lang': {
             'en': {
+                'visit': 'visit',
                 'home': 'INDEX',
                 'lab': 'LAB',
                 'camper_lab': 'Camper Lab',
@@ -24,6 +21,7 @@ export default {
                 'map_txt': 'INDEX'
             },
             'fr': {
+                'visit': 'visit',
                 'home': 'INDEX',
                 'lab': 'LAB',
                 'camper_lab': 'Camper Lab',
@@ -33,6 +31,7 @@ export default {
                 'map_txt': 'INDEX'
             },
             'es': {
+                'visit': 'visit',
                 'home': 'INDEX',
                 'lab': 'LAB',
                 'camper_lab': 'Camper Lab',
@@ -42,6 +41,7 @@ export default {
                 'map_txt': 'INDEX'
             },
             'it': {
+                'visit': 'visit',
                 'home': 'INDEX',
                 'lab': 'LAB',
                 'camper_lab': 'Camper Lab',
@@ -51,6 +51,7 @@ export default {
                 'map_txt': 'INDEX'
             },
             'de': {
+                'visit': 'visit',
                 'home': 'INDEX',
                 'lab': 'LAB',
                 'camper_lab': 'Camper Lab',
@@ -60,6 +61,7 @@ export default {
                 'map_txt': 'INDEX'
             },
             'pt': {
+                'visit': 'visit',
                 'home': 'INDEX',
                 'lab': 'LAB',
                 'camper_lab': 'Camper Lab',
@@ -73,26 +75,13 @@ export default {
 
     'langs': ['en', 'fr', 'es', 'it', 'de', 'pt'],
 
-    'home-videos': [
-        'deia-dub.mp4',
-        'deia-mateo.mp4',
-        'deia-marta.mp4',
-        'es-trenc-isamu.mp4',
-        'es-trenc-beluga.mp4',
-        'arelluf-capas.mp4',
-        'arelluf-pelotas.mp4',
-        'arelluf-marta.mp4',
-        'arelluf-kobarah.mp4',
-        'arelluf-dub.mp4',
-        'arelluf-paradise.mp4'
-    ],
-
     'default-route': '/king/fidelius',
 
     'groups': {
         king: {
             color: '#4700B3',
             colorIndex: '#160038',
+            colorBackground: '#921438',
             textures: [
                 { name: 'diffuse', ext: 'jpg' }
             ]
@@ -100,6 +89,7 @@ export default {
         armour: {
             color: '#A1A5B5',
             colorIndex: '#37383D',
+            colorBackground: '#161D23',
             textures: [
                 { name: 'normal', ext: 'png' },
                 { name: 'specular', ext: 'jpg' },
@@ -114,6 +104,7 @@ export default {
         dino: {
             color: '#CFEF33',
             colorIndex: '#292F0A',
+            colorBackground: '#272B1D',
             textures: [
                 { name: 'displacement', ext: 'png' },
                 { name: 'normal', ext: 'png' },
@@ -128,6 +119,7 @@ export default {
         sport: {
             color: '#FF9F00',
             colorIndex: '#382300',
+            colorBackground: '#896A4D',
             textures: [
                 { name: 'displacement', ext: 'jpg' },
                 { name: 'normal', ext: 'jpg' },

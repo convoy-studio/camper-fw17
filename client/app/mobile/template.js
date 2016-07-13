@@ -1,7 +1,6 @@
 import BaseComponent from '../../pager/components/BaseComponent'
-import FrontContainer from '../../components/FrontContainer'
-import PagesContainer from '../../components/PagesContainer'
-import CanvasContainer from '../../components/CanvasContainer'
+import FrontContainer from '../../components/FrontContainerMobile'
+import TinderContainer from '../../components/TinderContainer'
 import Store from '../../store'
 import Constants from '../../constants'
 import { resize as globalResize } from '../../services/global-events'
@@ -11,26 +10,24 @@ class AppTemplate extends BaseComponent {
     constructor() {
         super()
         this.resize = this.resize.bind(this)
-        this.animate = this.animate.bind(this)
-        this.didStartMorphing = this.didStartMorphing.bind(this)
-        this.showInterface = this.showInterface.bind(this)
-        this.hideInterface = this.hideInterface.bind(this)
+        this.didNextPersonClick = this.didNextPersonClick.bind(this)
+        this.didPreviousPersonClick = this.didPreviousPersonClick.bind(this)
     }
     render(parent) {
         super.render('AppTemplate', parent, undefined)
     }
     componentWillMount() {
+        Store.on(Constants.NEXT_PERSON, this.didNextPersonClick)
+        Store.on(Constants.PREVIOUS_PERSON, this.didPreviousPersonClick)
+
         super.componentWillMount()
     }
     componentDidMount() {
         this.frontContainer = new FrontContainer()
         this.frontContainer.render('#app-template')
 
-        this.pagesContainer = new PagesContainer()
-        this.pagesContainer.render('#app-template')
-
-        this.canvasContainer = new CanvasContainer()
-        this.canvasContainer.render('#app-template')
+        this.tinderContainer = new TinderContainer()
+        this.tinderContainer.render('#app-template')
 
         setTimeout(()=>{
             this.isReady()
@@ -41,33 +38,19 @@ class AppTemplate extends BaseComponent {
 
         super.componentDidMount()
     }
+    didNextPersonClick() {
+        this.tinderContainer.nextPerson()
+    }
+    didPreviousPersonClick() {
+        this.tinderContainer.previousPerson()
+    }
     onReady() {
         Store.FrontBlock = document.getElementById('front-block')
         Store.on(Constants.WINDOW_RESIZE, this.resize)
-        Store.on(Constants.START_MORPHING, this.didStartMorphing)
-        Store.on(Constants.SHOW_INTERFACE, this.showInterface)
-        Store.on(Constants.HIDE_INTERFACE, this.hideInterface)
-        this.animate()
-    }
-    didStartMorphing() {
-        this.frontContainer.didStartMorphing()
-        this.canvasContainer.didStartMorphing()
-    }
-    showInterface() {
-        // this.frontContainer.showInterface()
-    }
-    hideInterface() {
-        // this.frontContainer.hideInterface()
-    }
-    animate() {
-        this.raf = raf(this.animate)
-        this.pagesContainer.update()
-        this.canvasContainer.update()
     }
     resize() {
         this.frontContainer.resize()
-        this.pagesContainer.resize()
-        this.canvasContainer.resize()
+        this.tinderContainer.resize()
         super.resize()
     }
 }

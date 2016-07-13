@@ -87,6 +87,30 @@ const Actions = {
             actionType: Constants.CLOSE_INDEX,
             item: undefined
         })
+    },
+    nextPerson: () => {
+        Dispatcher.handleViewAction({
+            actionType: Constants.NEXT_PERSON,
+            item: undefined
+        })
+    },
+    previousPerson: () => {
+        Dispatcher.handleViewAction({
+            actionType: Constants.PREVIOUS_PERSON,
+            item: undefined
+        })
+    },
+    showPersonInfo: () => {
+        Dispatcher.handleViewAction({
+            actionType: Constants.SHOW_PERSON_INFO,
+            item: undefined
+        })
+    },
+    showPersonVideo: () => {
+        Dispatcher.handleViewAction({
+            actionType: Constants.SHOW_PERSON_VIDEO,
+            item: undefined
+        })
     }
 }
 

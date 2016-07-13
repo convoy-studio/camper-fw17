@@ -17,6 +17,9 @@ export default {
     SHOW_INTERFACE: 'SHOW_INTERFACE',
     HIDE_INTERFACE: 'HIDE_INTERFACE',
 
+    SHOW_PERSON_INFO: 'SHOW_PERSON_INFO',
+    SHOW_PERSON_VIDEO: 'SHOW_PERSON_VIDEO',
+
     ORIENTATION: {
         LANDSCAPE: 'LANDSCAPE',
         PORTRAIT: 'PORTRAIT'
@@ -28,6 +31,9 @@ export default {
         DINO: 'dino',
         SPORT: 'sport'
     },
+
+    NEXT_PERSON: 'NEXT_PERSON',
+    PREVIOUS_PERSON: 'PREVIOUS_PERSON',
 
     PORTRAIT: 'PORTRAIT',
     PRODUCT: 'PRODUCT',
@@ -57,6 +63,9 @@ export default {
 
     MEDIA_GLOBAL_W: 1920,
     MEDIA_GLOBAL_H: 1080,
+
+    MEDIA_MOBILE_W: 570,
+    MEDIA_MOBILE_H: 750,
 
     MIN_MIDDLE_W: 960,
     MQ_XSMALL: 320,

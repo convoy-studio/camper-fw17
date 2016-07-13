@@ -182,6 +182,10 @@ const Store = assign({}, EventEmitter2.prototype, {
         const id = Store.getCurrentGroup()
         return data.groups[id].colorIndex
     },
+    getGroupBackgroundColor: () => {
+        const id = Store.getCurrentGroup()
+        return data.groups[id].colorBackground
+    },
     getAllTexturesManifest: () => {
         return _getAllGroupsTexturesManifest()
     },
