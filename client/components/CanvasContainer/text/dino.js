@@ -4,6 +4,7 @@ import dom from 'dom-hand'
 export default (id, props) => {
     let scope
     let mesh
+    let angle = 0
     const normalScale = 0.8
     const indexScale = 0.26
     const normalPosY = 10
@@ -14,12 +15,12 @@ export default (id, props) => {
     container.position.set(0, normalPosY, 0)
     container.visible = false
     const settings = {
-        metalness: 0.2,
-        roughness: 0.26,
+        metalness: 0.48,
+        roughness: 0.28,
         ambientIntensity: 0.3,
         aoMapIntensity: 1.0,
         lightMapIntensity: 2.0,
-        envMapIntensity: 1.4,
+        envMapIntensity: 0.7,
         displacementScale: 2.436143,
         displacementBias: -0.428408,
         normalScale: 1.0,
@@ -34,7 +35,7 @@ export default (id, props) => {
     normalMap.wrapS = normalMap.wrapT = THREE.RepeatWrapping
     displacementMap.wrapS = displacementMap.wrapT = THREE.RepeatWrapping
     normalMap.repeat.set( 2, 2 )
-    displacementMap.repeat.set( 2, 1.4 )
+    displacementMap.repeat.set( 4, 1.4 )
 
     const cubeTexture = new THREE.CubeTexture()
     cubeTexture.images[0] = Store.getTextureImg(id, 'px')
@@ -48,7 +49,9 @@ export default (id, props) => {
     cubeTexture.mapping = THREE.CubeReflectionMapping
     
     const material = new THREE.MeshStandardMaterial({
-        color: 0x779B28,
+        // color: 0x779B28,
+        // color: 0xA5D737,
+        color: 0xB8FF42,
         roughness: settings.roughness,
         metalness: settings.metalness,
         normalMap: normalMap,
@@ -60,17 +63,17 @@ export default (id, props) => {
         envMapIntensity: settings.envMapIntensity
     })
 
-    // GUI
+    // // GUI
     // const gui = new dat.GUI({ autoplace: false })
     // dom.select('#gui', document).appendChild(gui.domElement)
-    // // gui.add(settings, 'metalness', 0, 2.0).onChange((value) => { material.metalness = value })
-    // // gui.add(settings, 'roughness', 0, 1.0).onChange((value) => { material.roughness = value })
-    // // gui.add(settings, 'ambientIntensity', 0, 1.0).onChange((value) => { material.ambientIntensity = value })
-    // // gui.add(settings, 'aoMapIntensity', 0, 100.0).onChange((value) => { material.aoMapIntensity = value })
-    // // gui.add(settings, 'lightMapIntensity', 0, 10.0).onChange((value) => { material.lightMapIntensity = value })
-    // // gui.add(settings, 'displacementScale', 0, 5.0).onChange((value) => { material.displacementScale = value })
-    // // gui.add(settings, 'displacementBias', -1, 1.0).onChange((value) => { material.displacementBias = value })
-    // // gui.add(settings, 'envMapIntensity', 0, 3.0).onChange((value) => { material.envMapIntensity = value })
+    // gui.add(settings, 'metalness', 0, 2.0).onChange((value) => { material.metalness = value })
+    // gui.add(settings, 'roughness', 0, 1.0).onChange((value) => { material.roughness = value })
+    // gui.add(settings, 'ambientIntensity', 0, 1.0).onChange((value) => { material.ambientIntensity = value })
+    // gui.add(settings, 'aoMapIntensity', 0, 100.0).onChange((value) => { material.aoMapIntensity = value })
+    // gui.add(settings, 'lightMapIntensity', 0, 10.0).onChange((value) => { material.lightMapIntensity = value })
+    // gui.add(settings, 'displacementScale', 0, 5.0).onChange((value) => { material.displacementScale = value })
+    // gui.add(settings, 'displacementBias', -1, 1.0).onChange((value) => { material.displacementBias = value })
+    // gui.add(settings, 'envMapIntensity', 0, 3.0).onChange((value) => { material.envMapIntensity = value })
     // gui.add(settings, 'point0Intensity', 0, 2.0).onChange((value) => { props.lights.point_0.intensity = value })
     // gui.add(settings, 'point1Intensity', 0, 2.0).onChange((value) => { props.lights.point_1.intensity = value })
     // gui.add(settings, 'point2Intensity', 0, 2.0).onChange((value) => { props.lights.point_2.intensity = value })
@@ -88,9 +91,16 @@ export default (id, props) => {
     const render = () => {
         if (mesh === undefined) return
         const smoothing = 0.1
+        angle += 0.03
         container.rotation.x += (-0.005) + ((Math.cos(Store.Mouse.nY) * 0.4) - container.rotation.x) * smoothing
         container.rotation.y += ((Math.sin(Store.Mouse.nX) * 0.3) - container.rotation.y) * smoothing
         container.rotation.z += ((Math.sin(Store.Mouse.nX) * 0.1) - container.rotation.z) * smoothing
+        props.lights.point_0.position.x += Math.cos(angle) * 300
+        props.lights.point_1.position.x += Math.cos(angle) * 400
+        props.lights.point_0.position.y += Math.sin(angle) * 300
+        props.lights.point_1.position.y += Math.sin(angle) * 800
+        // props.lights.point_1.position.z += Math.cos(angle) * 300
+        // props.lights.point_2.position.z += Math.cos(angle) * 800
     }
     const activate = () => {
         // props.scene.add(container)
@@ -114,9 +124,10 @@ export default (id, props) => {
         }
     }
     const updateStyle = (id) => {
-        props.lights.point_0.intensity = 0.48
-        props.lights.point_1.intensity = 0.55
-        props.lights.point_2.intensity = 0.48
+        // props.lights.point_0.color = new THREE.Color(0x)
+        props.lights.point_0.intensity = 0.56
+        props.lights.point_1.intensity = 0.2
+        props.lights.point_2.intensity = 0.39
         props.lights.ambient.intensity = 0.8
         props.lights.point_0.position.set(0, 0, 0)
         props.lights.point_1.position.set(0, 0, 0)

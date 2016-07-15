@@ -11,7 +11,7 @@ export default (id, props) => {
     const indexPosY = -380
     const size = [ 900, 360 ]
     const container = new THREE.Object3D()
-    const containerScale = 1.4
+    const containerScale = 6.0
     container.scale.set(containerScale, containerScale, containerScale)
     container.position.set(0, normalPosY, 0)
     container.visible = false

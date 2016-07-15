@@ -11,17 +11,17 @@ export default (id, props) => {
     const indexPosY = 90
     const size = [ 700, 270 ]
     const container = new THREE.Object3D()
-    const containerScale = 1.0
+    const containerScale = 0.043
     container.scale.set(containerScale, containerScale, containerScale)
     container.position.set(0, normalPosY, 0)
     container.visible = false
     const settings = {
         metalness: 0.5,
-        roughness: 0.26,
+        roughness: 0.43,
         ambientIntensity: 0.3,
         aoMapIntensity: 0.0,
         lightMapIntensity: 1.0,
-        envMapIntensity: 0.5,
+        envMapIntensity: 1.74,
         displacementScale: 1.436143,
         displacementBias: -0.428408,
         normalScale: 1.0,
@@ -49,7 +49,7 @@ export default (id, props) => {
         roughness: settings.roughness,
         metalness: settings.metalness,
         normalMap: normalMap,
-        normalScale: new THREE.Vector2(0.2, 0.2), // why does the normal map require negation in this case?
+        normalScale: new THREE.Vector2(0.15, 0.15), // why does the normal map require negation in this case?
         map: specularMap,
         envMap: cubeTexture,
         envMapIntensity: settings.envMapIntensity
@@ -111,9 +111,9 @@ export default (id, props) => {
         }
     }
     const updateStyle = (id) => {
-        props.lights.point_0.intensity = 0.4
-        props.lights.point_1.intensity = 1
-        props.lights.point_2.intensity = 0.7
+        props.lights.point_0.intensity = 0.91
+        props.lights.point_1.intensity = 0.6
+        props.lights.point_2.intensity = 0.39
         props.lights.ambient.intensity = 0.8
         props.lights.point_0.position.set(1617, -147, -625)
         props.lights.point_1.position.set(73, 73, -5000)
