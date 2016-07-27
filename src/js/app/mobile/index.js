@@ -1,4 +1,4 @@
-require('../style/app.scss')
+require('../../../sass/app.scss')
 
 import Store from '../../store'
 import Actions from '../../actions'

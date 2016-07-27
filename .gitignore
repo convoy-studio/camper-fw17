@@ -5,3 +5,6 @@ prod
 components/*
 npm-debug.log
 dev/media
+*.jpg
+*.png
+*.mp4

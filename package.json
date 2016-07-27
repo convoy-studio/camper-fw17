@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server -d --history-api-fallback --hot --inline --progress --colors --port 3000",
+    "start": "NODE_ENV=development webpack-dev-server -d --history-api-fallback --hot --inline --progress --colors --port 3000",
     "build": "NODE_ENV=production webpack --progress --colors",
     "lint": "eslint --color --config .eslintrc --ext .js client"
   },
@@ -31,6 +31,7 @@
     "eslint-plugin-jsx-a11y": "^1.5.3",
     "eslint-plugin-react": "^5.2.2",
     "eventemitter2": "^1.0.3",
+    "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
     "flux": "file:///Users/panagiotisthomoglou/Libs/flux-2.0.2",
     "gsap": "^1.18.5",
@@ -53,6 +54,7 @@
     "react-router-redux": "^4.0.0",
     "redux": "^3.3.1",
     "redux-actions": "^0.9.1",
+    "remove": "^0.1.5",
     "rucksack-css": "^0.8.5",
     "sass-loader": "^3.2.1",
     "shader-loader": "^1.1.4",
