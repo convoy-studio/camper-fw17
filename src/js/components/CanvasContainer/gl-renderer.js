@@ -115,7 +115,7 @@ class GlRenderer {
         let viewportScale
         let canvasSize
         if (Store.IndexIsOpened) {
-            canvasSize = [ size[0], windowH ]
+            canvasSize = [ 1000, windowH ]
             viewportScale = 0.8
         } else {
             canvasSize = [ size[0], size[1] ]

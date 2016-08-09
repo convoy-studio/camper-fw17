@@ -12,11 +12,13 @@ class FrontContainer extends BaseComponent {
         super()
         this.onAppStarted = this.onAppStarted.bind(this)
         this.didRouteChange = this.didRouteChange.bind(this)
+        this.portraitTransitionDidReachHalfTime = this.portraitTransitionDidReachHalfTime.bind(this)
 
         this.openIndex = this.openIndex.bind(this)
         this.closeIndex = this.closeIndex.bind(this)
         Store.on(Constants.OPEN_INDEX, this.openIndex)
         Store.on(Constants.CLOSE_INDEX, this.closeIndex)
+        Store.on(Constants.PORTRAIT_TRANSITION.DID_REACH_HALF_TIME, this.portraitTransitionDidReachHalfTime)
     }
     render(parent) {
         let scope = {}
@@ -43,10 +45,15 @@ class FrontContainer extends BaseComponent {
         
         super.componentDidMount()
     }
-    didRouteChange() {
+    portraitTransitionDidReachHalfTime() {
         const color = Store.getGroupColor()
         this.arrowsContainer.changeColor(color)
         this.headerLinks.changeColor(color)
+    }
+    didRouteChange() {
+        // const color = Store.getGroupColor()
+        // this.arrowsContainer.changeColor(color)
+        // this.headerLinks.changeColor(color)
     }
     didStartMorphing() {
         // this.arrowsContainer.close()

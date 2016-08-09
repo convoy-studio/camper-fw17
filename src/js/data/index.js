@@ -84,7 +84,7 @@ export default {
             colorBackground: '#921438',
             spriteParams: {
                 count: 15,
-                framerate: 15
+                framerate: 16
             },
             textures: [
                 { name: 'diffuse', ext: 'jpg' }
@@ -96,17 +96,12 @@ export default {
             colorBackground: '#161D23',
             spriteParams: {
                 count: 12,
-                framerate: 10
+                framerate: 16
             },
             textures: [
-                { name: 'normal', ext: 'png' },
+                { name: 'normal', ext: 'jpg' },
                 { name: 'specular', ext: 'jpg' },
-                { name: 'nx', ext: 'jpg' },
-                { name: 'ny', ext: 'jpg' },
-                { name: 'nz', ext: 'jpg' },
-                { name: 'px', ext: 'jpg' },
-                { name: 'py', ext: 'jpg' },
-                { name: 'pz', ext: 'jpg' }
+                { name: 'px', ext: 'jpg' }
             ]
         },
         dino: {
@@ -115,7 +110,7 @@ export default {
             colorBackground: '#272B1D',
             spriteParams: {
                 count: 12,
-                framerate: 15
+                framerate: 16
             },
             textures: [
                 { name: 'displacement', ext: 'png' },
@@ -134,7 +129,7 @@ export default {
             colorBackground: '#896A4D',
             spriteParams: {
                 count: 12,
-                framerate: 10
+                framerate: 16
             },
             textures: [
                 { name: 'displacement', ext: 'jpg' },
