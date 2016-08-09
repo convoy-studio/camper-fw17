@@ -40,7 +40,7 @@ class FrontContainer extends BaseComponent {
 
         this.arrowsContainer = new ArrowsContainer()
         this.arrowsContainer.render(this.element)
-
+        
         super.componentDidMount()
     }
     didRouteChange() {

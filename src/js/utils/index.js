@@ -99,6 +99,83 @@ class Utils {
         folder.add(vec3, 'z', vec3.z - offsetZ, vec3.z + offsetZ).onChange((value) => { vec3.z = value })
         if (opened) folder.open()
     }
+    static setupCanvas(params) {
+        // params.element.style.width = params.width + "px"
+        // params.element.style.height = params.height + "px"
+
+        const stage = new createjs.Stage(params.element)
+        stage.canvas.width = params.width
+        stage.canvas.height = params.height
+
+        // if (window.devicePixelRatio) {
+        //     const canvas = stage.canvas
+        //     // grab the width and height from canvas
+        //     height = canvas.getAttribute('height')
+        //     width = canvas.getAttribute('width')
+        //     // reset the canvas width and height with window.devicePixelRatio applied
+        //     canvas.setAttribute('width', Math.round(width * window.devicePixelRatio))
+        //     canvas.setAttribute('height', Math.round( height * window.devicePixelRatio))
+        //     // force the canvas back to the original size using css
+        //     canvas.style.width = width + "px"
+        //     canvas.style.height = height + "px"
+        //     // set CreateJS to render scaled
+        //     stage.scaleX = stage.scaleY = window.devicePixelRatio
+        // }
+
+        return stage
+    }
+    static setupAnimatedSprite(params) {
+        params.framerate = params.framerate || 30
+        params.regX = params.regX || 0
+        params.regY = params.regY || 0
+
+        const stage = Utils.setupCanvas(params)
+
+        // const data = {
+        //     images: [ params.image ],
+        //     frames: {
+        //         width: params.width,
+        //         height: params.height,
+        //         regX: params.regX,
+        //         regY: params.regX,
+        //         count: params.count
+        //     },
+        //     animations: {
+        //         run: [ 0, params.count - 1, "run" ]
+        //     }
+        // }
+
+        const spriteSheet = new createjs.SpriteSheet({
+            framerate: params.framerate,
+            images: [ params.image ],
+            frames: {
+                width: params.width,
+                height: params.height,
+                regX: params.regX,
+                regY: params.regX,
+                count: params.count
+            },
+            animations: {
+                run: [ 0, params.count - 1, "run" ]
+            }
+        });
+
+        // const spriteSheet = new createjs.SpriteSheet(data)
+        const sprite = new createjs.Sprite(spriteSheet, "run")
+        // sprite.framerate = params.framerate
+        if (params.paused) sprite.gotoAndStop(0)
+        else sprite.gotoAndPlay(0)
+
+        stage.addChild(sprite)
+
+        createjs.Ticker.timingMode = createjs.Ticker.RAF
+
+        return { 
+            stage, 
+            sprite,
+            tick: params.tick
+        }
+    }
 }
 
 export default Utils

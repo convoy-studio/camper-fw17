@@ -21,6 +21,7 @@ export default class Portrait extends Page {
         const bgVideoContainer = dom.select('#background-video-container', this.element)
         const morphingVideoContainer = dom.select('.morphing-video-container', this.element)
         this.baseVideoPath = Store.baseMediaPath() + 'media/group/' + this.props.route.parent + '/' + this.props.route.target + '/portrait/'
+        
         this.bgVideo = miniVideo({ autoplay: false, loop: true })
         this.bgVideo.addTo(bgVideoContainer)
         this.bgVideo.load(this.baseVideoPath + 'loop.mp4', () => { this.bgVideo.play() })

@@ -46,26 +46,25 @@ export default {
     TOP: 'TOP',
     BOTTOM: 'BOTTOM',
 
+    PORTRAIT_TRANSITION: {
+        WILL_START: 'WILL_START',
+        DID_REACH_HALF_TIME: 'DID_REACH_HALF_TIME'
+    },
+
     PX_CONTAINER_IS_READY: 'PX_CONTAINER_IS_READY',
     PX_CONTAINER_ADD_CHILD: 'PX_CONTAINER_ADD_CHILD',
     PX_CONTAINER_REMOVE_CHILD: 'PX_CONTAINER_REMOVE_CHILD',
 
     PADDING_AROUND: 40,
 
-    ENVIRONMENTS: {
-        PREPROD: {
-            static: 'http://localhost:3000/'
-        },
-        PROD: {
-            static: JSUrlStatic + '/'
-        }
-    },
-
     MEDIA_GLOBAL_W: 1920,
     MEDIA_GLOBAL_H: 1080,
 
     MEDIA_MOBILE_W: 570,
     MEDIA_MOBILE_H: 750,
+
+    TRANSITION_SPRITE_W: 1000,
+    TRANSITION_SPRITE_H: 563,
 
     MIN_MIDDLE_W: 960,
     MQ_XSMALL: 320,

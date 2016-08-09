@@ -22,8 +22,17 @@ function _getPageAssetsToLoad(route) {
             'shoe.png',
             'background.jpg'
         ]
-        manifest = _addBasePathsToUrls(filenames, routeObj.parent, routeObj.target, type, typeId)
+        let m = _addBasePathsToUrls(filenames, routeObj.parent, routeObj.target, type, typeId)
+        manifest = manifest.concat(m)
     }
+    if (type === Constants.PORTRAIT) {
+        const filenames = [
+            'transition.png'
+        ]
+        let m = _addBasePathsToUrls(filenames, routeObj.parent, null, type, "common")
+        manifest = manifest.concat(m)
+    }
+    // console.log(routeObj.parent, routeObj.target, type, typeId)
     // // In case of extra assets
     // if (scope.assets !== undefined) {
     //     const assets = scope.assets
@@ -39,7 +48,9 @@ function _getPageAssetsToLoad(route) {
 }
 function _addBasePathsToUrls(urls, pageId, targetId, type, typeId) {
     let basePath = Store.baseMediaPath() + 'media/group/'
-    basePath += pageId + '/' + targetId + '/' + typeId + '/'
+    basePath += pageId + '/'
+    if (targetId) basePath += targetId + '/'
+    if (typeId) basePath += typeId + '/'
     let manifest = []
     for (let i = 0; i < urls.length; i++) {
         const splitter = urls[i].split('.')
@@ -139,6 +150,9 @@ const Store = assign({}, EventEmitter2.prototype, {
         if (key.indexOf('product')) key = key.replace('/product', '')
         return data.routing[key]
     },
+    getTypeOfPage: () => {
+        return _getTypeOfPage()
+    },
     pagePreloaderId: () => {
         const route = Router.getNewRoute()
         return route.type.toLowerCase() + '-' + route.parts[0] + '-' + route.parts[1] + '-'
@@ -169,7 +183,7 @@ const Store = assign({}, EventEmitter2.prototype, {
         return Store.Preloader.getContentById(group + '-texture-' + name)
     },
     baseMediaPath: () => {
-        return Store.getEnvironment().static
+        return JSUrlStatic
     },
     getCurrentGroup: () => {
         return Router.getNewRoute().parent
@@ -182,6 +196,10 @@ const Store = assign({}, EventEmitter2.prototype, {
         const id = Store.getCurrentGroup()
         return data.groups[id].colorIndex
     },
+    getGroupSpriteParams: () => {
+        const id = Store.getCurrentGroup()
+        return data.groups[id].spriteParams
+    },
     getGroupBackgroundColor: () => {
         const id = Store.getCurrentGroup()
         return data.groups[id].colorBackground
@@ -189,14 +207,22 @@ const Store = assign({}, EventEmitter2.prototype, {
     getAllTexturesManifest: () => {
         return _getAllGroupsTexturesManifest()
     },
-    getEnvironment: () => {
-        return Constants.ENVIRONMENTS[ENV]
-    },
     generalInfos: () => {
         return data.content
     },
     devicePixelRatio: () => {
         return _getDeviceRatio()
+    },
+    getRouteDirection: () => {
+        const newRoute = Router.getNewRoute()
+        const oldRoute = Router.getOldRoute()
+        let direction = 1
+        if (oldRoute === undefined) return direction
+        if (newRoute.index > oldRoute.index) direction = 1
+        else direction = -1
+        if (newRoute.index === 0 && oldRoute.index === 7) direction = 1
+        if (newRoute.index === 7 && oldRoute.index === 0) direction = -1
+        return direction
     },
     getNextRoute: () => {
         const newRoute = Router.getNewRoute()

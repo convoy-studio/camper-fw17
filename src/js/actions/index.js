@@ -111,6 +111,18 @@ const Actions = {
             actionType: Constants.SHOW_PERSON_VIDEO,
             item: undefined
         })
+    },
+    startPortraitTransition: () => {
+        Dispatcher.handleViewAction({
+            actionType: Constants.PORTRAIT_TRANSITION.WILL_START,
+            item: undefined
+        })
+    },
+    portraitTransitionReachedHalfTime: () => {
+        Dispatcher.handleViewAction({
+            actionType: Constants.PORTRAIT_TRANSITION.DID_REACH_HALF_TIME,
+            item: undefined
+        })
     }
 }
 

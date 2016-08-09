@@ -11,18 +11,18 @@ import dom from 'dom-hand'
 class CanvasContainer extends BaseComponent {
     constructor() {
         super()
-        this.pageAssetsLoaded = this.pageAssetsLoaded.bind(this)
         this.pageInitialAssetsLoaded = this.pageInitialAssetsLoaded.bind(this)
         this.pageTransitionDidFinish = this.pageTransitionDidFinish.bind(this)
         this.didCanvasClick = this.didCanvasClick.bind(this)
         this.didCanvasMouseEnter = this.didCanvasMouseEnter.bind(this)
         this.openIndex = this.openIndex.bind(this)
         this.closeIndex = this.closeIndex.bind(this)
+        this.portraitTransitionDidReachHalfTime = this.portraitTransitionDidReachHalfTime.bind(this)
         
-        Store.on(Constants.PAGE_ASSETS_LOADED, this.pageAssetsLoaded)
         Store.on(Constants.APP_START, this.pageInitialAssetsLoaded)
         Store.on(Constants.OPEN_INDEX, this.openIndex)
         Store.on(Constants.CLOSE_INDEX, this.closeIndex)
+        Store.on(Constants.PORTRAIT_TRANSITION.DID_REACH_HALF_TIME, this.portraitTransitionDidReachHalfTime)
         PagerStore.on(PagerConstants.PAGE_TRANSITION_DID_FINISH, this.pageTransitionDidFinish)
     }
     render(parent) {
@@ -55,30 +55,23 @@ class CanvasContainer extends BaseComponent {
     }
     pageTransitionDidFinish() {
         const newRoute = Router.getNewRoute()
-        if (newRoute.type === Constants.PRODUCT) {
-            this.element.style.display = 'none'
-        } else {
-            this.element.style.display = 'block'
-        }
-    }
-    pageAssetsLoaded() {
-        this.updateStage()
+        if (newRoute.type === Constants.PRODUCT) this.element.style.display = 'none'
+        else this.element.style.display = 'block'
     }
     didStartMorphing() {
         // this.renderer.close()
     }
+    portraitTransitionDidReachHalfTime() {
+        this.updateStage()
+    }
     openIndex() {
         const newRoute = Router.getNewRoute()
-        if (newRoute.type === Constants.PRODUCT) {
-            this.element.style.display = 'block'
-        }
+        if (newRoute.type === Constants.PRODUCT) this.element.style.display = 'block'
         this.renderer.openIndex()
     }
     closeIndex() {
         const newRoute = Router.getNewRoute()
-        if (newRoute.type === Constants.PRODUCT) {
-            this.element.style.display = 'none'
-        }
+        if (newRoute.type === Constants.PRODUCT) this.element.style.display = 'none'
         this.renderer.closeIndex()   
     }
     updateStage() {

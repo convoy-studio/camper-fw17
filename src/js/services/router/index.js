@@ -56,15 +56,16 @@ class Router {
         const path = routerStore.ctx.path
         this.updatePageRoute(path)
     }
-    createRoute(path) {
+    createRoute(path, index) {
         const parts = this.getURLParts(path)
         const type = (parts.length === 3) ? Constants.PRODUCT : Constants.PORTRAIT
         return {
-            path: path,
-            parts: parts,
+            index,
+            path,
+            parts,
+            type,
             parent: parts[0],
-            target: (parts[1] === undefined) ? '' : parts[1],
-            type: type
+            target: (parts[1] === undefined) ? '' : parts[1]
         }
     }
     getRouteByPath(path) {
@@ -105,8 +106,8 @@ class Router {
             if ({}.hasOwnProperty.call(this.routing, k)) {
                 const portraitUrl = baseName + k
                 const productUrl = baseName + k + '/product'
-                const portraitRoute = this.createRoute(portraitUrl)
-                const productRoute = this.createRoute(productUrl)
+                const portraitRoute = this.createRoute(portraitUrl, i)
+                const productRoute = this.createRoute(productUrl, i)
                 routerStore.portraitRoutes.push(portraitRoute)
                 routerStore.productRoutes.push(productRoute)
                 routerStore.pageRoutes.push(portraitRoute, productRoute)

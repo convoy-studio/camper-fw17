@@ -2,7 +2,7 @@
 html, body {
     padding: 0;
     margin: 0;
-    font-family: "Futura";
+    font-family: "FuturaMedium";
     background-color: white;
     letter-spacing: 0.88px;
     line-height: $globalLineHeight;
@@ -64,13 +64,13 @@ html {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 999999;
+    z-index: 300;
     visibility: hidden;
 }
 
 #canvas-container {
     position: absolute;
-    z-index: 9999;
+    z-index: 299;
     @extend .top-left;
     @extend .btn;
     // border: 1px solid yellow;
@@ -83,4 +83,15 @@ html {
     position: relative;
     z-index: 999999999;
 }
+
+#portrait-transition-container {
+    // @extend .full;
+    position: absolute;
+    z-index: 301;
+    canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+}    
 

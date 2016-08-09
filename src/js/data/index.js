@@ -82,6 +82,10 @@ export default {
             color: '#4700B3',
             colorIndex: '#160038',
             colorBackground: '#921438',
+            spriteParams: {
+                count: 15,
+                framerate: 15
+            },
             textures: [
                 { name: 'diffuse', ext: 'jpg' }
             ]
@@ -90,6 +94,10 @@ export default {
             color: '#A1A5B5',
             colorIndex: '#37383D',
             colorBackground: '#161D23',
+            spriteParams: {
+                count: 12,
+                framerate: 10
+            },
             textures: [
                 { name: 'normal', ext: 'png' },
                 { name: 'specular', ext: 'jpg' },
@@ -105,6 +113,10 @@ export default {
             color: '#CFEF33',
             colorIndex: '#292F0A',
             colorBackground: '#272B1D',
+            spriteParams: {
+                count: 12,
+                framerate: 15
+            },
             textures: [
                 { name: 'displacement', ext: 'png' },
                 { name: 'normal', ext: 'png' },
@@ -120,6 +132,10 @@ export default {
             color: '#FF9F00',
             colorIndex: '#382300',
             colorBackground: '#896A4D',
+            spriteParams: {
+                count: 12,
+                framerate: 10
+            },
             textures: [
                 { name: 'displacement', ext: 'jpg' },
                 { name: 'normal', ext: 'jpg' },

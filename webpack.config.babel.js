@@ -6,12 +6,12 @@ const remove = require('remove')
 const env = process.env.NODE_ENV
 
 // Remove directories and files from old builds
-try { remove.removeSync('./www/css') } catch (err) { console.error(err) }
-try { remove.removeSync('./www/js') } catch (err) { console.error(err) }
+// try { remove.removeSync('./www/css') } catch (err) { console.error(err) }
+// try { remove.removeSync('./www/js') } catch (err) { console.error(err) }
 
 const plugins = [
-    new webpack.optimize.CommonsChunkPlugin('vendor', './js/vendor.bundle.js'),
-    new ExtractTextPlugin("css/style.css", {
+    new webpack.optimize.CommonsChunkPlugin('vendor', './vendor.bundle.js'),
+    new ExtractTextPlugin("style.css", {
         allChunks: true
     }),
     new webpack.DefinePlugin({
@@ -41,7 +41,7 @@ module.exports = {
     },
     output: {
         path: ('./www'),
-        filename: './js/bundle.js'
+        filename: './bundle.js'
     },
     module: {
         loaders: [

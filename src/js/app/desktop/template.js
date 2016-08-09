@@ -2,6 +2,7 @@ import BaseComponent from '../../pager/components/BaseComponent'
 import FrontContainer from '../../components/FrontContainer'
 import PagesContainer from '../../components/PagesContainer'
 import CanvasContainer from '../../components/CanvasContainer'
+import PortraitTransitionContainer from '../../components/PortraitTransitionContainer'
 import Store from '../../store'
 import Constants from '../../constants'
 import { resize as globalResize } from '../../services/global-events'
@@ -23,6 +24,9 @@ class AppTemplate extends BaseComponent {
         super.componentWillMount()
     }
     componentDidMount() {
+        this.portraitTransitionContainer = new PortraitTransitionContainer()
+        this.portraitTransitionContainer.render('#app-template')
+
         this.frontContainer = new FrontContainer()
         this.frontContainer.render('#app-template')
 
@@ -47,6 +51,11 @@ class AppTemplate extends BaseComponent {
         Store.on(Constants.START_MORPHING, this.didStartMorphing)
         Store.on(Constants.SHOW_INTERFACE, this.showInterface)
         Store.on(Constants.HIDE_INTERFACE, this.hideInterface)
+
+        this.stats = new Stats()
+        this.stats.showPanel(0) // 0: fps, 1: ms, 2: mb, 3+: custom
+        document.body.appendChild( this.stats.dom )
+
         this.animate()
     }
     didStartMorphing() {
@@ -60,6 +69,7 @@ class AppTemplate extends BaseComponent {
         // this.frontContainer.hideInterface()
     }
     animate() {
+        this.stats.update()
         this.raf = raf(this.animate)
         this.pagesContainer.update()
         this.canvasContainer.update()
@@ -68,6 +78,7 @@ class AppTemplate extends BaseComponent {
         this.frontContainer.resize()
         this.pagesContainer.resize()
         this.canvasContainer.resize()
+        this.portraitTransitionContainer.resize()
         super.resize()
     }
 }
