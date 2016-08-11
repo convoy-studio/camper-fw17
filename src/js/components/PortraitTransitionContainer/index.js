@@ -14,6 +14,7 @@ class PortraitTransitionContainer extends BaseComponent {
         this.startPortraitToPortraitTransition = this.startPortraitToPortraitTransition.bind(this)
         this.tick = this.tick.bind(this)
         this.sprites = {}
+        this.timeCounter = 0
     }
     render(parent) {
         let scope = {}
@@ -34,8 +35,6 @@ class PortraitTransitionContainer extends BaseComponent {
             height: Constants.TRANSITION_SPRITE_H
         }
         this.stage = Utils.setupCanvas(params)
-        // createjs.Ticker.timingMode = createjs.Ticker.RAF
-        // createjs.Ticker.addEventListener('tick', this.tick)
         
         super.componentDidMount()
     }
@@ -68,6 +67,7 @@ class PortraitTransitionContainer extends BaseComponent {
         }
         if (direction === 1) this.currentSprite.rotation = 0
         else this.currentSprite.rotation = 180
+        this.currentSprite.frame = 0
         this.currentSprite.gotoAndStop(0)
         this.resize()
     }
@@ -75,7 +75,6 @@ class PortraitTransitionContainer extends BaseComponent {
         this.transitionInHalftime = false
         this.transitionIsFinished = false
         this.setupCurrentSprite()
-        this.currentSprite.play()
         this.currentSprite.alpha = 1
         this.element.style.visibility = 'visible'
     }
@@ -97,14 +96,14 @@ class PortraitTransitionContainer extends BaseComponent {
     update() {
         if (this.currentSprite === undefined) return
         this.stage.update()
+        this.timeCounter ++
+        if (this.timeCounter > 3) {
+            this.currentSprite.frame += 1
+            this.timeCounter = 0
+        }
+        this.currentSprite.gotoAndStop(this.currentSprite.frame)
         if (this.currentSprite.currentFrame > (this.currentSprite.count >> 1)) this.portraitToPortraitTransitionIsInHalfTime()
         if (this.currentSprite.currentFrame >= this.currentSprite.count - 1) this.portraitToPortraitTransitionDidFinish()
-    }
-    tick(event) {
-        // if (this.currentSprite === undefined) return
-        // this.stage.update(event)
-        // if (this.currentSprite.currentFrame > (this.currentSprite.count >> 1)) this.portraitToPortraitTransitionIsInHalfTime()
-        // if (this.currentSprite.currentFrame >= this.currentSprite.count - 1) this.portraitToPortraitTransitionDidFinish()
     }
     resize() {
         if (!this.domIsReady) return

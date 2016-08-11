@@ -13,6 +13,9 @@ class GlRenderer {
         this.tlOpen = new TimelineMax()
         this.tlClose = new TimelineMax()
 
+        this.isOpen = false
+        this.firstTimeOpen = true
+
         const windowW = Store.Window.w
         const windowH = Store.Window.h
         this.element = element
@@ -86,9 +89,16 @@ class GlRenderer {
         this.resize()
     }
     open() {
+        if (this.firstTimeOpen) {
+            this.isOpen = true
+            this.firstTimeOpen = false
+        } else {
+            setTimeout(() => { this.isOpen = true }, 200)
+        }
         this.tlOpen.timeScale(5).play()
     }
     close() {
+        this.isOpen = false
         this.tlClose.timeScale(1.6).play()
     }
     openIndex() {
@@ -154,7 +164,7 @@ class GlRenderer {
         this.tlOpen.pause(0)
     }
     render() {
-        if (this.currentText === undefined) return
+        if (this.currentText === undefined || this.isOpen === false) return
         this.renderer.render(this.scene, this.camera)
         if (Store.IndexIsOpened) {
             this.allTexts.forEach((text) => {
