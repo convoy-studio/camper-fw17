@@ -12,7 +12,6 @@ class PortraitTransitionContainer extends BaseComponent {
         this.onAppStarted = this.onAppStarted.bind(this)
         this.didRouteChange = this.didRouteChange.bind(this)
         this.startPortraitToPortraitTransition = this.startPortraitToPortraitTransition.bind(this)
-        this.tick = this.tick.bind(this)
         this.sprites = {}
         this.timeCounter = 0
     }
@@ -97,7 +96,7 @@ class PortraitTransitionContainer extends BaseComponent {
         if (this.currentSprite === undefined) return
         this.stage.update()
         this.timeCounter ++
-        if (this.timeCounter > 3) {
+        if (this.timeCounter > 2) {
             this.currentSprite.frame += 1
             this.timeCounter = 0
         }

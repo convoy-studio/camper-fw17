@@ -11,6 +11,7 @@ export default class Portrait extends Page {
     constructor(props) {
         const content = Store.globalContent()
         const colors = Store.getGroupColors()
+        props.data.mediaBasePath = Store.baseMediaPath
         props.data.groupTitle = content.discover + ' ' + Store.getCurrentGroup()
         props.data.group = Store.getCurrentGroup()
         props.data.colors = colors
@@ -44,10 +45,10 @@ export default class Portrait extends Page {
         super.componentDidMount()
     }
     titleCanvasEnter() {
-        this.mainTextBtn.over()
+        if (this.mainTextBtn !== undefined) this.mainTextBtn.over()
     }
     titleCanvasLeave() {
-        this.mainTextBtn.out()
+        if (this.mainTextBtn !== undefined) this.mainTextBtn.out()
     }
     setupAnimations() {
         this.tlOut.to(this.morphingVideo.parent, 1, { opacity:0, scaleX:3, ease:Expo.easeOut }, 0)

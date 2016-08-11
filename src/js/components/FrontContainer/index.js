@@ -25,6 +25,7 @@ class FrontContainer extends BaseComponent {
         const generaInfos = Store.generalInfos()
         scope.infos = Store.globalContent()
         scope.general = generaInfos
+        scope.mediaBasePath = Store.baseMediaPath
         super.render('FrontContainer', parent, template, scope)
     }
     componentWillMount() {
@@ -46,17 +47,19 @@ class FrontContainer extends BaseComponent {
         super.componentDidMount()
     }
     portraitTransitionDidReachHalfTime() {
-        const color = Store.getGroupColor()
-        this.arrowsContainer.changeColor(color)
-        this.headerLinks.changeColor(color)
+        this.updateColors()
     }
     didRouteChange() {
         const type = Store.getTypeOfPage()
         if (type === Constants.PRODUCT) {
-            const color = Store.getGroupColor()
-            this.arrowsContainer.changeColor(color)
-            this.headerLinks.changeColor(color)
+            this.updateColors()
         }
+    }
+    updateColors() {
+        const color = Store.getGroupColor()
+        const group = Store.getCurrentGroup()
+        this.arrowsContainer.changeColor(color)
+        this.headerLinks.changeColor(color, group)
     }
     didStartMorphing() {
         Store.FrontBlock.style.visibility = 'visible'

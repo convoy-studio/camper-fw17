@@ -1,6 +1,7 @@
 import dom from 'dom-hand'
 import Constants from '../../constants'
 import Utils from '../../utils'
+import Store from '../../store'
 
 export default (el)=> {
     let scope
@@ -10,16 +11,15 @@ export default (el)=> {
     const bgFront = dom.select('.background-front', el)
     const line = dom.select('.line', el)
     const size = dom.size(txtFront)
-    const colorA = el.getAttribute('data-color-a')
-    const colorB = el.getAttribute('data-color-b')
+    const color = el.getAttribute('data-color')
     const padding = Constants.PADDING_AROUND * 0
     let tl = new TimelineMax()
     let txtFrontSplt = new SplitText(txtFront, { type: 'chars' }).chars
     let txtBackSplt = new SplitText(txtBack, { type: 'chars' }).chars
     
-    txtFront.style.color = colorB
-    txtBack.style.color = colorB
-    line.style.backgroundColor = colorB
+    txtFront.style.color = color
+    txtBack.style.color = color
+    line.style.backgroundColor = color
     line.style.height = lineH + 'px'
     line.style.top = ((size[1] + padding) / 2) - (lineH / 2) + 'px'
     el.style.width = size[0] + padding + 'px'
@@ -55,6 +55,14 @@ export default (el)=> {
     	tl.timeScale(3).tweenTo('hide')
     }
 
+    const changeColor = (color, group) => {
+    	const imgPath = Store.baseMediaPath() + 'media/group/' + group + '/common/btn-bg.png'
+    	bgFront.style.backgroundImage = 'url(' + imgPath + ')'
+    	txtBack.style.color = color
+    	txtFront.style.color = color
+    	line.style.backgroundColor = color
+    }
+
     const clear = () => {
     	tl.clear()
     	tl = null
@@ -69,6 +77,7 @@ export default (el)=> {
     	over,
     	out,
     	hide,
+    	changeColor,
     	clear,
     	width: size[0],
     	height: size[1]

@@ -34,44 +34,38 @@
             @include anim(.6s, .0s, $easeOutExpo, translateY(0), 0%, 100%, transform);
         }
         .shop-wrapper {
-            & > div {
-                @include inline-block;
-            }
             .shop-title {
                 margin-right: 0px;
             }
-            .gender-wrapper {
-                & > div {
-                    @include inline-block;
-                }   
-            }
         }
-        .lang-wrapper, .shop-wrapper {
-            text-align: center;
+        .shop-wrapper {
+            text-align: left;
             overflow: hidden;
             li {
-                margin: 8px 0;
-            }
-            @for $i from 5 to -1 {
-                .sub-#{$i} {
-                    @include opacity(0);
-                    @include anim(.4s, $i*0.02s, $easeInExpo, scaleY(0.5) translateY(4px) translateZ(0), 0%, 100%, transform opacity);
+                top: 8px 0;
+                position: relative;
+                .main-text-btn {
+                    @include inline-block;
+                    position: absolute;
                 }
             }
-            &.hovered {
-                @for $i from 0 through 5 {
-                    .sub-#{$i} {
-                        @include opacity(1);
-                        @include anim(.6s, $i*0.04s, $easeOutExpo, scaleY(1) translateY(0px) translateZ(0), 0%, 0%, transform opacity);
-                    }
-                }
+            li.sub-1 {
+                top: 6px;
             }
         }
         .shop-wrapper {
             overflow: visible;
             ul.submenu-wrapper {
                 position: relative;
-                top: 15px;
+                top: 21px;
+                @include opacity(0);
+                @include anim(.2s, .0s, $easeOutExpo, translateY(5px), 0%, 100%, transform opacity);
+            }
+            &.hovered {
+                ul.submenu-wrapper {
+                    @include opacity(1);
+                    @include anim(.6s, .0s, $easeOutExpo, translateY(0), 0%, 100%, transform opacity);
+                }
             }
         }
     }
@@ -88,36 +82,6 @@
             $scale: 1.8;
             width: 12px * $scale;
             height: 13px * $scale;
-        }
-    }
-    footer {
-        & > * {
-            position: absolute;
-        }
-        #social-wrapper{
-            $w: 18px;
-            $margin: 14px;
-            li {
-                width: $w;
-                height: $w;
-                margin: $margin 0;
-                &:last-child {
-                    margin-bottom: 0;
-                }
-                svg > * {
-                    fill: $green;
-                }
-            }
-            li.twitter {
-                width: $w + 3px;
-                height: $w + 3px;
-                margin-left: -2px;
-                padding-top: 2px;
-            }
-            @include anim(.4s, .0s, $easeInOutExpo, translateX(0px), 50%, 50%);
-            &.hide {
-                @include anim(.4s, .0s, $easeInOutExpo, translateX(80px), 50%, 50%);
-            }
         }
     }
     .index-layer-container {
