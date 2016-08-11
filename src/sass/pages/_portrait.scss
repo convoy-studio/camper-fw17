@@ -15,4 +15,11 @@
         	@include anim(.1s, .0s, $easeOutExpo, scale(1, 1) translateX(0px), 50%, 50%, transform opacity);
 		}
 	}
+	.discover-text-container {
+		position: absolute;
+		z-index: 3;
+		text-transform: uppercase;
+		color: $white;
+		white-space: nowrap;
+	}
 }

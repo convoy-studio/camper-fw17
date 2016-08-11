@@ -123,6 +123,30 @@ const Actions = {
             actionType: Constants.PORTRAIT_TRANSITION.DID_REACH_HALF_TIME,
             item: undefined
         })
+    },
+    showTitle: () => {
+        Dispatcher.handleViewAction({
+            actionType: Constants.SHOW_TITLE,
+            item: undefined
+        })
+    },
+    hideTitle: () => {
+        Dispatcher.handleViewAction({
+            actionType: Constants.HIDE_TITLE,
+            item: undefined
+        })
+    },
+    titleCanvasEnter: () => {
+        Dispatcher.handleViewAction({
+            actionType: Constants.TITLE_CANVAS_ENTER,
+            item: undefined
+        })
+    },
+    titleCanvasLeave: () => {
+        Dispatcher.handleViewAction({
+            actionType: Constants.TITLE_CANVAS_LEAVE,
+            item: undefined
+        })
     }
 }
 

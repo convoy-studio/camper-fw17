@@ -24,16 +24,12 @@ class PagesContainer extends BasePager {
         super.componentDidMount()
     }
     didPageChange() {
-        // setTimeout(() => {Actions.hideInterface()}, 0)
         Store.Parent.style.cursor = 'wait'
         Store.FrontBlock.style.visibility = 'visible'
         const newRoute = Router.getNewRoute()
         const oldRoute = Router.getOldRoute()
-        if (oldRoute === undefined) {
-            this.templateSelection(newRoute)
-        } else {
-            PagerActions.onTransitionOut()
-        }
+        if (oldRoute === undefined) this.templateSelection(newRoute)
+        else PagerActions.onTransitionOut()
     }
     templateSelection(newRoute) {
         let type = undefined

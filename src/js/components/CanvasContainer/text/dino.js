@@ -7,7 +7,7 @@ export default (id, props) => {
     let angle = 0
     const normalScale = 0.8
     const indexScale = 0.26
-    const normalPosY = 10
+    const normalPosY = -20
     const indexPosY = -150
     const size = [ 600, 400 ]
     const container = new THREE.Object3D()
@@ -145,7 +145,8 @@ export default (id, props) => {
         resize,
         render,
         updateStyle,
-        indexState
+        indexState,
+        container
     }
     return scope
 }

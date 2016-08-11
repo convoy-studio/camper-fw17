@@ -45,7 +45,7 @@ export default (id, props) => {
     diffuseColor.wrapS = diffuseColor.wrapT = THREE.RepeatWrapping;
 
     const loader = new THREE.JSONLoader()
-    loader.load(Store.baseMediaPath() + 'mesh/king.js', (geometry) => {
+    loader.load(Store.baseMediaPath() + 'mesh/kings.js', (geometry) => {
         const geomScale = 0.06
         geometry.applyMatrix( new THREE.Matrix4().scale( new THREE.Vector3( geomScale, geomScale, geomScale ) ) )
         createMeshes(geometry)
@@ -137,7 +137,8 @@ export default (id, props) => {
         resize,
         render,
         updateStyle,
-        indexState
+        indexState,
+        container
     }
     return scope
 }

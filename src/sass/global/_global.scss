@@ -77,6 +77,35 @@ html {
     canvas {
         // border: 1px solid red;
     }
+    .buttons-container {
+        position: absolute;
+        li {
+            width: 100%;
+            position: absolute;
+            @extend .top-left;
+            // @include opacity(0.7);
+            &:nth-child(1) {
+                // background-color: red;
+                height: 25%;
+                top: 5%;
+            }
+            &:nth-child(2) {
+                // background-color: yellow;
+                height: 23%;
+                top: 30%;
+            }
+            &:nth-child(3) {
+                // background-color: green;
+                height: 24%;
+                top: 53%;
+            }
+            &:nth-child(4) {
+                // background-color: blue;
+                height: 22%;
+                top: 77%;
+            }
+        }
+    }
 }
 
 #gui {
@@ -88,6 +117,7 @@ html {
     // @extend .full;
     position: absolute;
     z-index: 301;
+    visibility: hidden;
     canvas {
         position: absolute;
         top: 0;

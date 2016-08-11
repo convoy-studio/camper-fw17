@@ -1,5 +1,6 @@
 import Dispatcher from '../dispatcher'
 import Constants from '../constants'
+import Actions from '../actions'
 import {EventEmitter2} from 'eventemitter2'
 import assign from 'object-assign'
 import data from '../data'
@@ -196,6 +197,14 @@ const Store = assign({}, EventEmitter2.prototype, {
         const id = Store.getCurrentGroup()
         return data.groups[id].colorIndex
     },
+    getGroupColors: () => {
+        const id = Store.getCurrentGroup()
+        return {
+            main: data.groups[id].color,
+            index: data.groups[id].colorIndex,
+            background: data.groups[id].colorBackground
+        }
+    },
     getGroupSpriteParams: () => {
         const id = Store.getCurrentGroup()
         return data.groups[id].spriteParams
@@ -281,6 +290,7 @@ const Store = assign({}, EventEmitter2.prototype, {
     Detector: {},
     AfterMorphingRoute: undefined,
     IndexIsOpened: false,
+    InterfaceIsOpen: false,
     dispatcherIndex: Dispatcher.register((payload) => {
         const action = payload.action
         switch (action.actionType) {
@@ -292,6 +302,12 @@ const Store = assign({}, EventEmitter2.prototype, {
             break
         case Constants.START_MORPHING:
             Store.AfterMorphingRoute = action.item
+            setTimeout(() => { Actions.hideInterface() }, 0)
+            Store.emitChange(action.actionType, action.item)
+            break
+        case Constants.ROUTE_CHANGED:
+            const type = Store.getTypeOfPage()
+            setTimeout(() => { Actions.showInterface() }, 100)
             Store.emitChange(action.actionType, action.item)
             break
         case Constants.OPEN_INDEX:
@@ -300,6 +316,16 @@ const Store = assign({}, EventEmitter2.prototype, {
             break
         case Constants.CLOSE_INDEX:
             Store.IndexIsOpened = false
+            Store.emitChange(action.actionType)
+            break
+        case Constants.SHOW_INTERFACE:
+            if (Store.InterfaceIsOpen) return
+            Store.InterfaceIsOpen = true
+            Store.emitChange(action.actionType)
+            break
+        case Constants.HIDE_INTERFACE:
+            if (!Store.InterfaceIsOpen) return
+            Store.InterfaceIsOpen = false
             Store.emitChange(action.actionType)
             break
         default:

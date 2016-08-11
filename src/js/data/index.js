@@ -11,6 +11,7 @@ export default {
         'women_shop_url': 'http://www.camper.com/int/women/shoes/ss16_inspiration',
         'lang': {
             'en': {
+                'discover': 'discover',
                 'visit': 'visit',
                 'home': 'INDEX',
                 'lab': 'LAB',
@@ -21,6 +22,7 @@ export default {
                 'map_txt': 'INDEX'
             },
             'fr': {
+                'discover': 'discover',
                 'visit': 'visit',
                 'home': 'INDEX',
                 'lab': 'LAB',
@@ -31,6 +33,7 @@ export default {
                 'map_txt': 'INDEX'
             },
             'es': {
+                'discover': 'discover',
                 'visit': 'visit',
                 'home': 'INDEX',
                 'lab': 'LAB',
@@ -41,6 +44,7 @@ export default {
                 'map_txt': 'INDEX'
             },
             'it': {
+                'discover': 'discover',
                 'visit': 'visit',
                 'home': 'INDEX',
                 'lab': 'LAB',
@@ -51,6 +55,7 @@ export default {
                 'map_txt': 'INDEX'
             },
             'de': {
+                'discover': 'discover',
                 'visit': 'visit',
                 'home': 'INDEX',
                 'lab': 'LAB',
@@ -61,6 +66,7 @@ export default {
                 'map_txt': 'INDEX'
             },
             'pt': {
+                'discover': 'discover',
                 'visit': 'visit',
                 'home': 'INDEX',
                 'lab': 'LAB',
@@ -75,28 +81,28 @@ export default {
 
     'langs': ['en', 'fr', 'es', 'it', 'de', 'pt'],
 
-    'default-route': '/king/fidelius',
+    'default-route': '/kings/fidelius',
 
     'groups': {
-        king: {
+       kings: {
             color: '#4700B3',
             colorIndex: '#160038',
             colorBackground: '#921438',
             spriteParams: {
                 count: 15,
-                framerate: 16
+                framerate: 15
             },
             textures: [
                 { name: 'diffuse', ext: 'jpg' }
             ]
         },
-        armour: {
+        armours: {
             color: '#A1A5B5',
             colorIndex: '#37383D',
             colorBackground: '#161D23',
             spriteParams: {
                 count: 12,
-                framerate: 16
+                framerate: 15
             },
             textures: [
                 { name: 'normal', ext: 'jpg' },
@@ -110,7 +116,7 @@ export default {
             colorBackground: '#272B1D',
             spriteParams: {
                 count: 12,
-                framerate: 16
+                framerate: 15
             },
             textures: [
                 { name: 'displacement', ext: 'png' },
@@ -129,7 +135,7 @@ export default {
             colorBackground: '#896A4D',
             spriteParams: {
                 count: 12,
-                framerate: 16
+                framerate: 15
             },
             textures: [
                 { name: 'displacement', ext: 'jpg' },
@@ -146,10 +152,10 @@ export default {
     },
 
     'routing': {
-        '/king/fidelius': page,
-        '/king/wilma': page,
-        '/armour/wilma-extreme': page,
-        '/armour/gorka': page,
+        '/kings/fidelius': page,
+        '/kings/wilma': page,
+        '/armours/wilma-extreme': page,
+        '/armours/gorka': page,
         '/dino/rex': page,
         '/dino/wilma-extreme': page,
         '/sport/marges': page,

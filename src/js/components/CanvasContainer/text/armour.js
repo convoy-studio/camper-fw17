@@ -75,7 +75,7 @@ export default (id, props) => {
     // Utils.guiVec3(gui, 'point2_position', props.lights.point_2.position, 5000, 5000, 5000)
 
     const loader = new THREE.JSONLoader()
-    loader.load(Store.baseMediaPath() + 'mesh/armour.js', (object) => {
+    loader.load(Store.baseMediaPath() + 'mesh/armours.js', (object) => {
         mesh = new THREE.Mesh( object, material )
         mesh.scale.set(normalScale, normalScale, normalScale)
         container.add(mesh)
@@ -128,7 +128,8 @@ export default (id, props) => {
         resize,
         render,
         updateStyle,
-        indexState
+        indexState,
+        container
     }
     return scope
 }

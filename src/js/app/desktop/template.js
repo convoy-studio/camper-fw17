@@ -63,16 +63,17 @@ class AppTemplate extends BaseComponent {
         this.canvasContainer.didStartMorphing()
     }
     showInterface() {
-        // this.frontContainer.showInterface()
+        this.frontContainer.showInterface()
     }
     hideInterface() {
-        // this.frontContainer.hideInterface()
+        this.frontContainer.hideInterface()
     }
     animate() {
         this.stats.update()
-        this.raf = raf(this.animate)
         this.pagesContainer.update()
         this.canvasContainer.update()
+        this.portraitTransitionContainer.update()
+        this.raf = raf(this.animate)
     }
     resize() {
         this.frontContainer.resize()

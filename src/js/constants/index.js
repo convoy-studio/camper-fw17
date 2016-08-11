@@ -5,6 +5,10 @@ export default {
     INITIAL_PAGE_ASSETS_LOADED: 'INITIAL_PAGE_ASSETS_LOADED',
     LOAD_NEXT_PREVIOUS_PAGE_ASSETS: 'LOAD_NEXT_PREVIOUS_PAGE_ASSETS',
     APP_START: 'APP_START',
+    SHOW_TITLE: 'SHOW_TITLE',
+    HIDE_TITLE: 'HIDE_TITLE',
+    TITLE_CANVAS_ENTER: 'TITLE_CANVAS_ENTER',
+    TITLE_CANVAS_LEAVE: 'TITLE_CANVAS_LEAVE',
 
     OPEN_INDEX: 'OPEN_INDEX',
     CLOSE_INDEX: 'CLOSE_INDEX',
@@ -26,8 +30,8 @@ export default {
     },
 
     GROUP: {
-        KING: 'king',
-        ARMOUR: 'armour',
+        KINGS: 'kings',
+        ARMOURS: 'armours',
         DINO: 'dino',
         SPORT: 'sport'
     },

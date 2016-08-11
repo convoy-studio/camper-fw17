@@ -32,7 +32,6 @@ class BasePager extends BaseComponent {
         super.componentWillMount()
     }
     willPageTransitionIn() {
-        console.log('willPageTransitionIn')
         const type = Store.getTypeOfPage()
         if (type === Constants.PORTRAIT) {
             Actions.startPortraitTransition()
@@ -42,39 +41,31 @@ class BasePager extends BaseComponent {
         }
     }
     willPageTransitionOut() {
-        console.log('willPageTransitionOut')
         setTimeout(Actions.loadPageAssets, 0)
     }
     pageAssetsLoaded() {
-        console.log('pageAssetsLoaded')
         if (this.components['new-component'] !== undefined) this.components['new-component'].willTransitionOut()
     }
     didPageTransitionInComplete() {
-        // setTimeout(() => {Actions.showInterface()}, 0)
-        console.log('didPageTransitionInComplete')
         Store.Parent.style.cursor = 'auto'
         Store.FrontBlock.style.visibility = 'hidden'
         PagerActions.onTransitionInComplete()
         PagerActions.pageTransitionDidFinish()
     }
     didPageTransitionOutComplete() {
-        console.log('didPageTransitionOutComplete')
         PagerActions.onTransitionOutComplete()
     }
     pageTransitionDidFinish() {
-        console.log('pageTransitionDidFinish')
         // Actions.loadNextPreviousPageAssets()
         this.unmountComponent('old-component')
     }
     switchPagesDivIndex() {
-        console.log('switchPagesDivIndex')
         const newComponent = this.components['new-component']
         const oldComponent = this.components['old-component']
         if (newComponent !== undefined) newComponent.parent.style['z-index'] = 2
         if (oldComponent !== undefined) oldComponent.parent.style['z-index'] = 1
     }
     portraitTransitionReachedHalfTime() {
-        console.log('portraitTransitionReachedHalfTime')
         this.switchPagesDivIndex()
         if (this.components['new-component'] !== undefined) this.components['new-component'].willTransitionIn()
     }

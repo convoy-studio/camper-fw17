@@ -6,7 +6,6 @@ import textBtn from '../TextBtn'
 
 const headerLinks = (parent)=> {
     let scope
-    let indexIsOpened = false
 
     const onSubMenuMouseEnter = (e)=> {
         e.preventDefault()
@@ -43,13 +42,8 @@ const headerLinks = (parent)=> {
 
     dom.event.on(simpleTextBtnsEl[0], 'click', (e) => {
         e.preventDefault()
-        if (indexIsOpened) {
-            Actions.closeIndex()
-            indexIsOpened = false
-        } else {
-            Actions.openIndex()
-            indexIsOpened = true
-        }
+        if (Store.IndexIsOpened) Actions.closeIndex()
+        else Actions.openIndex()
     })
 
     scope = {

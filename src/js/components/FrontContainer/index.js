@@ -51,18 +51,23 @@ class FrontContainer extends BaseComponent {
         this.headerLinks.changeColor(color)
     }
     didRouteChange() {
-        // const color = Store.getGroupColor()
-        // this.arrowsContainer.changeColor(color)
-        // this.headerLinks.changeColor(color)
+        const type = Store.getTypeOfPage()
+        if (type === Constants.PRODUCT) {
+            const color = Store.getGroupColor()
+            this.arrowsContainer.changeColor(color)
+            this.headerLinks.changeColor(color)
+        }
     }
     didStartMorphing() {
-        // this.arrowsContainer.close()
+        Store.FrontBlock.style.visibility = 'visible'
     }
     showInterface() {
-        // this.arrowsContainer.open()
+        this.arrowsContainer.open()
+        dom.classes.add(this.headerEl, 'show')
     }
     hideInterface() {
-        // this.arrowsContainer.close()
+        this.arrowsContainer.close()
+        dom.classes.remove(this.headerEl, 'show')
     }
     openIndex() {
         this.indexLayer.openIndex()

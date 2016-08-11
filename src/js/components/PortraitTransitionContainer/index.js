@@ -11,7 +11,7 @@ class PortraitTransitionContainer extends BaseComponent {
         super()
         this.onAppStarted = this.onAppStarted.bind(this)
         this.didRouteChange = this.didRouteChange.bind(this)
-        this.startTransition = this.startTransition.bind(this)
+        this.startPortraitToPortraitTransition = this.startPortraitToPortraitTransition.bind(this)
         this.tick = this.tick.bind(this)
         this.sprites = {}
     }
@@ -25,7 +25,17 @@ class PortraitTransitionContainer extends BaseComponent {
     componentDidMount() {
         Store.on(Constants.APP_START, this.onAppStarted)
         Store.on(Constants.ROUTE_CHANGED, this.didRouteChange)
-        Store.on(Constants.PORTRAIT_TRANSITION.WILL_START, this.startTransition)
+        Store.on(Constants.PORTRAIT_TRANSITION.WILL_START, this.startPortraitToPortraitTransition)
+
+        const element = dom.select('#transition-container', this.element)
+        const params = {
+            element: element,
+            width: Constants.TRANSITION_SPRITE_W,
+            height: Constants.TRANSITION_SPRITE_H
+        }
+        this.stage = Utils.setupCanvas(params)
+        // createjs.Ticker.timingMode = createjs.Ticker.RAF
+        // createjs.Ticker.addEventListener('tick', this.tick)
         
         super.componentDidMount()
     }
@@ -40,10 +50,8 @@ class PortraitTransitionContainer extends BaseComponent {
         if (this.sprites[group] === undefined) {
             const id = 'common-' + group + '-transition'
             const image = Store.Preloader.getContentById(id)
-            const element = dom.select('#' + group, this.element)
             const params = Store.getGroupSpriteParams()
             const sprite = Utils.setupAnimatedSprite({
-                element: element,
                 image: image,
                 width: Constants.TRANSITION_SPRITE_W,
                 height: Constants.TRANSITION_SPRITE_H,
@@ -51,61 +59,67 @@ class PortraitTransitionContainer extends BaseComponent {
                 framerate: params.framerate,
                 paused: true
             })
-            sprite.sprite.count = params.count
+            this.stage.addChild(sprite)
+            sprite.count = params.count
             this.sprites[group] = sprite
             this.currentSprite = sprite
         } else {
             this.currentSprite = this.sprites[group]
         }
-        if (direction === 1) this.currentSprite.sprite.rotation = 0
-        else this.currentSprite.sprite.rotation = 180
-        this.currentSprite.sprite.gotoAndStop(0)
+        if (direction === 1) this.currentSprite.rotation = 0
+        else this.currentSprite.rotation = 180
+        this.currentSprite.gotoAndStop(0)
         this.resize()
     }
-    startTransition() {
+    startPortraitToPortraitTransition() {
         this.transitionInHalftime = false
         this.transitionIsFinished = false
         this.setupCurrentSprite()
-        this.currentSprite.sprite.play()
-        setTimeout(() => { this.currentSprite.stage.canvas.style.opacity = 1 }, 50)
-        createjs.Ticker.addEventListener('tick', this.tick)
-        this.element.style.display = 'block'
+        this.currentSprite.play()
+        this.currentSprite.alpha = 1
+        this.element.style.visibility = 'visible'
     }
-    transitionIsInHalfTime() {
+    portraitToPortraitTransitionIsInHalfTime() {
         if (this.transitionInHalftime) return
         Actions.portraitTransitionReachedHalfTime()
         this.transitionInHalftime = true
     }
-    transitionDidFinish() {
+    portraitToPortraitTransitionDidFinish() {
         if (this.transitionIsFinished) return
-        this.currentSprite.sprite.gotoAndStop(0)
-        createjs.Ticker.removeEventListener('tick', this.tick)
-        this.element.style.display = 'none'
-        this.currentSprite.stage.canvas.style.opacity = 0
-        this.currentSprite = undefined
+        this.currentSprite.gotoAndStop(0)
+        this.currentSprite.alpha = 0
+        setTimeout(() => { 
+            this.element.style.visibility = 'hidden'
+            this.currentSprite = undefined
+        }, 500)
         this.transitionIsFinished = true   
     }
-    tick(event) {
+    update() {
         if (this.currentSprite === undefined) return
-        this.currentSprite.stage.update(event)
-        if (this.currentSprite.sprite.currentFrame > (this.currentSprite.sprite.count >> 1)) this.transitionIsInHalfTime()
-        if (this.currentSprite.sprite.currentFrame >= this.currentSprite.sprite.count - 1) this.transitionDidFinish()
+        this.stage.update()
+        if (this.currentSprite.currentFrame > (this.currentSprite.count >> 1)) this.portraitToPortraitTransitionIsInHalfTime()
+        if (this.currentSprite.currentFrame >= this.currentSprite.count - 1) this.portraitToPortraitTransitionDidFinish()
+    }
+    tick(event) {
+        // if (this.currentSprite === undefined) return
+        // this.stage.update(event)
+        // if (this.currentSprite.currentFrame > (this.currentSprite.count >> 1)) this.portraitToPortraitTransitionIsInHalfTime()
+        // if (this.currentSprite.currentFrame >= this.currentSprite.count - 1) this.portraitToPortraitTransitionDidFinish()
     }
     resize() {
         if (!this.domIsReady) return
         if (this.currentSprite === undefined) return
         const windowW = Store.Window.w
         const windowH = Store.Window.h
-        const canvas = this.currentSprite.stage.canvas
+        const canvas = this.stage.canvas
+        canvas.width = windowW
+        canvas.height = windowH
         const resizeVars = Utils.resizePositionProportionally(windowW, windowH, Constants.TRANSITION_SPRITE_W, Constants.TRANSITION_SPRITE_H)
-        canvas.style.width = resizeVars.width + 'px'
-        canvas.style.height = resizeVars.height + 'px'
-        canvas.style.left = resizeVars.left + 'px'
-        canvas.style.top = resizeVars.top + 'px'
-        this.currentSprite.sprite.regX = (Constants.TRANSITION_SPRITE_W >> 1)
-        this.currentSprite.sprite.regY = (Constants.TRANSITION_SPRITE_H >> 1)
-        this.currentSprite.sprite.x = (Constants.TRANSITION_SPRITE_W >> 1)
-        this.currentSprite.sprite.y = (Constants.TRANSITION_SPRITE_H >> 1)
+        this.currentSprite.regX = (Constants.TRANSITION_SPRITE_W >> 1)
+        this.currentSprite.regY = (Constants.TRANSITION_SPRITE_H >> 1)
+        this.currentSprite.x = (windowW >> 1)
+        this.currentSprite.y = (windowH >> 1)
+        this.currentSprite.scaleX = this.currentSprite.scaleY = resizeVars.scale
     }
 }
 

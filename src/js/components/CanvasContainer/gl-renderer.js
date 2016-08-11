@@ -2,8 +2,8 @@ import Store from '../../store'
 import Constants from '../../constants'
 import Utils from '../../utils'
 import sportText from './text/sport'
-import kingText from './text/king'
-import armourText from './text/armour'
+import kingsText from './text/king'
+import armoursText from './text/armour'
 import dinoText from './text/dino'
 
 class GlRenderer {
@@ -52,11 +52,11 @@ class GlRenderer {
             }
         }
         this.sportText = sportText(Constants.GROUP.SPORT, this.props)
-        this.kingText = kingText(Constants.GROUP.KING, this.props)
-        this.armourText = armourText(Constants.GROUP.ARMOUR, this.props)
+        this.kingsText = kingsText(Constants.GROUP.KINGS, this.props)
+        this.armoursText = armoursText(Constants.GROUP.ARMOURS, this.props)
         this.dinoText = dinoText(Constants.GROUP.DINO, this.props)
         this.currentText = this.oldText = undefined
-        this.allTexts = [this.sportText, this.kingText, this.armourText, this.dinoText]
+        this.allTexts = [this.sportText, this.kingsText, this.armoursText, this.dinoText]
     }
     updateStage(newRoute, oldRoute) {
         if (oldRoute !== undefined && newRoute.parent === oldRoute.parent && this.currentText !== undefined) {
@@ -65,11 +65,11 @@ class GlRenderer {
         }
         this.oldText = this.currentText
         switch (newRoute.parent) {
-        case Constants.GROUP.KING:
-            this.currentText = this.kingText
+        case Constants.GROUP.KINGS:
+            this.currentText = this.kingsText
             break
-        case Constants.GROUP.ARMOUR:
-            this.currentText = this.armourText
+        case Constants.GROUP.ARMOURS:
+            this.currentText = this.armoursText
             break
         case Constants.GROUP.DINO:
             this.currentText = this.dinoText
@@ -86,10 +86,10 @@ class GlRenderer {
         this.resize()
     }
     open() {
-        this.tlOpen.timeScale(1.8).play()
+        this.tlOpen.timeScale(5).play()
     }
     close() {
-        this.tlClose.timeScale(1.8).play()
+        this.tlClose.timeScale(1.6).play()
     }
     openIndex() {
         this.allTexts.forEach((text) => {
@@ -143,8 +143,13 @@ class GlRenderer {
         this.currentText.resize()
         this.tlOpen.clear()
         this.tlClose.clear()
-        this.tlOpen.fromTo(this.element, 1, { y: canvasSize[1] * 2, force3D: true }, { y:0, force3D: true, ease: Expo.easeInOut }, 0)
-        this.tlClose.fromTo(this.element, 1, { y: 0, force3D: true }, { y: canvasSize[1] * 2, force3D: true, ease: Expo.easeInOut }, 0)
+        // console.log(this.currentText.container.scale)
+        // this.tlOpen.fromTo(this.element, 1, { y: canvasSize[1] * 2, force3D: true }, { y:0, force3D: true, ease: Expo.easeInOut }, 0)
+        // this.tlClose.fromTo(this.element, 1, { y: 0, force3D: true }, { y: canvasSize[1] * 2, force3D: true, ease: Expo.easeInOut }, 0)
+        this.tlOpen.fromTo(this.element, 1, { scaleX:2, scaleY:0.6, opacity:0, force3D: true }, { scaleX:1, scaleY:1, opacity:1, force3D: true, ease: Expo.easeInOut }, 0)
+        this.tlClose.fromTo(this.element, 1, { scaleX:1, scaleY:1, opacity:1, force3D: true }, { scaleX:2, scaleY:0.2, opacity:0, force3D: true, ease: Expo.easeInOut }, 0)
+        // this.tlOpen.to(this.currentText.container.scale, 1, { x:1, y:1, z:1, ease: Expo.easeInOut }, 0)
+        // this.tlClose.fromTo(this.currentText.container.scale, 1, { x:2, y:2, z:2, ease: Expo.easeInOut }, 0)
         this.tlClose.pause(0)
         this.tlOpen.pause(0)
     }

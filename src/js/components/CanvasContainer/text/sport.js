@@ -136,7 +136,8 @@ export default (id, props) => {
         resize,
         render,
         updateStyle,
-        indexState
+        indexState,
+        container
     }
     return scope
 }

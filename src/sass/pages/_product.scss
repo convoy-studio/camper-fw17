@@ -1,5 +1,11 @@
 #product-page {
 	@extend .full;
+	canvas {
+		@extend .full;
+		position: absolute;
+		@extend .top-left;
+		z-index: 2;
+	}
 	.background {
 		@extend .full;
 		position: absolute;
