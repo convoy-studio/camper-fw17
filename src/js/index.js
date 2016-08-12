@@ -20,7 +20,7 @@ if (Store.Detector.oldIE) Store.Detector.isMobile = true
 // Store.Detector.isSupportWebGL = false
 
 // Debug
-// Store.Detector.isMobile = true
+Store.Detector.isMobile = true
 
 let app
 if (Store.Detector.isMobile) {

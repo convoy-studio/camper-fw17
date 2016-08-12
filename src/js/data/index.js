@@ -19,8 +19,8 @@ export default {
                 'map_txt': 'INDEX'
             },
             'fr': {
-                'discover': 'discover',
-                'visit': 'visit',
+                'discover': 'découvrir',
+                'visit': 'visite',
                 'home': 'INDEX',
                 'lab': 'LAB',
                 'camper_lab': 'Camper Lab',
@@ -30,8 +30,8 @@ export default {
                 'map_txt': 'INDEX'
             },
             'es': {
-                'discover': 'discover',
-                'visit': 'visit',
+                'discover': 'descubrir',
+                'visit': 'visitar',
                 'home': 'INDEX',
                 'lab': 'LAB',
                 'camper_lab': 'Camper Lab',
@@ -41,8 +41,8 @@ export default {
                 'map_txt': 'INDEX'
             },
             'it': {
-                'discover': 'discover',
-                'visit': 'visit',
+                'discover': 'scoprire',
+                'visit': 'visita',
                 'home': 'INDEX',
                 'lab': 'LAB',
                 'camper_lab': 'Camper Lab',
@@ -52,8 +52,8 @@ export default {
                 'map_txt': 'INDEX'
             },
             'de': {
-                'discover': 'discover',
-                'visit': 'visit',
+                'discover': 'entdecken',
+                'visit': 'besuch',
                 'home': 'INDEX',
                 'lab': 'LAB',
                 'camper_lab': 'Camper Lab',
@@ -63,8 +63,8 @@ export default {
                 'map_txt': 'INDEX'
             },
             'pt': {
-                'discover': 'discover',
-                'visit': 'visit',
+                'discover': 'descobrir',
+                'visit': 'visita',
                 'home': 'INDEX',
                 'lab': 'LAB',
                 'camper_lab': 'Camper Lab',
