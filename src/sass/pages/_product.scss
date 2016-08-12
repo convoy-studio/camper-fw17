@@ -10,6 +10,9 @@
 		@extend .full;
 		position: absolute;
 	}
+	.shop-text-container {
+		z-index: 3;
+	}
 	.diptyque-parts {
 		@extend .full;
 		@extend .top-left;

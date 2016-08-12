@@ -1,6 +1,3 @@
-const page = {
-}
-
 export default {
     'content': {
         'twitter_url': 'https://twitter.com/camper',
@@ -152,13 +149,29 @@ export default {
     },
 
     'routing': {
-        '/kings/fidelius': page,
-        '/kings/wilma': page,
-        '/armours/wilma-extreme': page,
-        '/armours/gorka': page,
-        '/dino/rex': page,
-        '/dino/wilma-extreme': page,
-        '/sport/marges': page,
-        '/sport/bowie': page
+        '/kings/fidelius': {
+            shop_url: 'http://www.camper.com/int/men/shoes/ss16_inspiration'
+        },
+        '/kings/wilma': {
+            shop_url: 'http://www.camper.com/int/men/shoes/ss16_inspiration'
+        },
+        '/armours/wilma-extreme': {
+            shop_url: 'http://www.camper.com/int/men/shoes/ss16_inspiration'
+        },
+        '/armours/gorka': {
+            shop_url: 'http://www.camper.com/int/men/shoes/ss16_inspiration'
+        },
+        '/dino/rex': {
+            shop_url: 'http://www.camper.com/int/men/shoes/ss16_inspiration'
+        },
+        '/dino/wilma-extreme': {
+            shop_url: 'http://www.camper.com/int/men/shoes/ss16_inspiration'
+        },
+        '/sport/marges': {
+            shop_url: 'http://www.camper.com/int/men/shoes/ss16_inspiration'
+        },
+        '/sport/bowie': {
+            shop_url: 'http://www.camper.com/int/men/shoes/ss16_inspiration'
+        }
     }
 }

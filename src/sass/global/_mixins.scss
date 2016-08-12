@@ -3,6 +3,6 @@
 }
 
 @mixin simpleUpperText() {
-	font-size: 16px;
+	font-size: $globalFontSize;
     letter-spacing: 0.88px;
 }

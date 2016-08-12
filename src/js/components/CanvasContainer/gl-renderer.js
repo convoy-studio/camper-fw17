@@ -164,15 +164,19 @@ class GlRenderer {
         this.tlOpen.pause(0)
     }
     render() {
-        if (this.currentText === undefined || this.isOpen === false) return
-        this.renderer.render(this.scene, this.camera)
+
         if (Store.IndexIsOpened) {
             this.allTexts.forEach((text) => {
                 text.render()
             })
+            this.renderer.render(this.scene, this.camera)
         } else {
+            if (this.currentText === undefined || this.isOpen === false) return
+            this.renderer.render(this.scene, this.camera)
             this.currentText.render()
         }
+
+        
     }
 }
 

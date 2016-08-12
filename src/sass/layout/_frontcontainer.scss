@@ -57,7 +57,7 @@
             overflow: visible;
             ul.submenu-wrapper {
                 position: relative;
-                top: 21px;
+                top: 24px;
                 @include opacity(0);
                 @include anim(.2s, .0s, $easeOutExpo, translateY(5px), 0%, 100%, transform opacity);
             }
@@ -79,7 +79,7 @@
             }
         }
         svg {
-            $scale: 1.8;
+            $scale: 1.6;
             width: 12px * $scale;
             height: 13px * $scale;
         }
