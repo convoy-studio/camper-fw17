@@ -67,6 +67,9 @@ export default {
     MEDIA_MOBILE_W: 570,
     MEDIA_MOBILE_H: 750,
 
+    TITLE_W: 800,
+    TITLE_H: 450,
+
     TRANSITION_SPRITE_W: 1000,
     TRANSITION_SPRITE_H: 563,
 

@@ -16,6 +16,8 @@ Store.Parent = dom.select('#app-container')
 Store.Detector.oldIE = dom.classes.contains(Store.Parent, 'ie6') || dom.classes.contains(Store.Parent, 'ie7') || dom.classes.contains(Store.Parent, 'ie8')
 Store.Detector.isSupportWebGL = Utils.supportWebGL()
 if (Store.Detector.oldIE) Store.Detector.isMobile = true
+// console.log(Store.Detector.isSupportWebGL)
+// Store.Detector.isSupportWebGL = false
 
 // Debug
 // Store.Detector.isMobile = true

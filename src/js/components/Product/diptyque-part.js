@@ -18,8 +18,8 @@ export default (url, stage)=> {
         const nY = Store.Mouse.nY - 0.5
         const newx = scope.iposition.x - (30 * nX) * dir
         const newy = scope.iposition.y - (30 * nY) * dir
-        scope.position.x += (newx - scope.position.x) * 0.01
-        scope.position.y += (newy - scope.position.y) * 0.01
+        scope.position.x += (newx - scope.position.x) * 0.04
+        scope.position.y += (newy - scope.position.y) * 0.04
         container.x = scope.position.x
         container.y = scope.position.y
     }

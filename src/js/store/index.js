@@ -193,6 +193,15 @@ const Store = assign({}, EventEmitter2.prototype, {
         const id = Store.getCurrentGroup()
         return data.groups[id].color
     },
+    getAllGroups: () => {
+        let groups = []
+        for (let prop in data.groups) {
+            if ({}.hasOwnProperty.call(data.groups, prop)) {
+                groups.push(prop)
+            }
+        }
+        return groups
+    },
     getGroupIndexColor: () => {
         const id = Store.getCurrentGroup()
         return data.groups[id].colorIndex

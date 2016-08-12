@@ -96,12 +96,12 @@ class PortraitTransitionContainer extends BaseComponent {
         if (this.currentSprite === undefined) return
         this.stage.update()
         this.timeCounter ++
-        if (this.timeCounter > 2) {
+        if (this.timeCounter > 3) {
             this.currentSprite.frame += 1
             this.timeCounter = 0
         }
         this.currentSprite.gotoAndStop(this.currentSprite.frame)
-        if (this.currentSprite.currentFrame > (this.currentSprite.count >> 1)) this.portraitToPortraitTransitionIsInHalfTime()
+        if (this.currentSprite.currentFrame > ((this.currentSprite.count >> 1) - 2)) this.portraitToPortraitTransitionIsInHalfTime()
         if (this.currentSprite.currentFrame >= this.currentSprite.count - 1) this.portraitToPortraitTransitionDidFinish()
     }
     resize() {
