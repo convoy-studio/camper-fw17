@@ -147,6 +147,12 @@ const Actions = {
             actionType: Constants.TITLE_CANVAS_LEAVE,
             item: undefined
         })
+    },
+    updateCardsColors: (color) => {
+        Dispatcher.handleViewAction({
+            actionType: Constants.UPDATE_CARDS_COLORS,
+            item: color
+        })
     }
 }
 

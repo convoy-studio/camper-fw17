@@ -6,3 +6,7 @@
 	font-size: $globalFontSize;
     letter-spacing: 0.88px;
 }
+
+@mixin mobileColorAnimation() {
+	@include simpleAnim(.6s, .0s, $easeOutQuint);
+}

@@ -206,6 +206,9 @@ const Store = assign({}, EventEmitter2.prototype, {
         const id = Store.getCurrentGroup()
         return data.groups[id].colorIndex
     },
+    getGroupById: (id) => {
+        return data.groups[id]
+    },
     getGroupColors: () => {
         const id = Store.getCurrentGroup()
         return {
@@ -213,6 +216,9 @@ const Store = assign({}, EventEmitter2.prototype, {
             index: data.groups[id].colorIndex,
             background: data.groups[id].colorBackground
         }
+    },
+    getPageColorsById: (id) => {
+        return data.routing[id].colors
     },
     getGroupSpriteParams: () => {
         const id = Store.getCurrentGroup()

@@ -1,5 +1,8 @@
 html.mobile {
-	overflow-y: auto;
+	overflow: hidden;
+	#app-template {
+		overflow: hidden;
+	}
 	#front-container {
 		header {
 			z-index: 9999999;
@@ -7,7 +10,7 @@ html.mobile {
 			background-color: $green;
 			position: fixed;
 			.logo {
-				$scale: 0.8;
+				$scale: 0.6;
 				$w: 122px;
 				$h: 44px;
 				width: $w * $scale;
@@ -18,13 +21,16 @@ html.mobile {
 			}
 		}
 		.burger {
-			$scale: 0.7;
+			$scale: 0.5;
 			$w: 60px;
 			$h: 34px;
 			width: $w * $scale;
 			height: $h * $scale;
 			right: $overallMargin / 2;
 			top: $overallMargin / 2;
+			svg {
+				@include mobileColorAnimation();
+			}
 		}
 		.index-layer-container .background {
 			opacity: 1;
@@ -47,8 +53,10 @@ html.mobile {
 			$size: 100px;
 			svg path {
 				fill: black;
+				@include mobileColorAnimation();
 			}
 			svg circle {
+				@include mobileColorAnimation();
 				stroke: black;
 			}
 			li {
@@ -58,6 +66,7 @@ html.mobile {
 				width: $size;
 				height: $size;
 				color: black;
+				@include mobileColorAnimation();
 				.text-field-container {
 					position: absolute;
 					width: $size;
@@ -91,33 +100,46 @@ html.mobile {
 		}
 	}
 }
-
+.backgrounds {
+	@extend .full;
+    position: absolute;
+    z-index: 1;
+    ul {
+		@extend .full;
+    	li {
+			@extend .full;
+			position: absolute;
+			@extend .top-left;
+    	}
+    }
+}
 #viewport {
 	position: absolute;
+    z-index: 2;
 	.stack {
     	position: relative;
 		li {
-		    width: 200px;
-		    height: 300px;
-		    list-style: none;
-		    background: #fff;
-		    border-radius: 12px;
+		    .relative {
+		    	border-radius: 10px;
+		    	border: 4px solid #ECECEC;
+		    	// box-sizing: border-box;
+		    }
 		    position: absolute;
-		    top: 0;
-		    left: 0;
-		    line-height: 300px;
-		    text-align: center;
-		    font-size: 100px;
-		    border: 5px solid #ECECEC;
-		    box-sizing: border-box;
 		    cursor: default;
-		    overflow: hidden;
 		    @include transform(translate3d(0px, 0px, 0px));
 		    @include transform(translate(0px, 0px));
 		    @include rotate(0);
 		    & > div {
 		    	overflow: hidden;
 		    	position: absolute;
+		    	top: 0;
+		    	left: 0;
+		    }
+		    .face {
+				z-index: 2;
+		    }
+		    .shoe {
+				z-index: 1;
 		    }
 		}
 	}

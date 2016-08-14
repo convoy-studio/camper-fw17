@@ -6,6 +6,7 @@ import Template from './template'
 import Router from '../../services/router'
 import { initGlobalEvents } from '../../services/global-events'
 import Preloader from '../../services/preloader'
+import dom from 'dom-hand'
 
 class App {
     constructor() {
@@ -23,6 +24,10 @@ class App {
         const appTemplate = new Template()
         appTemplate.isReady = this.loadMainAssets
         appTemplate.render('#app-container')
+
+        const mainLoader = dom.select('#main-loader')
+        dom.tree.remove(mainLoader)
+
         // Start routing
         setTimeout(()=>this.router.beginRouting())
     }

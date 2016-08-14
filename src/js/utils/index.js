@@ -157,6 +157,18 @@ class Utils {
     static rect(top, right, bottom, left) {
         return 'rect(' + top + 'px,' + right + 'px,' + bottom + 'px,' + left + 'px)'
     }
+    static cssToMatrix(element) {
+        const computedStyle = window.getComputedStyle(element, null)
+        let matrix = computedStyle.getPropertyValue('transform')
+            || computedStyle.getPropertyValue('-moz-transform')
+            || computedStyle.getPropertyValue('-webkit-transform')
+            || computedStyle.getPropertyValue('-ms-transform')
+            || computedStyle.getPropertyValue('-o-transform');
+        let matrixValue = [];
+        const matrixCopy = matrix.replace(/^\w*\(/, '').replace(')', '');
+        matrixValue = matrixCopy.split(/\s*,\s*/);
+        return matrixValue
+    }
 }
 
 export default Utils

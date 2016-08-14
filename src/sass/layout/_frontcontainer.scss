@@ -22,6 +22,9 @@
         }
         left: $PADDING_AROUND;
         top: $PADDING_AROUND;
+        svg {
+            @include mobileColorAnimation();
+        }
     }
     header {
         & > * {

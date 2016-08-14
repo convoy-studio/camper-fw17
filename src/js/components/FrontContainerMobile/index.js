@@ -13,11 +13,13 @@ class FrontContainer extends BaseComponent {
         this.onAppStarted = this.onAppStarted.bind(this)
         this.didRouteChange = this.didRouteChange.bind(this)
         this.onBurgerClicked = this.onBurgerClicked.bind(this)
+        this.updateColors = this.updateColors.bind(this)
 
         this.openIndex = this.openIndex.bind(this)
         this.closeIndex = this.closeIndex.bind(this)
         Store.on(Constants.OPEN_INDEX, this.openIndex)
         Store.on(Constants.CLOSE_INDEX, this.closeIndex)
+        Store.on(Constants.UPDATE_CARDS_COLORS, this.updateColors)
     }
     render(parent) {
         let scope = {}
@@ -34,6 +36,7 @@ class FrontContainer extends BaseComponent {
         Store.on(Constants.ROUTE_CHANGED, this.didRouteChange)
 
         this.headerEl = dom.select('header', this.element)
+        this.logoSvg = dom.select('.logo svg', this.headerEl)
         this.burger = {
             el: dom.select('.burger', this.element),
             isOpened: false
@@ -51,6 +54,11 @@ class FrontContainer extends BaseComponent {
         // this.arrowsContainer.render(this.element)
 
         super.componentDidMount()
+    }
+    updateColors(color) {
+        dom.select('svg', this.burger.el).style.fill = color
+        this.navigationLayer.changeColor(color)
+        this.logoSvg.style.fill = color
     }
     onBurgerClicked(e) {
         e.preventDefault()

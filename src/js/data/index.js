@@ -150,27 +150,59 @@ export default {
 
     'routing': {
         '/kings/fidelius': {
+            colors: {
+                background: '#d29b36',
+                index: '#4700B3'
+            },
             shop_url: 'http://www.camper.com/int/men/shoes/ss16_inspiration'
         },
         '/kings/wilma': {
+            colors: {
+                background: '#921438',
+                index: '#4700B3'
+            },
             shop_url: 'http://www.camper.com/int/men/shoes/ss16_inspiration'
         },
         '/armours/wilma-extreme': {
+            colors: {
+                background: '#161D23',
+                index: '#1660C0'
+            },
             shop_url: 'http://www.camper.com/int/men/shoes/ss16_inspiration'
         },
         '/armours/gorka': {
+            colors: {
+                background: '#161D23',
+                index: '#1660C0'
+            },
             shop_url: 'http://www.camper.com/int/men/shoes/ss16_inspiration'
         },
         '/dino/rex': {
+            colors: {
+                background: '#272B1D',
+                index: '#ABEF33'
+            },
             shop_url: 'http://www.camper.com/int/men/shoes/ss16_inspiration'
         },
         '/dino/wilma-extreme': {
+            colors: {
+                background: '#272B1D',
+                index: '#D33394'
+            },
             shop_url: 'http://www.camper.com/int/men/shoes/ss16_inspiration'
         },
         '/sport/marges': {
+            colors: {
+                background: '#896A4D',
+                index: '#FF9F00'
+            },
             shop_url: 'http://www.camper.com/int/men/shoes/ss16_inspiration'
         },
         '/sport/bowie': {
+            colors: {
+                background: '#281942',
+                index: '#FF9F00'
+            },
             shop_url: 'http://www.camper.com/int/men/shoes/ss16_inspiration'
         }
     }

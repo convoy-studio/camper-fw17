@@ -27,6 +27,16 @@ export default (el)=> {
     	e.preventDefault()
     	Actions.nextPerson()
     })
+
+    const changeColor = (color) => {
+        btns.forEach((btn) => {
+            const circle = dom.select('svg circle', btn)
+            const arrow = dom.select('svg path', btn)
+            if (circle) { circle.style.stroke = color }
+            if (arrow) { arrow.style.fill = color }
+            btn.style.color = color
+        })
+    }
     
     const resize = () => {
     	const windowW = Store.Window.w
@@ -39,6 +49,7 @@ export default (el)=> {
 
     scope = {
     	el,
+        changeColor,
     	resize
     }
     return scope
