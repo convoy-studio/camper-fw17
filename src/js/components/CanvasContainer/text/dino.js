@@ -10,6 +10,7 @@ export default (id, props) => {
     const normalPosY = -20
     const indexPosY = -150
     const size = [ 600, 400 ]
+    const geometry = Store.Meshes['dino']
     const container = new THREE.Object3D()
     container.scale.set(normalScale, normalScale, normalScale)
     container.position.set(0, normalPosY, 0)
@@ -49,8 +50,6 @@ export default (id, props) => {
     cubeTexture.mapping = THREE.CubeReflectionMapping
     
     const material = new THREE.MeshStandardMaterial({
-        // color: 0x779B28,
-        // color: 0xA5D737,
         color: 0xB8FF42,
         roughness: settings.roughness,
         metalness: settings.metalness,
@@ -63,30 +62,11 @@ export default (id, props) => {
         envMapIntensity: settings.envMapIntensity
     })
 
-    // // GUI
-    // const gui = new dat.GUI({ autoplace: false })
-    // dom.select('#gui', document).appendChild(gui.domElement)
-    // gui.add(settings, 'metalness', 0, 2.0).onChange((value) => { material.metalness = value })
-    // gui.add(settings, 'roughness', 0, 1.0).onChange((value) => { material.roughness = value })
-    // gui.add(settings, 'ambientIntensity', 0, 1.0).onChange((value) => { material.ambientIntensity = value })
-    // gui.add(settings, 'aoMapIntensity', 0, 100.0).onChange((value) => { material.aoMapIntensity = value })
-    // gui.add(settings, 'lightMapIntensity', 0, 10.0).onChange((value) => { material.lightMapIntensity = value })
-    // gui.add(settings, 'displacementScale', 0, 5.0).onChange((value) => { material.displacementScale = value })
-    // gui.add(settings, 'displacementBias', -1, 1.0).onChange((value) => { material.displacementBias = value })
-    // gui.add(settings, 'envMapIntensity', 0, 3.0).onChange((value) => { material.envMapIntensity = value })
-    // gui.add(settings, 'point0Intensity', 0, 2.0).onChange((value) => { props.lights.point_0.intensity = value })
-    // gui.add(settings, 'point1Intensity', 0, 2.0).onChange((value) => { props.lights.point_1.intensity = value })
-    // gui.add(settings, 'point2Intensity', 0, 2.0).onChange((value) => { props.lights.point_2.intensity = value })
-    // gui.add(settings, 'ambientLightIntensity', 0, 3.0).onChange((value) => { props.lights.ambient.intensity = value })
-
-    const loader = new THREE.JSONLoader()
-    loader.load(Store.baseMediaPath() + 'mesh/dino.js', (object) => {
-        mesh = new THREE.Mesh( object, material )
-        const meshScale = 0.06
-        mesh.scale.set(meshScale, meshScale, meshScale)
-        container.add(mesh)
-        props.scene.add(container)
-    })
+    mesh = new THREE.Mesh(geometry, material)
+    const meshScale = 0.06
+    mesh.scale.set(meshScale, meshScale, meshScale)
+    container.add(mesh)
+    props.scene.add(container)
 
     const render = () => {
         if (mesh === undefined) return
@@ -99,19 +79,14 @@ export default (id, props) => {
         props.lights.point_1.position.x += Math.cos(angle) * 400
         props.lights.point_0.position.y += Math.sin(angle) * 300
         props.lights.point_1.position.y += Math.sin(angle) * 800
-        // props.lights.point_1.position.z += Math.cos(angle) * 300
-        // props.lights.point_2.position.z += Math.cos(angle) * 800
     }
     const activate = () => {
-        // props.scene.add(container)
         container.visible = true
     }
     const deactivate = () => {
-        // props.scene.remove(container)
         container.visible = false
     }
     const indexState = () => {
-
     }
     const resize = () => {
         if (mesh === undefined) return
@@ -124,7 +99,6 @@ export default (id, props) => {
         }
     }
     const updateStyle = (id) => {
-        // props.lights.point_0.color = new THREE.Color(0x)
         props.lights.point_0.intensity = 0.56
         props.lights.point_1.intensity = 0.2
         props.lights.point_2.intensity = 0.39

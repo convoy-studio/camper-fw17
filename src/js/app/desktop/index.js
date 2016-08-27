@@ -2,6 +2,7 @@ require('../../../sass/app.scss')
 
 import Store from '../../store'
 import Actions from '../../actions'
+import Utils from '../../utils'
 import Template from './template'
 import Router from '../../services/router'
 import { initGlobalEvents } from '../../services/global-events'
@@ -12,13 +13,16 @@ class App {
     constructor() {
         this.onAppReady = this.onAppReady.bind(this)
         this.loadMainAssets = this.loadMainAssets.bind(this)
+        this.loadMeshes = this.loadMeshes.bind(this)
     }
     init() {
         // Init router
         this.router = new Router()
         this.router.init()
+        
         // Init Preloader
         Store.Preloader = new Preloader()
+        
         // Init global events
         initGlobalEvents()
 
@@ -45,6 +49,7 @@ class App {
         const appTemplate = new Template()
         appTemplate.isReady = this.loadMainAssets
         appTemplate.render('#app-container')
+
         // Start routing
         setTimeout(()=>this.router.beginRouting())
     }
@@ -53,7 +58,18 @@ class App {
         const pageManifest = Store.pageAssetsToLoad()
         const texturesManifest = Store.getAllTexturesManifest()
         const manifest = pageManifest.concat(texturesManifest)
-        Store.Preloader.load(manifest, this.onAppReady)
+        Store.Preloader.load(manifest, this.loadMeshes)
+    }
+    loadMeshes() {
+        let totalLoadedMeshes = 0
+        const onMeshLoaded = () => {
+            totalLoadedMeshes++
+            if (totalLoadedMeshes === 4) this.onAppReady()
+        }
+        Utils.meshLoader('kings', Store.baseMediaPath() + 'mesh/kings.js', (id, geometry) => { Store.Meshes[id] = geometry; onMeshLoaded(); })
+        Utils.meshLoader('armours', Store.baseMediaPath() + 'mesh/armours.js', (id, geometry) => { Store.Meshes[id] = geometry; onMeshLoaded(); })
+        Utils.meshLoader('dino', Store.baseMediaPath() + 'mesh/dino.js', (id, geometry) => { Store.Meshes[id] = geometry; onMeshLoaded(); })
+        Utils.meshLoader('sport', Store.baseMediaPath() + 'mesh/sport.js', (id, geometry) => { Store.Meshes[id] = geometry; onMeshLoaded(); })
     }
     onAppReady() {
         setTimeout(()=>Actions.appStart())

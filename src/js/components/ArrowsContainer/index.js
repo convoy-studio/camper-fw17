@@ -30,11 +30,33 @@ class ArrowsContainer extends BaseComponent {
     }
     onLeftArrowClicked(e) {
         e.preventDefault()
+
+        if (dataLayer !== undefined) {
+            const group = Store.getCurrentGroup()
+            dataLayer.push({
+                'event': 'eventGA',
+                'eventCat': 'camp- FW17_desktop',
+                'eventAct': 'pulsar-nav_der',
+                'eventLbl': group
+            })
+        }
+
         const path = Store.getPreviousPath()
         Router.setRoute(path)
     }
     onRightArrowClicked(e) {
         e.preventDefault()
+
+        if (dataLayer !== undefined) {
+            const group = Store.getCurrentGroup()
+            dataLayer.push({
+                'event': 'eventGA',
+                'eventCat': 'camp- FW17_desktop',
+                'eventAct': 'pulsar-nav_izq',
+                'eventLbl': group
+            })
+        }
+
         const path = Store.getNextPath()
         Router.setRoute(path)
     }

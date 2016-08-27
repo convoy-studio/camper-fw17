@@ -118,7 +118,7 @@ function _getAppData() {
     return data
 }
 function _getDefaultRoute() {
-    return data['default-route']
+    return Store.getURL() + data['default-route']
 }
 function _windowWidthHeight() {
     return {
@@ -133,6 +133,9 @@ const Store = assign({}, EventEmitter2.prototype, {
     },
     pageContent: () => {
         return _getPageContent()
+    },
+    getURL: () => {
+        return Store.Detector.url.protocol + '//' + Store.Detector.url.host + '/' + JSLang + '_' + JSCountry + '/content/' + CampaignName
     },
     appData: () => {
         return _getAppData()
@@ -220,6 +223,9 @@ const Store = assign({}, EventEmitter2.prototype, {
     getPageColorsById: (id) => {
         return data.routing[id].colors
     },
+    getPageContentById: (id) => {
+        return data.routing[id]
+    },
     getGroupSpriteParams: () => {
         const id = Store.getCurrentGroup()
         return data.groups[id].spriteParams
@@ -279,10 +285,10 @@ const Store = assign({}, EventEmitter2.prototype, {
         return previousRoute
     },
     getNextPath: () => {
-        return Store.getNextRoute().path
+        return Store.getNextRoute().url
     },
     getPreviousPath: () => {
-        return Store.getPreviousRoute().path
+        return Store.getPreviousRoute().url
     },
     getImageDeviceExtension: _getImageDeviceExtension,
     lang: () => {
@@ -306,6 +312,8 @@ const Store = assign({}, EventEmitter2.prototype, {
     AfterMorphingRoute: undefined,
     IndexIsOpened: false,
     InterfaceIsOpen: false,
+    CurrentCard: undefined,
+    Meshes: {},
     dispatcherIndex: Dispatcher.register((payload) => {
         const action = payload.action
         switch (action.actionType) {
@@ -342,6 +350,22 @@ const Store = assign({}, EventEmitter2.prototype, {
             if (!Store.InterfaceIsOpen) return
             Store.InterfaceIsOpen = false
             Store.emitChange(action.actionType)
+            break
+        case Constants.UPDATE_CARDS:
+            Store.CurrentCard = {
+                name: action.item.name,
+                group: action.item.group
+            }
+
+            if (dataLayer !== undefined) {
+                const group = Store.getCurrentGroup()
+                dataLayer.push({
+                    'event': 'virtualPage',
+                    'pageName': JSLang + '_' + JSCountry + '/FW17/mobile/nav_' + Store.CurrentCard.name + '_' + Store.CurrentCard.group
+                })
+            }
+
+            Store.emitChange(action.actionType, action.item)
             break
         default:
             Store.emitChange(action.actionType, action.item)

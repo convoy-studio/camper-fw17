@@ -71,6 +71,17 @@ export default class Product extends Page {
     textClick(e) {
         e.preventDefault()
         const content = Store.pageContent()
+
+        if (dataLayer !== undefined) {
+            const group = Store.getCurrentGroup()
+            dataLayer.push({
+                'event': 'eventGA',
+                'eventCat': 'camp- FW17_desktop',
+                'eventAct': 'pulsar-product_shop',
+                'eventLbl': group
+            })
+        }
+
         window.open(content.shop_url, '_blank')
     }
     didTransitionInComplete() {

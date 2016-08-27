@@ -34,6 +34,7 @@ class CanvasContainer extends BaseComponent {
     }
     render(parent) {
         let scope = {}
+        scope.url = Store.getURL()
         super.render('CanvasContainer', parent, template, scope)
     }
     componentWillMount() {
@@ -51,13 +52,33 @@ class CanvasContainer extends BaseComponent {
     didBtnClick (e) {
         e.preventDefault()
         const url = e.currentTarget.getAttribute('data-url')
+        const group = e.currentTarget.getAttribute('data-group')
+        if (dataLayer !== undefined) {
+            dataLayer.push({
+                'event': 'eventGA',
+                'eventCat': 'camp- FW17_desktop',
+                'eventAct': 'pulsar-index',
+                'eventLbl': group
+            })
+        }
         Router.setRoute(url)
     }
     didCanvasClick(e) {
         e.preventDefault()
         if (Store.IndexIsOpened) return
         const route = Router.getNewRoute()
-        const newRoute = '/' + route.parent + '/' + route.target + '/product'
+        const newRoute = Store.getURL() + '/' + route.parent + '/' + route.target + '/product'
+
+        if (dataLayer !== undefined) {
+            const group = Store.getCurrentGroup()
+            dataLayer.push({
+                'event': 'eventGA',
+                'eventCat': 'camp- FW17_desktop',
+                'eventAct': 'pulsar-discover_' + route.target,
+                'eventLbl': group
+            })
+        }
+
         Actions.startMorphing(newRoute)
     }
     didCanvasMouseEnter(e) {

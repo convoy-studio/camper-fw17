@@ -1,4 +1,7 @@
 html.mobile {
+	body {
+		overflow: hidden;
+	}
 	overflow: hidden;
 	#app-template {
 		overflow: hidden;
@@ -100,6 +103,28 @@ html.mobile {
 		}
 	}
 }
+.video-container {
+	@extend .full;
+    position: absolute;
+    z-index: 5;
+    visibility: hidden;
+    .video-holder {
+    	position: absolute;
+    	z-index: 3;
+    	@extend .full;
+    }
+    .background {
+		@extend .full;
+    	position: absolute;
+    	z-index: 2;
+    }
+    video {
+    	width: 100%;
+    	position: relative;
+    	top: 50%;
+    	margin-top: -30%;
+    }
+}
 .backgrounds {
 	@extend .full;
     position: absolute;
@@ -134,12 +159,27 @@ html.mobile {
 		    	position: absolute;
 		    	top: 0;
 		    	left: 0;
+				z-index: 3;
 		    }
 		    .face {
 				z-index: 2;
+				@include opacity(1);
+				@include simpleAnim(.6s, .0s, $easeOutQuint);
+				top: 0;
+		    	left: 0;
+		    	position: absolute;
 		    }
 		    .shoe {
 				z-index: 1;
+				top: 0;
+		    	left: 0;
+		    	position: absolute;
+		    }
+		    &.show-shoe {
+				.face {
+					@include opacity(0);
+					@include simpleAnim(.6s, .0s, $easeOutQuint);
+				}
 		    }
 		}
 	}

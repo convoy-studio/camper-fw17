@@ -14,12 +14,13 @@ class FrontContainer extends BaseComponent {
         this.didRouteChange = this.didRouteChange.bind(this)
         this.onBurgerClicked = this.onBurgerClicked.bind(this)
         this.updateColors = this.updateColors.bind(this)
+        this.onLogoClicked = this.onLogoClicked.bind(this)
 
         this.openIndex = this.openIndex.bind(this)
         this.closeIndex = this.closeIndex.bind(this)
         Store.on(Constants.OPEN_INDEX, this.openIndex)
         Store.on(Constants.CLOSE_INDEX, this.closeIndex)
-        Store.on(Constants.UPDATE_CARDS_COLORS, this.updateColors)
+        Store.on(Constants.UPDATE_CARDS, this.updateColors)
     }
     render(parent) {
         let scope = {}
@@ -36,13 +37,15 @@ class FrontContainer extends BaseComponent {
         Store.on(Constants.ROUTE_CHANGED, this.didRouteChange)
 
         this.headerEl = dom.select('header', this.element)
-        this.logoSvg = dom.select('.logo svg', this.headerEl)
+        this.logo = dom.select('.logo', this.headerEl)
+        this.logoSvg = dom.select('svg', this.logo)
         this.burger = {
             el: dom.select('.burger', this.element),
             isOpened: false
         }
 
         dom.event.on(this.burger.el, 'click', this.onBurgerClicked)
+        dom.event.on(this.logo, 'click', this.onLogoClicked)
 
         const indexLayerEl = dom.select('.index-layer-container', this.element)
         this.indexLayer = indexLayer(indexLayerEl)
@@ -55,19 +58,40 @@ class FrontContainer extends BaseComponent {
 
         super.componentDidMount()
     }
-    updateColors(color) {
-        dom.select('svg', this.burger.el).style.fill = color
-        this.navigationLayer.changeColor(color)
-        this.logoSvg.style.fill = color
+    updateColors(vars) {
+        dom.select('svg', this.burger.el).style.fill = vars.color
+        this.navigationLayer.changeColor(vars)
+        this.indexLayer.changeColor(vars)
+        this.logoSvg.style.fill = vars.color
     }
     onBurgerClicked(e) {
         e.preventDefault()
+
+        if (dataLayer !== undefined) {
+            dataLayer.push({
+                'event': 'eventGA',
+                'eventCat': 'camp- FW17_mobile',
+                'eventAct': 'pulsar-menu',
+                'eventLbl': Store.CurrentCard.group
+            })
+        }
+
         if (this.burger.isOpened) {
             this.closeIndex()
             this.burger.isOpened = false
         } else {
             this.openIndex()
             this.burger.isOpened = true
+        }
+    }
+    onLogoClicked() {
+        if (dataLayer !== undefined) {
+            dataLayer.push({
+                'event': 'eventGA',
+                'eventCat': 'camp- FW17_mobile',
+                'eventAct': 'pulsar-logo_camper',
+                'eventLbl': Store.CurrentCard.group
+            })
         }
     }
     didRouteChange() {

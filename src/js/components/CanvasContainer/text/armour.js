@@ -12,6 +12,7 @@ export default (id, props) => {
     const size = [ 700, 270 ]
     const container = new THREE.Object3D()
     const containerScale = 0.043
+    const geometry = Store.Meshes['armours']
     container.scale.set(containerScale, containerScale, containerScale)
     container.position.set(0, normalPosY, 0)
     container.visible = false
@@ -49,38 +50,16 @@ export default (id, props) => {
         roughness: settings.roughness,
         metalness: settings.metalness,
         normalMap: normalMap,
-        normalScale: new THREE.Vector2(0.15, 0.15), // why does the normal map require negation in this case?
+        normalScale: new THREE.Vector2(0.15, 0.15),
         map: specularMap,
         envMap: cubeTexture,
         envMapIntensity: settings.envMapIntensity
     })
 
-    // // GUI
-    // const gui = new dat.GUI({ autoplace: false })
-    // dom.select('#gui', document).appendChild(gui.domElement)
-    // gui.add(settings, 'metalness', 0, 2.0).onChange((value) => { material.metalness = value })
-    // gui.add(settings, 'roughness', 0, 1.0).onChange((value) => { material.roughness = value })
-    // gui.add(settings, 'ambientIntensity', 0, 1.0).onChange((value) => { material.ambientIntensity = value })
-    // gui.add(settings, 'aoMapIntensity', 0, 100.0).onChange((value) => { material.aoMapIntensity = value })
-    // gui.add(settings, 'lightMapIntensity', 0, 10.0).onChange((value) => { material.lightMapIntensity = value })
-    // gui.add(settings, 'displacementScale', 0, 5.0).onChange((value) => { material.displacementScale = value })
-    // gui.add(settings, 'displacementBias', -1, 1.0).onChange((value) => { material.displacementBias = value })
-    // gui.add(settings, 'envMapIntensity', material.envMapIntensity - 20, material.envMapIntensity + 50).onChange((value) => { material.envMapIntensity = value })
-    // gui.add(settings, 'point0Intensity', 0, 2.0).onChange((value) => { props.lights.point_0.intensity = value })
-    // gui.add(settings, 'point1Intensity', 0, 2.0).onChange((value) => { props.lights.point_1.intensity = value })
-    // gui.add(settings, 'point2Intensity', 0, 2.0).onChange((value) => { props.lights.point_2.intensity = value })
-    // gui.add(settings, 'ambientLightIntensity', 0, 30.0).onChange((value) => { props.lights.ambient.intensity = value })
-    // Utils.guiVec3(gui, 'point0_position', props.lights.point_0.position, 5000, 5000, 5000)
-    // Utils.guiVec3(gui, 'point1_position', props.lights.point_1.position, 5000, 5000, 5000)
-    // Utils.guiVec3(gui, 'point2_position', props.lights.point_2.position, 5000, 5000, 5000)
-
-    const loader = new THREE.JSONLoader()
-    loader.load(Store.baseMediaPath() + 'mesh/armours.js', (object) => {
-        mesh = new THREE.Mesh( object, material )
-        mesh.scale.set(normalScale, normalScale, normalScale)
-        container.add(mesh)
-        props.scene.add(container)
-    })
+    mesh = new THREE.Mesh(geometry, material)
+    mesh.scale.set(normalScale, normalScale, normalScale)
+    container.add(mesh)
+    props.scene.add(container)
 
     const render = () => {
         if (mesh === undefined) return
@@ -90,15 +69,12 @@ export default (id, props) => {
         container.rotation.z += ((Math.sin(Store.Mouse.nX) * 0.1) - container.rotation.z) * smoothing
     }
     const activate = () => {
-        // props.scene.add(container)
         container.visible = true
     }
     const deactivate = () => {
-        // props.scene.remove(container)
         container.visible = false
     }
     const indexState = () => {
-        
     }
     const resize = () => {
         if (mesh === undefined) return

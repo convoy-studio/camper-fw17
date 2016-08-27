@@ -169,6 +169,12 @@ class Utils {
         matrixValue = matrixCopy.split(/\s*,\s*/);
         return matrixValue
     }
+    static meshLoader(id, url, callback) {
+        const loader = new THREE.JSONLoader()
+        loader.load(url, (geometry) => {
+            callback(id, geometry)
+        })
+    }
 }
 
 export default Utils

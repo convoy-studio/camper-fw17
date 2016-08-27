@@ -6,7 +6,8 @@ import MainTextBtn from '../MainTextBtn'
 
 const headerLinks = (parent)=> {
     let scope
-    const logoSvg = dom.select('.logo svg', parent)
+    const logo = dom.select('.logo', parent)
+    const logoSvg = dom.select('svg', logo)
     const shopWrapper = dom.select('.shop-wrapper', parent)
     const submenuWrapper = dom.select('.submenu-wrapper', parent)
     const shopTitle = dom.select('.shop-title', shopWrapper)
@@ -72,6 +73,30 @@ const headerLinks = (parent)=> {
     })
     shopWrapper.addEventListener('mouseenter', onSubMenuMouseEnter)
     shopWrapper.addEventListener('mouseleave', onSubMenuMouseLeave)
+
+    dom.event.on(simpleBtns[1].el, 'click', () => {
+        if (dataLayer !== undefined) {
+            const group = Store.getCurrentGroup()
+            dataLayer.push({
+                'event': 'eventGA',
+                'eventCat': 'camp- FW17_desktop',
+                'eventAct': 'pulsar-camper_lab',
+                'eventLbl': group
+            })
+        }
+    })
+
+    dom.event.on(logo, 'click', () => {
+        if (dataLayer !== undefined) {
+            const group = Store.getCurrentGroup()
+            dataLayer.push({
+                'event': 'eventGA',
+                'eventCat': 'camp- FW17_desktop',
+                'eventAct': 'pulsar-logo_camper',
+                'eventLbl': group
+            })
+        }
+    })
 
     dom.event.on(simpleTextBtnsEl[0], 'click', (e) => {
         e.preventDefault()

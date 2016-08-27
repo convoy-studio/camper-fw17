@@ -23,11 +23,14 @@ class Router {
         page(url, this.onParseUrl)
     }
     onParseUrl(ctx) {
+        const currentPath = ctx.path.replace(Store.getURL(), '')
         // Swallow the action if we are alredy on that url
-        if (routerStore.newRoute !== undefined) { if (this.areSimilarURL(routerStore.newRoute.path, ctx.path)) return }
+        if (routerStore.newRoute !== undefined) { if (this.areSimilarURL(routerStore.newRoute.path, currentPath)) return }
         this.newRouteFounded = false
-        routerStore.ctx = ctx
+        routerStore.ctx = {}
+        routerStore.ctx.path = currentPath
         this.newRouteFounded = this.routeValidation()
+
         // If URL don't match a pattern, send to default
         if (!this.newRouteFounded) {
             this.onDefaultURLHandler()
@@ -55,15 +58,25 @@ class Router {
     assignRoute() {
         const path = routerStore.ctx.path
         this.updatePageRoute(path)
+
+        if (dataLayer !== undefined) {
+            const group = Store.getCurrentGroup()
+            dataLayer.push({
+                'event': 'virtualPage',
+                'pageName': JSLang + '_' + JSCountry + '/FW17/desktop/nav_' + routerStore.newRoute.path
+            })
+        }
     }
     createRoute(path, index) {
         const parts = this.getURLParts(path)
         const type = (parts.length === 3) ? Constants.PRODUCT : Constants.PORTRAIT
+        const url = Store.getURL() + path
         return {
             index,
             path,
             parts,
             type,
+            url,
             parent: parts[0],
             target: (parts[1] === undefined) ? '' : parts[1]
         }

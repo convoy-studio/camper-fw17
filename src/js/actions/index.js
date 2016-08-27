@@ -100,10 +100,10 @@ const Actions = {
             item: undefined
         })
     },
-    showPersonInfo: () => {
+    showPersonInfo: (id) => {
         Dispatcher.handleViewAction({
             actionType: Constants.SHOW_PERSON_INFO,
-            item: undefined
+            item: { id }
         })
     },
     showPersonVideo: () => {
@@ -148,10 +148,15 @@ const Actions = {
             item: undefined
         })
     },
-    updateCardsColors: (color) => {
+    updateCards: (color, bgColor, name, group) => {
         Dispatcher.handleViewAction({
-            actionType: Constants.UPDATE_CARDS_COLORS,
-            item: color
+            actionType: Constants.UPDATE_CARDS,
+            item: {
+                color,
+                bgColor,
+                name,
+                group
+            }
         })
     }
 }
