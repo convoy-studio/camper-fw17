@@ -4,7 +4,6 @@ import dom from 'dom-hand'
 export default (id, props) => {
     let scope
     let mesh
-    let angle = 0
     const normalScale = 0.8
     const indexScale = 0.26
     const normalPosY = -20
@@ -71,14 +70,9 @@ export default (id, props) => {
     const render = () => {
         if (mesh === undefined) return
         const smoothing = 0.3
-        angle += 0.03
         container.rotation.x += (-0.005) + ((Math.cos(Store.Mouse.nY) * 0.4) - container.rotation.x) * smoothing
         container.rotation.y += ((Math.sin(Store.Mouse.nX) * 0.3) - container.rotation.y) * smoothing
         container.rotation.z += ((Math.sin(Store.Mouse.nX) * 0.1) - container.rotation.z) * smoothing
-        props.lights.point_0.position.x += Math.cos(angle) * 300
-        props.lights.point_1.position.x += Math.cos(angle) * 400
-        props.lights.point_0.position.y += Math.sin(angle) * 300
-        props.lights.point_1.position.y += Math.sin(angle) * 800
     }
     const activate = () => {
         container.visible = true

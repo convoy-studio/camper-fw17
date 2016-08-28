@@ -37,7 +37,7 @@ class BaseComponent {
     }
     remove() {
         this.componentWillUnmount()
-        this.element.remove()
+        dom.tree.remove(this.parent, this.element)
     }
     resize() {
     }

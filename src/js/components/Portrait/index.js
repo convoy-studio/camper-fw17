@@ -26,14 +26,14 @@ export default class Portrait extends Page {
         Store.on(Constants.TITLE_CANVAS_ENTER, this.titleCanvasEnter)
         Store.on(Constants.TITLE_CANVAS_LEAVE, this.titleCanvasLeave)
     }
+    componentWillMount() {
+        super.componentWillMount()
+    }
     componentDidMount() {
+
         const bgVideoContainer = dom.select('#background-video-container', this.element)
         const morphingVideoContainer = dom.select('.morphing-video-container', this.element)
         this.baseVideoPath = Store.baseMediaPath() + 'media/group/' + this.props.route.parent + '/' + this.props.route.target + '/portrait/'
-
-        this.bgVideo = miniVideo({ autoplay: false, loop: true })
-        this.bgVideo.addTo(bgVideoContainer)
-        this.bgVideo.load(this.baseVideoPath + 'loop.mp4', () => { this.bgVideo.play() })
 
         this.morphingVideo = miniVideo({ autoplay: false, loop: false })
         this.morphingVideo.addTo(morphingVideoContainer)
@@ -42,7 +42,13 @@ export default class Portrait extends Page {
         const textBtnEl = dom.select('.discover-text-container', this.element)
         this.mainTextBtn = MainTextbtn(textBtnEl)
 
-        super.componentDidMount()
+        this.bgVideo = miniVideo({ autoplay: false, loop: true })
+        this.bgVideo.addTo(bgVideoContainer)
+        this.bgVideo.load(this.baseVideoPath + 'loop.mp4', () => {
+            this.bgVideo.play()
+            // wait to load the video before all be ready !!
+            super.componentDidMount()
+        })
     }
     titleCanvasEnter() {
         if (this.mainTextBtn !== undefined) this.mainTextBtn.over()
@@ -108,6 +114,9 @@ export default class Portrait extends Page {
         this.mainTextBtn.clear()
         this.bgVideo.clear()
         this.morphingVideo.clear()
+        this.morphingVideo = null
+        this.bgVideo = null
+        this.mainTextBtn = null
         super.componentWillUnmount()
     }
 }

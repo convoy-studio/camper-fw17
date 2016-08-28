@@ -9,6 +9,7 @@ import Router from '../../services/router'
 class ArrowsContainer extends BaseComponent {
     constructor() {
         super()
+        this.isOpen = false
     }
     render(parent) {
         let scope = {}
@@ -65,9 +66,11 @@ class ArrowsContainer extends BaseComponent {
         this.rightArrow.changeColor(color)
     }
     open() {
+        this.isOpen = true
         this.tl.timeScale(1.8).play()
     }
     close() {
+        this.isOpen = false
         this.tl.timeScale(1.8).reverse()
     }
     resize() {
@@ -89,7 +92,8 @@ class ArrowsContainer extends BaseComponent {
         const padding = Constants.PADDING_AROUND * 2
         this.tl.fromTo(this.leftArrow.el, 1, { x:-padding, force3D: true }, { x:0, force3D: true, ease: Expo.easeInOut }, 0)
         this.tl.fromTo(this.rightArrow.el, 1, { x:padding, force3D: true }, { x:0, force3D: true, ease: Expo.easeInOut }, 0)
-        this.tl.pause(0)
+        if (this.isOpen) this.tl.pause(this.tl.totalDuration())
+        else this.tl.pause(0)
     }
 }
 

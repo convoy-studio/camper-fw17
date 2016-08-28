@@ -11,8 +11,6 @@ export default class Product extends Page {
         const globalContent = Store.globalContent()
         const colors = Store.getGroupColors()
         props.data['background-src'] = Store.getImgSrcById('background')
-        props.data['shoe-src'] = Store.getImgSrcById('shoe')
-        props.data['face-src'] = Store.getImgSrcById('face')
         props.data.mediaBasePath = Store.baseMediaPath
         props.data.groupTitle = globalContent['shop_title'] + ' ' + Store.getCurrentGroup()
         props.data.group = Store.getCurrentGroup()
@@ -23,7 +21,7 @@ export default class Product extends Page {
         this.textOver = this.textOver.bind(this)
         this.textOut = this.textOut.bind(this)
         this.textClick = this.textClick.bind(this)
-        this.background = dom.select('.background', this.element)
+        // this.background = dom.select('.background', this.element)
 
         const element = dom.select('canvas', this.element)
         const params = {
@@ -33,8 +31,14 @@ export default class Product extends Page {
         }
         this.stage = Utils.setupCanvas(params)
         this.stage.enableMouseOver(10);
-        this.leftPart = diptyquePart(Store.getImgSrcById('shoe'), this.stage)
-        this.rightPart = diptyquePart(Store.getImgSrcById('face'), this.stage)
+
+        this.background = new createjs.Bitmap(Store.getImgById('background'))
+        this.background.regX = (Constants.MEDIA_GLOBAL_W  / 2)
+        this.background.regY = (Constants.MEDIA_GLOBAL_H  / 2)
+        this.stage.addChild(this.background)
+
+        this.leftPart = diptyquePart(Store.getImgById('shoe'), this.stage)
+        this.rightPart = diptyquePart(Store.getImgById('face'), this.stage)
 
         this.leftPart.container.mouseEnabled = true
         this.leftPart.container.mouseChildren = false
@@ -52,7 +56,7 @@ export default class Product extends Page {
     }
     setupAnimations() {
         const windowW = Store.Window.w
-        this.tlIn.from(this.background, 1, { opacity:0, ease:Expo.easeOut }, 0)
+        this.tlIn.from(this.background, 1, { alpha:0, ease:Expo.easeOut }, 0)
         this.tlIn.from(this.leftPart.img, 1, { x:-(windowW >> 1), alpha:0, scaleX:3, ease:Expo.easeOut }, 0.3)
         this.tlIn.from(this.rightPart.img, 1, { x:(windowW >> 1), alpha:0, scaleX:3, ease:Expo.easeOut }, 0.3)
 
@@ -98,10 +102,9 @@ export default class Product extends Page {
         const windowH = Store.Window.h
 
         const backgroundResizeVars = Utils.resizePositionProportionally(windowW, windowH, Constants.MEDIA_GLOBAL_W, Constants.MEDIA_GLOBAL_H)
-        this.background.style.width = backgroundResizeVars.width + 'px'
-        this.background.style.height = backgroundResizeVars.height + 'px'
-        this.background.style.left = (windowW >> 1) - (backgroundResizeVars.width >> 1) + 'px'
-        this.background.style.top = (windowH >> 1) - (backgroundResizeVars.height >> 1) + 'px'
+        this.background.x = (windowW >> 1)
+        this.background.y = (windowH >> 1)
+        this.background.scaleX = this.background.scaleY = backgroundResizeVars.scale
 
         const canvas = this.stage.canvas
         canvas.width = windowW

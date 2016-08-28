@@ -20,6 +20,7 @@ class GlRenderer {
         const windowH = Store.Window.h
         this.element = element
         this.cameraHeight = 500
+        this.angle = 0
         this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
         this.renderer.setPixelRatio( Store.devicePixelRatio() )
         this.renderer.setSize( windowW, windowH )
@@ -153,30 +154,29 @@ class GlRenderer {
         this.currentText.resize()
         this.tlOpen.clear()
         this.tlClose.clear()
-        // console.log(this.currentText.container.scale)
-        // this.tlOpen.fromTo(this.element, 1, { y: canvasSize[1] * 2, force3D: true }, { y:0, force3D: true, ease: Expo.easeInOut }, 0)
-        // this.tlClose.fromTo(this.element, 1, { y: 0, force3D: true }, { y: canvasSize[1] * 2, force3D: true, ease: Expo.easeInOut }, 0)
         this.tlOpen.fromTo(this.element, 1, { scaleX:2, scaleY:0.6, opacity:0, force3D: true }, { scaleX:1, scaleY:1, opacity:1, force3D: true, ease: Expo.easeInOut }, 0)
         this.tlClose.fromTo(this.element, 1, { scaleX:1, scaleY:1, opacity:1, force3D: true }, { scaleX:2, scaleY:0.2, opacity:0, force3D: true, ease: Expo.easeInOut }, 0)
-        // this.tlOpen.to(this.currentText.container.scale, 1, { x:1, y:1, z:1, ease: Expo.easeInOut }, 0)
-        // this.tlClose.fromTo(this.currentText.container.scale, 1, { x:2, y:2, z:2, ease: Expo.easeInOut }, 0)
         this.tlClose.pause(0)
         this.tlOpen.pause(0)
     }
+    updateLights() {
+        this.angle += 0.02
+        this.props.lights.point_0.position.x += Math.cos(this.angle) * 100
+        this.props.lights.point_1.position.x += Math.cos(this.angle) * 160
+        this.props.lights.point_0.position.y += Math.sin(this.angle) * 180
+        this.props.lights.point_1.position.y += Math.sin(this.angle) * 200
+    }
     render() {
-
         if (Store.IndexIsOpened) {
-            this.allTexts.forEach((text) => {
-                text.render()
-            })
+            this.allTexts.forEach((text) => { text.render() })
             this.renderer.render(this.scene, this.camera)
+            this.updateLights()
         } else {
             if (this.currentText === undefined || this.isOpen === false) return
             this.renderer.render(this.scene, this.camera)
             this.currentText.render()
+            this.updateLights()
         }
-
-        
     }
 }
 

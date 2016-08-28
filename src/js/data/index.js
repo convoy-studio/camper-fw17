@@ -98,7 +98,7 @@ export default {
             colorIndex: '#37383D',
             colorBackground: '#161D23',
             spriteParams: {
-                count: 12,
+                count: 11,
                 framerate: 15
             },
             textures: [

@@ -66,6 +66,7 @@ class App {
             totalLoadedMeshes++
             if (totalLoadedMeshes === 4) this.onAppReady()
         }
+        console.log(Store.baseMediaPath())
         Utils.meshLoader('kings', Store.baseMediaPath() + 'mesh/kings.js', (id, geometry) => { Store.Meshes[id] = geometry; onMeshLoaded(); })
         Utils.meshLoader('armours', Store.baseMediaPath() + 'mesh/armours.js', (id, geometry) => { Store.Meshes[id] = geometry; onMeshLoaded(); })
         Utils.meshLoader('dino', Store.baseMediaPath() + 'mesh/dino.js', (id, geometry) => { Store.Meshes[id] = geometry; onMeshLoaded(); })

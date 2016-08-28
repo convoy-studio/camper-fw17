@@ -23,6 +23,14 @@ class Router {
         page(url, this.onParseUrl)
     }
     onParseUrl(ctx) {
+
+        if (ctx.path.indexOf(Store.Detector.url.host) < 0) {
+            const url = Store.Detector.url.protocol + '//' + Store.Detector.url.host + ctx.path
+            this.beginPass = false
+            page(url)
+            return
+        }
+        
         const currentPath = ctx.path.replace(Store.getURL(), '')
         // Swallow the action if we are alredy on that url
         if (routerStore.newRoute !== undefined) { if (this.areSimilarURL(routerStore.newRoute.path, currentPath)) return }
@@ -31,11 +39,11 @@ class Router {
         routerStore.ctx.path = currentPath
         this.newRouteFounded = this.routeValidation()
 
-        // If URL don't match a pattern, send to default
-        if (!this.newRouteFounded) {
-            this.onDefaultURLHandler()
-            return
-        }
+        // // If URL don't match a pattern, send to default
+        // if (!this.newRouteFounded) {
+        //     this.onDefaultURLHandler()
+        //     return
+        // }
         this.assignRoute()
     }
     areSimilarURL(previous, next) {

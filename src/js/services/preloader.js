@@ -1,6 +1,6 @@
 class Preloader  {
     constructor() {
-        this.queue = new createjs.LoadQueue(false)
+        this.queue = new createjs.LoadQueue(true, null, true)
         this.queue.on('complete', this.onManifestLoadCompleted, this)
         this.currentLoadedCallback = undefined
         this.allManifests = []
@@ -28,6 +28,7 @@ class Preloader  {
     }
     getImageURL(id) {
         const content = this.getContentById(id)
+        content.crossOrigin = 'Anonymous'
         return content.getAttribute('src')
     }
     getImageSize(id) {

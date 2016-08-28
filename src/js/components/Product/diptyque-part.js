@@ -3,9 +3,9 @@ import Utils from '../../utils'
 import Constants from '../../constants'
 import dom from 'dom-hand'
 
-export default (url, stage)=> {
+export default (image, stage)=> {
     let scope
-    let img = new createjs.Bitmap(url)
+    let img = new createjs.Bitmap(image)
     let container = new createjs.Container()
     img.regX = (Constants.MEDIA_GLOBAL_W  / 2) / 2
     img.regY = (Constants.MEDIA_GLOBAL_H  / 2)

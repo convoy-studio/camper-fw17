@@ -51,5 +51,7 @@ export default class BasePage extends BaseComponent {
     componentWillUnmount() {
         this.tlIn.clear()
         this.tlOut.clear()
+        this.tlIn = null
+        this.tlOut = null
     }
 }
