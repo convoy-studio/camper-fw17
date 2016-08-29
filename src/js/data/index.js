@@ -154,56 +154,56 @@ export default {
                 background: '#d29b36',
                 index: '#4700B3'
             },
-            shop_url: 'http://www.camper.com/int/men/shoes/ss16_inspiration'
+            shop_url: 'http://www.camper.com/int/men/shoes/kings'
         },
         '/kings/wilma': {
             colors: {
                 background: '#921438',
                 index: '#4700B3'
             },
-            shop_url: 'http://www.camper.com/int/men/shoes/ss16_inspiration'
+            shop_url: 'http://www.camper.com/int/women/shoes/kings'
         },
         '/armours/wilma-extreme': {
             colors: {
                 background: '#161D23',
                 index: '#1660C0'
             },
-            shop_url: 'http://www.camper.com/int/men/shoes/ss16_inspiration'
+            shop_url: 'http://www.camper.com/int/women/shoes/armours'
         },
         '/armours/gorka': {
             colors: {
                 background: '#161D23',
                 index: '#1660C0'
             },
-            shop_url: 'http://www.camper.com/int/men/shoes/ss16_inspiration'
+            shop_url: 'http://www.camper.com/int/men/shoes/armours'
         },
         '/dino/rex': {
             colors: {
                 background: '#272B1D',
                 index: '#ABEF33'
             },
-            shop_url: 'http://www.camper.com/int/men/shoes/ss16_inspiration'
+            shop_url: 'http://www.camper.com/int/men/shoes/dino'
         },
         '/dino/wilma-extreme': {
             colors: {
                 background: '#272B1D',
                 index: '#D33394'
             },
-            shop_url: 'http://www.camper.com/int/men/shoes/ss16_inspiration'
+            shop_url: 'http://www.camper.com/int/women/shoes/dino'
         },
         '/sport/marges': {
             colors: {
                 background: '#896A4D',
                 index: '#FF9F00'
             },
-            shop_url: 'http://www.camper.com/int/men/shoes/ss16_inspiration'
+            shop_url: 'http://www.camper.com/int/women/shoes/sport'
         },
         '/sport/bowie': {
             colors: {
                 background: '#281942',
                 index: '#FF9F00'
             },
-            shop_url: 'http://www.camper.com/int/men/shoes/ss16_inspiration'
+            shop_url: 'http://www.camper.com/int/men/shoes/sport'
         }
     }
 }

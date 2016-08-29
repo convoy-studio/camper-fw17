@@ -1,4 +1,5 @@
 import Store from '../../../store'
+import Constants from '../../../constants'
 import dom from 'dom-hand'
 import Utils from '../../../utils'
 
@@ -13,6 +14,7 @@ export default (id, props) => {
     const geometry = Store.Meshes['sport']
     const container = new THREE.Object3D()
     const containerScale = 6.0
+    let indexTimeout = undefined
     container.scale.set(containerScale, containerScale, containerScale)
     container.position.set(0, normalPosY, 0)
     container.visible = false
@@ -70,6 +72,10 @@ export default (id, props) => {
     container.add(mesh)
     props.scene.add(container)
 
+    const tl = new TimelineMax()
+    tl.fromTo(mesh.scale, Constants.INDEX_TIME, { x:0, y:0, z:0 }, { x:indexScale, y:indexScale, z:indexScale, ease:Constants.INDEX_EASE })
+    tl.pause(0)
+
     const render = () => {
         if (mesh === undefined) return
         const smoothing = 0.3
@@ -78,17 +84,23 @@ export default (id, props) => {
         container.rotation.z += ((Math.sin(Store.Mouse.nX) * 0.1) - container.rotation.z) * smoothing
     }
     const activate = () => {
+        mesh.scale.set(0, 0, 0)
         container.visible = true
     }
     const deactivate = () => {
         container.visible = false
     }
     const indexState = () => {
+        render()
+        tl.pause(0)
+        render()
     }
     const resize = () => {
         if (mesh === undefined) return
+        clearTimeout(indexTimeout)
         if (Store.IndexIsOpened) {
-            mesh.scale.set(indexScale, indexScale, indexScale)
+            tl.pause(0)
+            indexTimeout = setTimeout(() => { tl.timeScale(1.8).play(0) }, Constants.INDEX_TIMEOUT)
             container.position.y = indexPosY
         } else {
             mesh.scale.set(normalScale, normalScale, normalScale)

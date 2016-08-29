@@ -135,7 +135,7 @@ const Store = assign({}, EventEmitter2.prototype, {
         return _getPageContent()
     },
     getURL: () => {
-        return Store.Detector.url.protocol + '//' + Store.Detector.url.host + '/' + JSLang + '_' + JSCountry + '/content/' + CampaignName
+        return HostName + '/' + JSLang + '_' + JSCountry + '/content/' + CampaignName
     },
     appData: () => {
         return _getAppData()

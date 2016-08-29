@@ -11,6 +11,7 @@ const headerLinks = (parent)=> {
     const shopWrapper = dom.select('.shop-wrapper', parent)
     const submenuWrapper = dom.select('.submenu-wrapper', parent)
     const shopTitle = dom.select('.shop-title', shopWrapper)
+    let indexBtnIsEnabled = true
     let visibilityTimeout
 
     const findBtnById = (id) => {
@@ -100,6 +101,9 @@ const headerLinks = (parent)=> {
 
     dom.event.on(simpleTextBtnsEl[0], 'click', (e) => {
         e.preventDefault()
+        if (!indexBtnIsEnabled) return
+        indexBtnIsEnabled = false
+        setTimeout(() => { indexBtnIsEnabled = true }, 1500)
         if (Store.IndexIsOpened) Actions.closeIndex()
         else Actions.openIndex()
     })

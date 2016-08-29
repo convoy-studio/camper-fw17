@@ -1,4 +1,5 @@
 import Store from '../../../store'
+import Constants from '../../../constants'
 import dom from 'dom-hand'
 
 export default (id, props) => {
@@ -9,6 +10,7 @@ export default (id, props) => {
     const normalPosY = -20
     const indexPosY = -150
     const size = [ 600, 400 ]
+    let indexTimeout = undefined
     const geometry = Store.Meshes['dino']
     const container = new THREE.Object3D()
     container.scale.set(normalScale, normalScale, normalScale)
@@ -67,6 +69,10 @@ export default (id, props) => {
     container.add(mesh)
     props.scene.add(container)
 
+    const tl = new TimelineMax()
+    tl.fromTo(container.scale, Constants.INDEX_TIME, { x:0, y:0, z:0 }, { x:indexScale, y:indexScale, z:indexScale, ease:Constants.INDEX_EASE })
+    tl.pause(0)
+
     const render = () => {
         if (mesh === undefined) return
         const smoothing = 0.3
@@ -75,17 +81,23 @@ export default (id, props) => {
         container.rotation.z += ((Math.sin(Store.Mouse.nX) * 0.1) - container.rotation.z) * smoothing
     }
     const activate = () => {
+        container.scale.set(0, 0, 0)
         container.visible = true
     }
     const deactivate = () => {
         container.visible = false
     }
     const indexState = () => {
+        render()
+        tl.pause(0)
+        render()
     }
     const resize = () => {
         if (mesh === undefined) return
+        clearTimeout(indexTimeout)
         if (Store.IndexIsOpened) {
-            container.scale.set(indexScale, indexScale, indexScale)
+            tl.pause(0)
+            indexTimeout = setTimeout(() => { tl.timeScale(1.6).play(0) }, Constants.INDEX_TIMEOUT)
             container.position.y = indexPosY
         } else {
             container.scale.set(normalScale, normalScale, normalScale)

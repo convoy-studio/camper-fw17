@@ -21,7 +21,6 @@ export default class Product extends Page {
         this.textOver = this.textOver.bind(this)
         this.textOut = this.textOut.bind(this)
         this.textClick = this.textClick.bind(this)
-        // this.background = dom.select('.background', this.element)
 
         const element = dom.select('canvas', this.element)
         const params = {

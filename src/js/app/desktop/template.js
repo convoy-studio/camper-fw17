@@ -52,10 +52,6 @@ class AppTemplate extends BaseComponent {
         Store.on(Constants.SHOW_INTERFACE, this.showInterface)
         Store.on(Constants.HIDE_INTERFACE, this.hideInterface)
 
-        // this.stats = new Stats()
-        // this.stats.showPanel(0) // 0: fps, 1: ms, 2: mb, 3+: custom
-        // document.body.appendChild( this.stats.dom )
-
         this.animate()
     }
     didStartMorphing() {
@@ -69,7 +65,6 @@ class AppTemplate extends BaseComponent {
         this.frontContainer.hideInterface()
     }
     animate() {
-        // this.stats.update()
         this.pagesContainer.update()
         this.canvasContainer.update()
         this.portraitTransitionContainer.update()

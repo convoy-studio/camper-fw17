@@ -25,7 +25,7 @@ class Router {
     onParseUrl(ctx) {
 
         if (ctx.path.indexOf(Store.Detector.url.host) < 0) {
-            const url = Store.Detector.url.protocol + '//' + Store.Detector.url.host + ctx.path
+            const url = HostName + ctx.path
             this.beginPass = false
             page(url)
             return

@@ -148,6 +148,18 @@ const Actions = {
             item: undefined
         })
     },
+    mainArrowOver: (dir) => {
+        Dispatcher.handleViewAction({
+            actionType: Constants.MAIN_ARROW_OVER,
+            item: dir
+        })
+    },
+    mainArrowOut: (dir) => {
+        Dispatcher.handleViewAction({
+            actionType: Constants.MAIN_ARROW_OUT,
+            item: dir
+        })
+    },
     updateCards: (color, bgColor, name, group) => {
         Dispatcher.handleViewAction({
             actionType: Constants.UPDATE_CARDS,

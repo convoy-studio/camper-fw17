@@ -86,6 +86,17 @@
             width: 12px * $scale;
             height: 13px * $scale;
         }
+        .icon-holder {
+            position: absolute;
+            z-index: 2;
+        }
+        .background {
+            @extend .full;
+            @extend .top-left;
+            z-index: 1;
+            position: absolute;
+            // background-color: #ff0000;
+        }
     }
     .index-layer-container {
         position: absolute;

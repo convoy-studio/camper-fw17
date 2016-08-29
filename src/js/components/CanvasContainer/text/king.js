@@ -1,6 +1,7 @@
 import Store from '../../../store'
 import dom from 'dom-hand'
 import Utils from '../../../utils'
+import Constants from '../../../constants'
 const shaderVx = require("../../../glsl/fur-vx.glsl")
 const shaderFx = require("../../../glsl/fur-fx.glsl")
 
@@ -10,7 +11,7 @@ export default (id, props) => {
         canvas.width = 256
         canvas.height = 256
         var context = canvas.getContext( '2d' )
-        for (var i = 0; i < 10000; i++) {
+        for (var i = 0; i < 7000; i++) {
             context.fillStyle = 'rgba(255,' + Math.floor( Math.random() * 500 ) + ','+ Math.floor( Math.random() * 500 ) +',100)'
             context.fillRect(Math.random() * canvas.width, Math.random() * canvas.height, 2, 2)
         }
@@ -19,8 +20,9 @@ export default (id, props) => {
 
     const normalScale = 1.6
     const indexScale = 0.47
-    const normalPosY = -140
+    const normalPosY = -70
     const indexPosY = 300
+    let indexTimeout = undefined
     let scope
     let delta, time, oldTime
     let shaderTime = 0
@@ -34,6 +36,10 @@ export default (id, props) => {
     container.scale.set(normalScale, normalScale, normalScale)
     container.position.set(0, normalPosY, 0)
     container.visible = false
+
+    const tl = new TimelineMax()
+    tl.fromTo(container.scale, Constants.INDEX_TIME, { x:0, y:0, z:0 }, { x:indexScale, y:indexScale, z:indexScale, ease:Constants.INDEX_EASE })
+    tl.pause(0)
 
     // hair texture
     const texture = new THREE.Texture(generateTexture())
@@ -97,17 +103,23 @@ export default (id, props) => {
         container.rotation.z += ((Math.sin(Store.Mouse.nX) * 0.07) - container.rotation.z) / smoothing
     }
     const activate = () => {
+        container.scale.set(0, 0, 0)
         container.visible = true
     }
     const deactivate = () => {
         container.visible = false
     }
     const indexState = () => {
+        render()
+        tl.pause(0)
+        render()
     }
     const resize = () => {
         if (meshes.length === 0) return
+        clearTimeout(indexTimeout)
         if (Store.IndexIsOpened) {
-            container.scale.set(indexScale, indexScale, indexScale)
+            tl.pause(0)
+            indexTimeout = setTimeout(() => { tl.timeScale(1.2).play(0) }, Constants.INDEX_TIMEOUT)
             container.position.y = indexPosY
         } else {
             container.scale.set(normalScale, normalScale, normalScale)
