@@ -6,9 +6,9 @@ import Utils from '../../../utils'
 export default (id, props) => {
     let scope
     let mesh
-    const normalScale = 0.05
+    const normalScale = 0.049
     const indexScale = 0.017
-    const normalPosY = -220
+    const normalPosY = -180
     const indexPosY = -380
     const size = [ 900, 360 ]
     const geometry = Store.Meshes['sport']
