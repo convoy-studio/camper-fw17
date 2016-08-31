@@ -9,6 +9,7 @@ import Actions from '../../../actions'
 class BasePager extends BaseComponent {
     constructor(initialPageReady) {
         super()
+        this.firstTime = true
         this.currentPageDivRef = 'page-b'
         this.willPageTransitionIn = this.willPageTransitionIn.bind(this)
         this.willPageTransitionOut = this.willPageTransitionOut.bind(this)
@@ -94,7 +95,10 @@ class BasePager extends BaseComponent {
         }
     }
     onPageReady(route) {
-        this.initialPageReady()
+        if (this.firstTime) {
+            this.initialPageReady()
+            this.firstTime = false
+        }
         PagerActions.onPageReady(route)
     }
     componentDidMount() {
