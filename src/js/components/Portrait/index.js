@@ -64,6 +64,7 @@ export default class Portrait extends Page {
         super.didTransitionInComplete()
     }
     willTransitionIn() {
+        TweenMax.set(this.mainTextBtn.el, { opacity: 1 })
         super.willTransitionIn()
     }
     willTransitionOut() {

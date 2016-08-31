@@ -10,8 +10,8 @@ import Product from '../Product'
 import ProductTemplate from '../Product/template.hbs'
 
 class PagesContainer extends BasePager {
-    constructor() {
-        super()
+    constructor(initialPageReady) {
+        super(initialPageReady)
         this.didPageChange = this.didPageChange.bind(this)
         this.pageAssetsLoaded = this.pageAssetsLoaded.bind(this)
         Store.on(Constants.ROUTE_CHANGED, this.didPageChange)

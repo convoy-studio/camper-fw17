@@ -4,8 +4,8 @@ export default {
         'facebook_url': 'https://www.facebook.com/Camper',
         'instagram_url': 'https://instagram.com/camper/',
         'lab_url': 'http://www.camper.com/lab',
-        'men_shop_url': 'http://www.camper.com/int/men/shoes/ss16_inspiration',
-        'women_shop_url': 'http://www.camper.com/int/women/shoes/ss16_inspiration',
+        'men_shop_url': 'http://www.camper.com/int/men/shoes/fw16_inspiration',
+        'women_shop_url': 'http://www.camper.com/int/women/shoes/fw16_inspiration',
         'lang': {
             'en': {
                 'discover': 'discover',
@@ -193,17 +193,17 @@ export default {
         },
         '/sport/marges': {
             colors: {
-                background: '#896A4D',
-                index: '#FF9F00'
-            },
-            shop_url: 'http://www.camper.com/int/women/shoes/sport'
-        },
-        '/sport/bowie': {
-            colors: {
                 background: '#281942',
                 index: '#FF9F00'
             },
             shop_url: 'http://www.camper.com/int/men/shoes/sport'
+        },
+        '/sport/bowie': {
+            colors: {
+                background: '#896A4D',
+                index: '#FF9F00'
+            },
+            shop_url: 'http://www.camper.com/int/women/shoes/sport'
         }
     }
 }

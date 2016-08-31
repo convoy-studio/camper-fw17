@@ -3,8 +3,11 @@
 		{{#each portraits}}
 			<li>
 				<div class="relative" style="border-color:{{index_color}};">
-					<div class="face"><img src="{{face_url}}"></div>
-					<div class="shoe"><img src="{{shoe_url}}"></div>
+					<div class="group-logo {{group}}"><img src="{{imgsrc}}"></div>
+					<div class="holder">
+						<div class="face"><img src="{{face_url}}"></div>
+						<div class="shoe"><img src="{{shoe_url}}"></div>
+					</div>
 				</div>
 			</li>
 		{{/each}}
@@ -13,7 +16,7 @@
 <div class="backgrounds">
 	<ul>
 		{{#each portraits}}
-			<li data-group="{{group}}" data-color="{{index_color}}" data-name="{{name}}" data-background-color="{{background_color}}" style="background-color:{{background_color}};"></li>
+			<li data-group="{{group}}" data-color="{{index_color}}" data-name="{{group}}" data-portrait-name="{{name}}" data-background-color="{{background_color}}" style="background-color:{{background_color}};"></li>
 		{{/each}}
 	</ul>
 </div>

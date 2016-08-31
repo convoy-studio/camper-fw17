@@ -224,6 +224,7 @@ const Store = assign({}, EventEmitter2.prototype, {
         return data.routing[id].colors
     },
     getPageContentById: (id) => {
+        console.log(data.routing)
         return data.routing[id]
     },
     getGroupSpriteParams: () => {
@@ -353,7 +354,7 @@ const Store = assign({}, EventEmitter2.prototype, {
             break
         case Constants.UPDATE_CARDS:
             Store.CurrentCard = {
-                name: action.item.name,
+                name: action.item.portraitName,
                 group: action.item.group
             }
 

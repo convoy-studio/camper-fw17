@@ -49,7 +49,7 @@ class ArrowsContainer extends BaseComponent {
             dataLayer.push({
                 'event': 'eventGA',
                 'eventCat': 'camp- FW17_desktop',
-                'eventAct': 'pulsar-nav_der',
+                'eventAct': 'pulsar-nav_izq',
                 'eventLbl': group
             })
         }
@@ -65,7 +65,7 @@ class ArrowsContainer extends BaseComponent {
             dataLayer.push({
                 'event': 'eventGA',
                 'eventCat': 'camp- FW17_desktop',
-                'eventAct': 'pulsar-nav_izq',
+                'eventAct': 'pulsar-nav_der',
                 'eventLbl': group
             })
         }

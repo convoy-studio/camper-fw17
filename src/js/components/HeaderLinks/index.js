@@ -11,6 +11,7 @@ const headerLinks = (parent)=> {
     const shopWrapper = dom.select('.shop-wrapper', parent)
     const submenuWrapper = dom.select('.submenu-wrapper', parent)
     const shopTitle = dom.select('.shop-title', shopWrapper)
+    const indexBtnTimeout = Store.Detector.isSupportWebGL ? 1600 : 500
     let indexBtnIsEnabled = true
     let visibilityTimeout
 
@@ -37,9 +38,7 @@ const headerLinks = (parent)=> {
         e.preventDefault()
         clearTimeout(visibilityTimeout)
         dom.classes.remove(shopWrapper, 'hovered')
-        visibilityTimeout = setTimeout(() => {
-            submenuWrapper.style.visibility = 'hidden'
-        }, 500)
+        visibilityTimeout = setTimeout(() => { submenuWrapper.style.visibility = 'hidden' }, 500)
     }
 
     const changeColor = (color, group) => {
@@ -103,7 +102,7 @@ const headerLinks = (parent)=> {
         e.preventDefault()
         if (!indexBtnIsEnabled) return
         indexBtnIsEnabled = false
-        setTimeout(() => { indexBtnIsEnabled = true }, 1500)
+        setTimeout(() => { indexBtnIsEnabled = true }, indexBtnTimeout)
         if (Store.IndexIsOpened) Actions.closeIndex()
         else Actions.openIndex()
     })

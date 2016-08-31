@@ -24,16 +24,19 @@ class TinderContainer extends BaseComponent {
         this.onThrowin = this.onThrowin.bind(this)
         this.onShowShoe = this.onShowShoe.bind(this)
         this.onShowVideo = this.onShowVideo.bind(this)
+        this.updateColors = this.updateColors.bind(this)
         this.maxDistance = 0
+        this.delay = 100
         this.throwOutFinished = true
 
         Store.on(Constants.SHOW_PERSON_INFO, this.onShowShoe)
         Store.on(Constants.SHOW_PERSON_VIDEO, this.onShowVideo)
+        Store.on(Constants.UPDATE_CARDS, this.updateColors)
     }
     render(parent) {
         let scope = {}
         let portraits = []
-        const routes = Router.getPortraitRoutes()
+        const routes = Router.getPortraitRoutes().reverse()
         const baseMediaPath = Store.baseMediaPath() + 'media/group'
         routes.forEach((route) => {
             const group = Store.getGroupById(route.parent)
@@ -43,6 +46,7 @@ class TinderContainer extends BaseComponent {
                 group: route.parent,
                 background_color: colors.background,
                 index_color: colors.index,
+                imgsrc: baseMediaPath + '/' + route.parent + '/common/title_index.png',
                 face_url: baseMediaPath + route.path + '/mobile/face.jpg',
                 shoe_url: baseMediaPath + route.path + '/mobile/shoe.jpg'
             })
@@ -58,9 +62,14 @@ class TinderContainer extends BaseComponent {
         this.videoBackground = dom.select('.background', this.videoContainer)
         this.backgroundsEl = dom.select('.backgrounds ul', this.element)
         this.cardsLi = dom.select.all('li', this.stackEl)
+        this.cardsLiRelative = dom.select.all('li .relative', this.stackEl)
+        this.cardsLiRelativeHolder = dom.select.all('li .relative .holder', this.stackEl)
+        this.cardsLiFace = dom.select.all('li .relative .face', this.stackEl)
+        this.cardsLiShoe = dom.select.all('li .relative .shoe', this.stackEl)
         this.imgs = dom.select.all('li > div', this.stackEl)
 
-        const config = {}
+        const config = {
+        }
         this.stack = Swing.Stack(config)
         this.cardsLi.forEach((targetElement) => { this.stack.createCard(targetElement) })
 
@@ -70,7 +79,14 @@ class TinderContainer extends BaseComponent {
         this.stack.on('throwin', this.onThrowin)
 
         this.updateFromLastChild()
+        this.applyCardsPerpective()
         super.componentDidMount()
+    }
+    updateColors(vars) {
+        this.cardsLiRelativeHolder.forEach((item) => {
+            item.style.borderColor = vars.color
+            item.style.backgroundColor = vars.bgColor
+        })
     }
     onShowShoe(vars) {
         this.removeCurrentVideo()
@@ -84,7 +100,8 @@ class TinderContainer extends BaseComponent {
         const group = currentSlide.getAttribute('data-group')
         const name = currentSlide.getAttribute('data-name')
         const color = currentSlide.getAttribute('data-background-color')
-        const videoPath = Store.baseMediaPath() + 'media/group/' + group + '/' + name + '/portrait/morphing.mp4'
+        const portraitName = currentSlide.getAttribute('data-portrait-name')
+        const videoPath = Store.baseMediaPath() + 'media/group/' + group + '/' + portraitName + '/portrait/mobile.mp4'
         this.currentVideo = miniVideo({ autoplay: true, loop: true })
         this.currentVideo.addTo(this.videoHolder)
         this.currentVideo.load(videoPath, () => {})
@@ -98,6 +115,7 @@ class TinderContainer extends BaseComponent {
                 lastLi.getAttribute('data-color'),
                 lastLi.getAttribute('data-background-color'),
                 lastLi.getAttribute('data-name'),
+                lastLi.getAttribute('data-portrait-name'),
                 lastLi.getAttribute('data-group')
             )
         })
@@ -127,11 +145,45 @@ class TinderContainer extends BaseComponent {
             this.currentVideo = null
         }
     }
+    applyCardsPerpective() {
+
+        const first = dom.select('li:nth-child(8) .relative', this.stackEl)
+        const firstGroup = dom.select('.group-logo', first)
+        const second = dom.select('li:nth-child(7) .relative', this.stackEl)
+        const third = dom.select('li:nth-child(6) .relative', this.stackEl)
+
+        TweenMax.set(firstGroup, { y:0, scale:1, opacity:1 })
+
+        setTimeout(() => {
+            this.cardsLiRelative.forEach((item) => {
+                item.style.opacity = 0
+            })
+            // this.cardsLiFace.forEach((item) => {
+            //     item.style.opacity = 0
+            // })
+            // this.cardsLiShoe.forEach((item) => {
+            //     item.style.opacity = 0
+            // })
+
+            // const firstFace = dom.select('.face', first)
+            // const firstShoe = dom.select('.shoe', first)
+            // TweenMax.set(firstFace, { opacity:1 })
+            // TweenMax.set(firstShoe, { opacity:1 })
+            
+        }, this.delay)
+
+        TweenMax.to(first, 0.6, { y:0, scale:1, opacity:1, transformOrigin:'50% 100%', ease:Expo.easeOut })
+        TweenMax.to(second, 0.6, { y:10, scale:0.9, opacity:1, transformOrigin:'50% 100%', ease:Expo.easeOut })
+        TweenMax.to(third, 0.6, { y:20, scale:0.8, opacity:1, transformOrigin:'50% 100%', ease:Expo.easeOut })
+    }
     onThrowout(e) {
         const oldCard = this.stack.getCard(e.target)
         const newCardEl = e.target
         const lastEl = dom.select('li:first-child', this.stackEl)
         const lastBackgroundEl = dom.select('li:first-child', this.backgroundsEl)
+        const groupLogo = dom.select('.group-logo', e.target)
+
+        TweenMax.set(groupLogo, { y:10, scale:0.8, opacity:0 })
 
         if (this.fromThrowOut) {
             this.currentBg = dom.select('li:last-child', this.backgroundsEl)
@@ -142,6 +194,7 @@ class TinderContainer extends BaseComponent {
         dom.tree.remove(this.backgroundsEl, this.currentBg)
         dom.tree.addBefore(this.backgroundsEl, this.currentBg, lastBackgroundEl)
         this.updateFromLastChild()
+
         setTimeout(() => {
             this.currentBg.style.opacity = 1
             this.currentBg = undefined
@@ -152,8 +205,15 @@ class TinderContainer extends BaseComponent {
             TweenMax.set(relative, { x:0, y:0, rotation:0 })
             dom.tree.remove(e.target)
             setTimeout(() => {
+                newCardEl.style.opacity = 0
                 this.stackEl.insertBefore(newCardEl, lastEl)
                 this.stack.createCard(newCardEl)
+                setTimeout(() => {
+                    this.applyCardsPerpective()
+                    setTimeout(() => {
+                        newCardEl.style.opacity = 1
+                    }, this.delay)
+                }, this.delay)
             }, 0)
         }, 0)
         this.fromThrowOut = false
@@ -190,8 +250,8 @@ class TinderContainer extends BaseComponent {
     resize() {
         const windowW = Store.Window.w
         const windowH = Store.Window.h
-        const cardW = windowW * 0.7
-        const cardH = windowH * 0.5
+        const cardW = windowW * 0.6
+        const cardH = windowH * 0.4
         this.maxDistance = cardW
 
         if (!this.domIsReady) return
@@ -209,7 +269,7 @@ class TinderContainer extends BaseComponent {
             img.style.left = imgResizeVars.left + 'px'
         })
         this.viewport.style.left = (windowW >> 1) - (cardW >> 1) - 4 + 'px'
-        this.viewport.style.top = (windowH >> 1) - (cardH * 0.64) + 'px'
+        this.viewport.style.top = (windowH >> 1) - (cardH * 0.65) + 'px'
     }
 }
 

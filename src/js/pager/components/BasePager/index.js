@@ -7,7 +7,7 @@ import Constants from '../../../constants'
 import Actions from '../../../actions'
 
 class BasePager extends BaseComponent {
-    constructor() {
+    constructor(initialPageReady) {
         super()
         this.currentPageDivRef = 'page-b'
         this.willPageTransitionIn = this.willPageTransitionIn.bind(this)
@@ -16,6 +16,8 @@ class BasePager extends BaseComponent {
         this.didPageTransitionOutComplete = this.didPageTransitionOutComplete.bind(this)
         this.pageTransitionDidFinish = this.pageTransitionDidFinish.bind(this)
         this.portraitTransitionReachedHalfTime = this.portraitTransitionReachedHalfTime.bind(this)
+        this.onPageReady = this.onPageReady.bind(this)
+        this.initialPageReady = initialPageReady
         this.components = {
             'new-component': undefined,
             'old-component': undefined
@@ -92,6 +94,7 @@ class BasePager extends BaseComponent {
         }
     }
     onPageReady(route) {
+        this.initialPageReady()
         PagerActions.onPageReady(route)
     }
     componentDidMount() {

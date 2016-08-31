@@ -160,13 +160,14 @@ const Actions = {
             item: dir
         })
     },
-    updateCards: (color, bgColor, name, group) => {
+    updateCards: (color, bgColor, name, portraitName, group) => {
         Dispatcher.handleViewAction({
             actionType: Constants.UPDATE_CARDS,
             item: {
                 color,
                 bgColor,
                 name,
+                portraitName,
                 group
             }
         })

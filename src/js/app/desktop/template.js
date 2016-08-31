@@ -30,7 +30,8 @@ class AppTemplate extends BaseComponent {
         this.frontContainer = new FrontContainer()
         this.frontContainer.render('#app-template')
 
-        this.pagesContainer = new PagesContainer()
+        this.pagesContainer = new PagesContainer(this.onInitialPageReady)
+        // this.pagesContainer.initialPageReady = 
         this.pagesContainer.render('#app-template')
 
         this.canvasContainer = new CanvasContainer()
@@ -51,7 +52,6 @@ class AppTemplate extends BaseComponent {
         Store.on(Constants.START_MORPHING, this.didStartMorphing)
         Store.on(Constants.SHOW_INTERFACE, this.showInterface)
         Store.on(Constants.HIDE_INTERFACE, this.hideInterface)
-
         this.animate()
     }
     didStartMorphing() {

@@ -18,7 +18,7 @@ export default (el)=> {
             dataLayer.push({
                 'event': 'eventGA',
                 'eventCat': 'camp- FW17_mobile',
-                'eventAct': 'pulsar-swipe_der',
+                'eventAct': 'pulsar-swipe_izq',
                 'eventLbl': Store.CurrentCard.group
             })
         }
@@ -28,7 +28,6 @@ export default (el)=> {
     // show shoe
     dom.event.on(btns[1], 'click', (e) => {
         e.preventDefault()
-
         if (dataLayer !== undefined) {
             dataLayer.push({
                 'event': 'eventGA',
@@ -37,7 +36,6 @@ export default (el)=> {
                 'eventLbl': Store.CurrentCard.group
             })
         }
-
         Actions.showPersonInfo(currentName)
     })
     // show video
@@ -63,7 +61,7 @@ export default (el)=> {
             dataLayer.push({
                 'event': 'eventGA',
                 'eventCat': 'camp- FW17_mobile',
-                'eventAct': 'pulsar-swipe_izq',
+                'eventAct': 'pulsar-swipe_der',
                 'eventLbl': Store.CurrentCard.group
             })
         }
@@ -79,7 +77,7 @@ export default (el)=> {
             if (arrow) { arrow.style.fill = vars.color }
             btn.style.color = vars.color
         })
-        currentName = vars.name
+        currentName = vars.portraitName
         currentVars = vars
         const p = dom.select('.text-field-container p', btns[1])
         dom.classes.remove(p, 'to_shop')
@@ -97,10 +95,9 @@ export default (el)=> {
 
     const showPersonInfo = () => {
         const p = dom.select('.text-field-container p', btns[1])
-
         if (dom.classes.has(p, 'to_shop')) {
-            const url = Store.getPageContentById('/' + Store.CurrentCard.group + '/' + Store.CurrentCard.name).shop_url
-                
+            const path = '/' + Store.CurrentCard.group + '/' + Store.CurrentCard.name
+            const url = Store.getPageContentById(path).shop_url
             if (dataLayer !== undefined) {
                 dataLayer.push({
                     'event': 'eventGA',
@@ -109,7 +106,6 @@ export default (el)=> {
                     'eventLbl': Store.CurrentCard.group
                 })
             }
-
             window.open(url, '_blank')
         } else {
             dom.classes.add(p, 'to_shop')

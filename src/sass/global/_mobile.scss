@@ -145,22 +145,24 @@ html.mobile {
     	position: relative;
 		li {
 		    .relative {
-		    	border-radius: 10px;
-		    	border: 4px solid #ECECEC;
-		    	// box-sizing: border-box;
+			    position: absolute;
+		    	top: 0;
+		    	left: 0;
+				z-index: 3;
+				.holder {
+					@extend .full;
+					z-index: 1;
+					border-radius: 10px;
+		    		border: 4px solid #ECECEC;
+			    	overflow: hidden;
+			    	position: absolute;
+				}
 		    }
 		    position: absolute;
 		    cursor: default;
 		    @include transform(translate3d(0px, 0px, 0px));
 		    @include transform(translate(0px, 0px));
 		    @include rotate(0);
-		    & > div {
-		    	overflow: hidden;
-		    	position: absolute;
-		    	top: 0;
-		    	left: 0;
-				z-index: 3;
-		    }
 		    .face {
 				z-index: 2;
 				@include opacity(1);
@@ -174,6 +176,28 @@ html.mobile {
 				top: 0;
 		    	left: 0;
 		    	position: absolute;
+		    }
+		    .group-logo {
+				z-index: 3;
+				top: 0;
+		    	left: 0;
+		    	position: absolute;
+		    	@include opacity(0);
+		    	@include anim(.3s, .0s, $easeOutBack, scaleX(0.8) scaleY(0.8) translateY(10px));
+		    	&.kings {
+		    		top: -70px;
+		    	}
+		    	&.sport {
+		    		top: -70px;
+		    		left: 20px;
+		    	}
+		    	&.armours {
+		    		top: -70px;
+		    		left: 20px;
+		    	}
+		    	&.dino {
+		    		top: -60px;
+		    	}
 		    }
 		    &.show-shoe {
 				.face {

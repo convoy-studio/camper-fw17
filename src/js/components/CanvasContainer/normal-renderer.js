@@ -22,16 +22,29 @@ class NormalRenderer {
         const allGroups = Store.getAllGroups()
         const baseUrl = Store.baseMediaPath()
         allGroups.forEach((group) => {
-        	const url = baseUrl + 'media/group/' + group + '/common/title.png'
-        	const img = new createjs.Bitmap(url)
+            const url = baseUrl + 'media/group/' + group + '/common/title.png'
+        	const urlIndex = baseUrl + 'media/group/' + group + '/common/title_index.png'
+            const img = new createjs.Bitmap(url)
+        	const imgIndex = new createjs.Bitmap(urlIndex)
+            const container = new createjs.Container()
         	img.regX = Constants.TITLE_W / 2
         	img.regY = Constants.TITLE_H / 2
         	img.x = Constants.TITLE_W / 2
         	img.y = Constants.TITLE_H / 2
 	        img.group = group
-        	this.stage.addChild(img)
+
+            imgIndex.regX = (Constants.TITLE_W / 2) / 2
+            imgIndex.regY = (Constants.TITLE_H / 2) / 2
+            imgIndex.x = (Constants.TITLE_W) / 2
+            imgIndex.y = (Constants.TITLE_H) / 2
+            imgIndex.group = group
+
+            container.addChild(img)
+            container.addChild(imgIndex)
+            this.stage.addChild(container)
         	this.sprites.push({
         		img,
+                imgIndex,
         		group
         	})
         })
@@ -41,23 +54,25 @@ class NormalRenderer {
     	this.stage.update()
     }
     open() {
-    	TweenMax.to(this.stage.canvas, 0.5, { scaleX:1, scaleY:1, opacity:1, ease:Expo.easeOut })
+        TweenMax.fromTo(this.stage.canvas, 0.5, { scaleX:3, scaleY:0.1, opacity:0 }, { scaleX:1, scaleY:1, opacity:1, ease:Expo.easeOut })
     }
     close() {
-    	TweenMax.to(this.stage.canvas, 0.7, { scaleX:3, scaleY:0.1, opacity:0, ease:Expo.easeOut })
+        TweenMax.fromTo(this.stage.canvas, 0.7, { scaleX:1, scaleY:1, opacity:1 }, { scaleX:3, scaleY:0.1, opacity:0, ease:Expo.easeOut })
     }
     openIndex() {
-    	this.resize()
+        TweenMax.set(this.stage.canvas, { scaleX:1, scaleY:1, opacity:1 })
+        this.resize()
     	this.sprites.forEach((sprite) => {
-    		sprite.img.alpha = 1
-    		sprite.img.scaleX = sprite.img.scaleY = 0.4
+    		sprite.img.alpha = 0
+            sprite.imgIndex.alpha = 1
+    		sprite.imgIndex.scaleX = sprite.imgIndex.scaleY = 0.8
     	})
     	const size = dom.size(this.stage.canvas)
     	const itemH = this.resizeVars.height / this.sprites.length
-    	this.sprites[0].img.y = (Constants.TITLE_H / 2) - (Constants.TITLE_H * 0.32)
-    	this.sprites[1].img.y = (Constants.TITLE_H / 2) - (Constants.TITLE_H * 0.1)
-    	this.sprites[2].img.y = (Constants.TITLE_H / 2) + (Constants.TITLE_H * 0.2)
-    	this.sprites[3].img.y = (Constants.TITLE_H / 2) + (Constants.TITLE_H * 0.4)
+    	this.sprites[0].imgIndex.y = (Constants.TITLE_H / 2) - (Constants.TITLE_H * 0.32)
+    	this.sprites[1].imgIndex.y = (Constants.TITLE_H / 2) - (Constants.TITLE_H * 0.1)
+    	this.sprites[2].imgIndex.y = (Constants.TITLE_H / 2) + (Constants.TITLE_H * 0.2)
+    	this.sprites[3].imgIndex.y = (Constants.TITLE_H / 2) + (Constants.TITLE_H * 0.4)
     }
     closeIndex() {
     	this.updateStage()
@@ -66,12 +81,17 @@ class NormalRenderer {
     updateStage() {
     	const currentGroup = Store.getCurrentGroup()
     	this.sprites.forEach((sprite) => {
-    		sprite.img.alpha = 0
+            sprite.img.alpha = 0
     		sprite.img.scaleX = sprite.img.scaleY = 1
     		sprite.img.y = Constants.TITLE_H / 2
+
+            sprite.imgIndex.alpha = 0
+            sprite.imgIndex.scaleX = sprite.imgIndex.scaleY = 1
+            sprite.imgIndex.y = (Constants.TITLE_H / 2) / 2
+
     		if (currentGroup === sprite.group) this.currentText = sprite
     	})
-    	this.currentText.img.alpha = 1
+        this.currentText.img.alpha = 1
     }
     resize() {
 
@@ -82,7 +102,7 @@ class NormalRenderer {
         let canvasSize
         if (Store.IndexIsOpened) {
             canvasSize = [ 1000, windowH ]
-            viewportScale = 0.8
+            viewportScale = 0.7
         } else {
             canvasSize = [ size[0], size[1] ]
             viewportScale = 0.4

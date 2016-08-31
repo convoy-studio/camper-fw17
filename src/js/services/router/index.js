@@ -39,11 +39,12 @@ class Router {
         routerStore.ctx.path = currentPath
         this.newRouteFounded = this.routeValidation()
 
-        // // If URL don't match a pattern, send to default
-        // if (!this.newRouteFounded) {
-        //     this.onDefaultURLHandler()
-        //     return
-        // }
+        // If URL don't match a pattern, send to default
+        if (!this.newRouteFounded) {
+            this.onDefaultURLHandler()
+            return
+        }
+
         this.assignRoute()
     }
     areSimilarURL(previous, next) {
