@@ -12,7 +12,7 @@ export default class Portrait extends Page {
         const content = Store.globalContent()
         const colors = Store.getGroupColors()
         props.data.mediaBasePath = Store.baseMediaPath
-        props.data.groupTitle = content.discover + ' ' + Store.getCurrentGroup()
+        props.data.groupTitle = (Store.lang() === 'de') ? Store.getCurrentGroup() + ' ' + content.discover  : content.discover + ' ' + Store.getCurrentGroup()
         props.data.group = Store.getCurrentGroup()
         props.data.colors = colors
         super(props)

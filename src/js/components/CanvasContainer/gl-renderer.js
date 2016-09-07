@@ -21,13 +21,14 @@ class GlRenderer {
         this.element = element
         this.cameraHeight = 500
         this.angle = 0
-        this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
+        const antialias = Store.devicePixelRatio() > 1 ? false : true
+        this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: antialias })
         this.renderer.setPixelRatio( Store.devicePixelRatio() )
         this.renderer.setSize( windowW, windowH )
         this.element.appendChild( this.renderer.domElement )
         this.renderer.gammaInput = true
         this.renderer.gammaOutput = true
-        this.renderer.setFaceCulling(THREE.CullFaceNone)
+        // this.renderer.setFaceCulling(THREE.CullFaceNone)
         this.scene = new THREE.Scene()
         let aspect = windowW / windowH
         this.camera = new THREE.OrthographicCamera( - this.cameraHeight * aspect, this.cameraHeight * aspect, this.cameraHeight, - this.cameraHeight, 1, 10000 )
@@ -108,7 +109,6 @@ class GlRenderer {
             text.activate()
             text.resize()
         })
-        this.resize()
     }
     closeIndex() {
         this.allTexts.forEach((text) => {
@@ -143,7 +143,12 @@ class GlRenderer {
         this.camera.top = this.cameraHeight
         this.camera.bottom = - this.cameraHeight
         this.camera.updateProjectionMatrix()
-        this.renderer.setSize( canvasW, canvasH )
+
+        const canvasScale = Store.IndexIsOpened ? 0.68 : 0.8
+        this.renderer.setSize( canvasW * canvasScale, canvasH * canvasScale )
+        this.renderer.domElement.style.width = canvasW + 'px'
+        this.renderer.domElement.style.height = canvasH + 'px'
+
         if (Store.IndexIsOpened) {
             this.element.style.left = (windowW >> 1) - (canvasW >> 1) + 'px'
             this.element.style.top = (windowH >> 1) - (canvasH >> 1) + 'px'

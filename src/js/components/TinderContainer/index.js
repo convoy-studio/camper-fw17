@@ -69,6 +69,10 @@ class TinderContainer extends BaseComponent {
         this.imgs = dom.select.all('li > div', this.stackEl)
 
         const config = {
+            throwOutConfidence: (offset, element) => {
+                const val = Math.min(Math.abs(offset) / (element.offsetWidth * 0.5), 1)
+                return val
+            }
         }
         this.stack = Swing.Stack(config)
         this.cardsLi.forEach((targetElement) => { this.stack.createCard(targetElement) })
@@ -158,18 +162,6 @@ class TinderContainer extends BaseComponent {
             this.cardsLiRelative.forEach((item) => {
                 item.style.opacity = 0
             })
-            // this.cardsLiFace.forEach((item) => {
-            //     item.style.opacity = 0
-            // })
-            // this.cardsLiShoe.forEach((item) => {
-            //     item.style.opacity = 0
-            // })
-
-            // const firstFace = dom.select('.face', first)
-            // const firstShoe = dom.select('.shoe', first)
-            // TweenMax.set(firstFace, { opacity:1 })
-            // TweenMax.set(firstShoe, { opacity:1 })
-            
         }, this.delay)
 
         TweenMax.to(first, 0.6, { y:0, scale:1, opacity:1, transformOrigin:'50% 100%', ease:Expo.easeOut })
@@ -177,6 +169,9 @@ class TinderContainer extends BaseComponent {
         TweenMax.to(third, 0.6, { y:20, scale:0.8, opacity:1, transformOrigin:'50% 100%', ease:Expo.easeOut })
     }
     onThrowout(e) {
+
+        Store.FrontBlock.style.visibility = 'visible'
+
         const oldCard = this.stack.getCard(e.target)
         const newCardEl = e.target
         const lastEl = dom.select('li:first-child', this.stackEl)
@@ -212,6 +207,9 @@ class TinderContainer extends BaseComponent {
                     this.applyCardsPerpective()
                     setTimeout(() => {
                         newCardEl.style.opacity = 1
+                        setTimeout(() => {
+                            Store.FrontBlock.style.visibility = 'hidden'
+                        }, 400)
                     }, this.delay)
                 }, this.delay)
             }, 0)
@@ -238,7 +236,7 @@ class TinderContainer extends BaseComponent {
         const card = this.stack.getCard(currentEl)
         const rotation = Utils.rand(-40, 40, 0)
         const y = Utils.rand(-100, 100, 0)
-        TweenMax.to(relative, 0.7, { x: dir * (windowW * 1.2), y:y, rotation: rotation, ease:Expo.easeOut })
+        TweenMax.to(relative, 0.7, { x: dir * (windowW * 1.6), y:y, rotation: rotation, ease:Expo.easeOut })
         this.throwOutFinished = false
         setTimeout(() => {
             card.throwOut(0, 0)
@@ -250,7 +248,7 @@ class TinderContainer extends BaseComponent {
     resize() {
         const windowW = Store.Window.w
         const windowH = Store.Window.h
-        const cardW = windowW * 0.6
+        const cardW = windowW * 0.64
         const cardH = windowH * 0.4
         this.maxDistance = cardW
 
@@ -269,7 +267,7 @@ class TinderContainer extends BaseComponent {
             img.style.left = imgResizeVars.left + 'px'
         })
         this.viewport.style.left = (windowW >> 1) - (cardW >> 1) - 4 + 'px'
-        this.viewport.style.top = (windowH >> 1) - (cardH * 0.65) + 'px'
+        this.viewport.style.top = (windowH >> 1) - (cardH * 0.60) + 'px'
     }
 }
 

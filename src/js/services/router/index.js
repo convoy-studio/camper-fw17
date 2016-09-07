@@ -31,7 +31,13 @@ class Router {
             return
         }
         
-        const currentPath = ctx.path.replace(Store.getURL(), '')
+        let currentPath = undefined
+        currentPath = ctx.path.replace(Store.getURL(), '')
+        const cleanUrlFromQuery = currentPath.split('?')[0]
+        if (cleanUrlFromQuery) {
+            currentPath = cleanUrlFromQuery
+        }
+        
         // Swallow the action if we are alredy on that url
         if (routerStore.newRoute !== undefined) { if (this.areSimilarURL(routerStore.newRoute.path, currentPath)) return }
         this.newRouteFounded = false
@@ -67,7 +73,6 @@ class Router {
     assignRoute() {
         const path = routerStore.ctx.path
         this.updatePageRoute(path)
-
         if (dataLayer !== undefined) {
             const group = Store.getCurrentGroup()
             dataLayer.push({

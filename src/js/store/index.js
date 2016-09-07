@@ -12,13 +12,11 @@ function _getContentScope(route) {
 }
 function _getPageAssetsToLoad(route) {
     const routeObj = (route === undefined) ? Router.getNewRoute() : route
-    // const scope = _getContentScope(routeObj)
     const type = _getTypeOfPage()
     const typeId = type.toLowerCase()
     let manifest = []
     if (type !== Constants.PORTRAIT) {
         const filenames = [
-            // 'face' + _getImageDeviceExtension() + '.png',
             'face.png',
             'shoe.png',
             'background.jpg'
@@ -33,18 +31,6 @@ function _getPageAssetsToLoad(route) {
         let m = _addBasePathsToUrls(filenames, routeObj.parent, null, type, "common")
         manifest = manifest.concat(m)
     }
-    // console.log(routeObj.parent, routeObj.target, type, typeId)
-    // // In case of extra assets
-    // if (scope.assets !== undefined) {
-    //     const assets = scope.assets
-    //     let assetsManifest
-    //     if (type === Constants.PORTRAIT) {
-    //         assetsManifest = _addBasePathsToUrls(assets, 'home', routeObj.target, type)
-    //     } else {
-    //         assetsManifest = _addBasePathsToUrls(assets, routeObj.parent, routeObj.target, type)
-    //     }
-    //     manifest = (manifest === undefined) ? assetsManifest : manifest.concat(assetsManifest)
-    // }
     return manifest
 }
 function _addBasePathsToUrls(urls, pageId, targetId, type, typeId) {

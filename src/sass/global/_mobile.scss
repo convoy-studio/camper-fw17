@@ -182,21 +182,32 @@ html.mobile {
 				top: 0;
 		    	left: 0;
 		    	position: absolute;
+		    	width: 100%;
 		    	@include opacity(0);
 		    	@include anim(.3s, .0s, $easeOutBack, scaleX(0.8) scaleY(0.8) translateY(10px));
 		    	&.kings {
-		    		top: -70px;
+		    		top: -16%;
+		    		// top: -70px;
+		    		// left: 50%;
+		    		// margin-left: -$small_title_w / 2;
 		    	}
 		    	&.sport {
-		    		top: -70px;
-		    		left: 20px;
+		    		top: -22%;
+		    		// top: -70px;
+		    		// left: 50%;
+		    		// margin-left: -$small_title_w / 2;
 		    	}
 		    	&.armours {
-		    		top: -70px;
-		    		left: 20px;
+		    		top: -22%;
+		    		// top: -70px;
+		    		// left: 50%;
+		    		// margin-left: -$small_title_w / 2;
 		    	}
 		    	&.dino {
-		    		top: -60px;
+		    		top: -16%;
+		    		// top: -60px;
+		    		// left: 50%;
+		    		// margin-left: -$small_title_w / 2;
 		    	}
 		    }
 		    &.show-shoe {

@@ -26,7 +26,6 @@ class App {
         // Init Preloader
         Store.Preloader = new Preloader()
         
-        
         // Init global events
         initGlobalEvents()
 

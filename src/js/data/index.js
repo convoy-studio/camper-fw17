@@ -46,7 +46,7 @@ export default {
                 'home': 'INDEX',
                 'lab': 'LAB',
                 'camper_lab': 'Camper Lab',
-                'shop_title': 'Acquisiti',
+                'shop_title': 'Acquisti',
                 'shop_men': 'uomo',
                 'shop_women': 'donna',
                 'map_txt': 'INDEX'

@@ -31,7 +31,6 @@ class AppTemplate extends BaseComponent {
         this.frontContainer.render('#app-template')
 
         this.pagesContainer = new PagesContainer(this.onInitialPageReady)
-        // this.pagesContainer.initialPageReady = 
         this.pagesContainer.render('#app-template')
 
         this.canvasContainer = new CanvasContainer()

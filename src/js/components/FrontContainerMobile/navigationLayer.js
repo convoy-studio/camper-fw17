@@ -81,7 +81,7 @@ export default (el)=> {
         currentVars = vars
         const p = dom.select('.text-field-container p', btns[1])
         dom.classes.remove(p, 'to_shop')
-        p.innerHTML = content.discover + ' ' + vars.name.replace('-', ' ')
+        p.innerHTML = vars.name.replace('-', ' ') + ' ' + content.discover
     }
     
     const resize = () => {

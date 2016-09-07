@@ -11,6 +11,8 @@ const headerLinks = (parent)=> {
     const shopWrapper = dom.select('.shop-wrapper', parent)
     const submenuWrapper = dom.select('.submenu-wrapper', parent)
     const shopTitle = dom.select('.shop-title', shopWrapper)
+    const subManEl = dom.select('.sub-0', submenuWrapper)
+    const subWomanEl = dom.select('.sub-1', submenuWrapper)
     const indexBtnTimeout = Store.Detector.isSupportWebGL ? 1600 : 500
     let indexBtnIsEnabled = true
     let visibilityTimeout
@@ -61,6 +63,30 @@ const headerLinks = (parent)=> {
         btn.out()
     }
 
+    const onSubMenuManClicked = (e) => {
+        if (dataLayer !== undefined) {
+            const group = Store.getCurrentGroup()
+            dataLayer.push({
+                'event': 'eventGA',
+                'eventCat': 'camp- FW17_desktop',
+                'eventAct': 'pulsar-menu_shop_man',
+                'eventLbl': group
+            })
+        }
+    }
+
+    const onSubMenuWomanClicked = (e) => {
+        if (dataLayer !== undefined) {
+            const group = Store.getCurrentGroup()
+            dataLayer.push({
+                'event': 'eventGA',
+                'eventCat': 'camp- FW17_desktop',
+                'eventAct': 'pulsar-menu_shop_woman',
+                'eventLbl': group
+            })
+        }
+    }
+
     const simpleTextBtnsEl = dom.select.all('.main-text-btn', parent)
     let simpleBtns = []
     simpleTextBtnsEl.forEach((el) => {
@@ -71,8 +97,10 @@ const headerLinks = (parent)=> {
         dom.event.on(el, 'mouseleave', linkMouseLeave)
         simpleBtns.push(btn)
     })
-    shopWrapper.addEventListener('mouseenter', onSubMenuMouseEnter)
-    shopWrapper.addEventListener('mouseleave', onSubMenuMouseLeave)
+    dom.event.on(shopWrapper, 'mouseenter', onSubMenuMouseEnter)
+    dom.event.on(shopWrapper, 'mouseleave', onSubMenuMouseLeave)
+    dom.event.on(subManEl, 'click', onSubMenuManClicked)
+    dom.event.on(subWomanEl, 'click', onSubMenuWomanClicked)
 
     dom.event.on(simpleBtns[1].el, 'click', () => {
         if (dataLayer !== undefined) {
