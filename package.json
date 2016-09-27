@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=development webpack-dev-server -d --history-api-fallback --hot --inline --progress --colors --port 3000 --host 192.168.2.10",
+    "start": "NODE_ENV=development webpack-dev-server -d --history-api-fallback --hot --inline --progress --colors --port 3000 --host localhost",
     "build": "NODE_ENV=production webpack --progress --colors",
     "lint": "eslint --color --config .eslintrc --ext .js client"
   },
