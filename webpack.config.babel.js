@@ -10,6 +10,9 @@ const env = process.env.NODE_ENV
 // try { remove.removeSync('./www/js') } catch (err) { console.error(err) }
 
 const plugins = [
+    new webpack.ProvidePlugin({
+      THREE: "three"
+    }),
     new webpack.optimize.CommonsChunkPlugin('vendor', './vendor.bundle.js'),
     new ExtractTextPlugin("style.css", {
         allChunks: true
@@ -33,10 +36,17 @@ if (env === 'production') {
 }
 module.exports = {
     context: path.join(__dirname, './src'),
+    externals: {
+      'TweenLite': 'TweenLite',
+      'createjs': 'createjs'
+    },
     entry: {
         jsx: './js/index.js',
         vendor: [
-            'gsap'
+            'gsap',
+            '../www/lib/easeljs-0.8.2.min.js',
+            '../www/lib/preloadjs-0.6.2.min.js',
+            '../www/lib/SplitText.min.js'
         ]
     },
     output: {
@@ -60,7 +70,7 @@ module.exports = {
                     'babel-loader'
                 ]
             },
-            { 
+            {
                 test: /\.glsl$/,
                 loader: 'shader'
             },
