@@ -105,8 +105,8 @@ export default (id, props) => {
         }
     }
     const updateStyle = (id) => {
-        props.lights.point_0.intensity = 0.56
-        props.lights.point_1.intensity = 0.2
+        props.lights.point_0.intensity = 0.1
+        props.lights.point_1.intensity = 0.1
         props.lights.point_2.intensity = 0.39
         props.lights.ambient.intensity = 0.8
         props.lights.point_0.position.set(0, 0, 0)

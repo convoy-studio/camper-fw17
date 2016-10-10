@@ -144,7 +144,7 @@ class GlRenderer {
         this.camera.bottom = - this.cameraHeight
         this.camera.updateProjectionMatrix()
 
-        const canvasScale = Store.IndexIsOpened ? 0.68 : 0.8
+        const canvasScale = Store.IndexIsOpened ? 0.8 : 0.9
         this.renderer.setSize( canvasW * canvasScale, canvasH * canvasScale )
         this.renderer.domElement.style.width = canvasW + 'px'
         this.renderer.domElement.style.height = canvasH + 'px'

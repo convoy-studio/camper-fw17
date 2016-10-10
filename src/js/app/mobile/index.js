@@ -21,9 +21,9 @@ class App {
         Store.Preloader = new Preloader()
         // Init global events
         initGlobalEvents()
-        const appTemplate = new Template()
-        appTemplate.isReady = this.loadMainAssets
-        appTemplate.render('#app-container')
+        this.appTemplate = new Template()
+        this.appTemplate.isReady = this.loadMainAssets
+        this.appTemplate.render('#app-container')
 
         const mainLoader = dom.select('#main-loader')
         dom.tree.remove(mainLoader)
@@ -37,6 +37,7 @@ class App {
     onAppReady() {
         setTimeout(()=>Actions.appStart())
         setTimeout(()=>Actions.routeChanged())
+        setTimeout(()=>this.appTemplate.renderTinder())
     }
 }
 

@@ -27,7 +27,6 @@ class AppTemplate extends BaseComponent {
         this.frontContainer.render('#app-template')
 
         this.tinderContainer = new TinderContainer()
-        this.tinderContainer.render('#app-template')
 
         setTimeout(()=>{
             this.isReady()
@@ -37,6 +36,9 @@ class AppTemplate extends BaseComponent {
         globalResize()
 
         super.componentDidMount()
+    }
+    renderTinder() {
+        this.tinderContainer.render('#app-template')
     }
     didNextPersonClick() {
         this.tinderContainer.nextPerson()

@@ -37,8 +37,18 @@ class TinderContainer extends BaseComponent {
         let scope = {}
         let portraits = []
         const routes = Router.getPortraitRoutes().reverse()
+        const newRoute = Router.getNewRoute()
+
+        let targetIndex
+         routes.forEach((route, i) => {
+            if (route.url === newRoute.url) targetIndex = i
+        })
+        const beforeTargetArray = routes.slice(0, targetIndex)
+        const afterTargetArray = routes.slice(targetIndex, routes.length).reverse()
+        const newRoutes = beforeTargetArray.concat(afterTargetArray)
+
         const baseMediaPath = Store.baseMediaPath() + 'media/group'
-        routes.forEach((route) => {
+        newRoutes.forEach((route) => {
             const group = Store.getGroupById(route.parent)
             const colors = Store.getPageColorsById(route.path)
             portraits.push({
