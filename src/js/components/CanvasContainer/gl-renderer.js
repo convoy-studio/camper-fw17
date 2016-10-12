@@ -5,13 +5,12 @@ import sportText from './text/sport'
 import kingsText from './text/king'
 import armoursText from './text/armour'
 import dinoText from './text/dino'
+import dom from 'dom-hand'
+import Router from '../../services/router'
 
 class GlRenderer {
     init(element) {
         this.render = this.render.bind(this)
-
-        this.tlOpen = new TimelineMax()
-        this.tlClose = new TimelineMax()
 
         this.isOpen = false
         this.firstTimeOpen = true
@@ -19,16 +18,16 @@ class GlRenderer {
         const windowW = Store.Window.w
         const windowH = Store.Window.h
         this.element = element
+        this.canvasInline = dom.select('.canvas-inline', this.element)
         this.cameraHeight = 500
         this.angle = 0
         const antialias = Store.devicePixelRatio() > 1 ? false : true
         this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: antialias })
         this.renderer.setPixelRatio( Store.devicePixelRatio() )
         this.renderer.setSize( windowW, windowH )
-        this.element.appendChild( this.renderer.domElement )
+        this.canvasInline.appendChild( this.renderer.domElement )
         this.renderer.gammaInput = true
         this.renderer.gammaOutput = true
-        // this.renderer.setFaceCulling(THREE.CullFaceNone)
         this.scene = new THREE.Scene()
         let aspect = windowW / windowH
         this.camera = new THREE.OrthographicCamera( - this.cameraHeight * aspect, this.cameraHeight * aspect, this.cameraHeight, - this.cameraHeight, 1, 10000 )
@@ -97,13 +96,17 @@ class GlRenderer {
         } else {
             setTimeout(() => { this.isOpen = true }, 200)
         }
-        this.tlOpen.timeScale(5).play()
+        dom.classes.remove(this.canvasInline, 'open')
     }
     close() {
         this.isOpen = false
-        this.tlClose.timeScale(1.6).play()
+        dom.classes.add(this.canvasInline, 'open')
     }
     openIndex() {
+        if (Router.getNewRoute().type === Constants.PRODUCT) {
+            console.log('go')
+            dom.classes.remove(this.canvasInline, 'open')
+        }
         this.allTexts.forEach((text) => {
             text.indexState()
             text.activate()
@@ -130,7 +133,7 @@ class GlRenderer {
             viewportScale = 0.8
         } else {
             canvasSize = [ size[0], size[1] ]
-            viewportScale = 0.4
+            viewportScale = 0.35
         }
         const viewportW = windowW * viewportScale
         const viewportH = windowH * viewportScale
@@ -157,12 +160,6 @@ class GlRenderer {
             this.element.style.top = windowH - canvasH - (windowH * 0.05) + 'px'
         }
         this.currentText.resize()
-        this.tlOpen.clear()
-        this.tlClose.clear()
-        this.tlOpen.fromTo(this.element, 1, { scaleX:2, scaleY:0.6, opacity:0, force3D: true }, { scaleX:1, scaleY:1, opacity:1, force3D: true, ease: Expo.easeInOut }, 0)
-        this.tlClose.fromTo(this.element, 1, { scaleX:1, scaleY:1, opacity:1, force3D: true }, { scaleX:2, scaleY:0.2, opacity:0, force3D: true, ease: Expo.easeInOut }, 0)
-        this.tlClose.pause(0)
-        this.tlOpen.pause(0)
     }
     updateLights() {
         this.angle += 0.02
@@ -171,6 +168,7 @@ class GlRenderer {
         this.props.lights.point_0.position.y += Math.sin(this.angle) * 180
         this.props.lights.point_1.position.y += Math.sin(this.angle) * 200
     }
+
     render() {
         if (Store.IndexIsOpened) {
             this.allTexts.forEach((text) => { text.render() })

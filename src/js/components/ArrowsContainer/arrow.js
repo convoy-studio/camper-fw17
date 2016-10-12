@@ -6,20 +6,23 @@ export default (el, dir)=> {
     const svg = dom.select('svg', el)
     const iconHolder = dom.select('.icon-holder', el)
     const background = dom.select('.background', el)
-    const tl = new TimelineMax()
-    tl.from(iconHolder, 1, { x:10*dir, ease:Expo.easeOut })
-    tl.pause(0)
+    const textureBackground = dom.select('.texture-background', el)
+    const textureInline = dom.select('.inline-texture', textureBackground)
 
     const changeColor = (color) => {
         svg.setAttribute('fill', color)
     }
 
     const over = () => {
-        tl.timeScale(1.4).play(0)
+        dom.classes.add(el, 'active')
     }
 
     const out = () => {
-        tl.timeScale(3).reverse()
+        dom.classes.remove(el, 'active')
+    }
+
+    const updateBgImg = (src) => {
+        textureInline.style.backgroundImage = "url('"+ src +"')";
     }
 
     scope = {
@@ -29,6 +32,8 @@ export default (el, dir)=> {
         svg,
         iconHolder,
         background,
+        textureBackground,
+        updateBgImg,
         over,
         out,
         resize: () => {

@@ -23,6 +23,8 @@ class CanvasContainer extends BaseComponent {
         this.didBtnClick = this.didBtnClick.bind(this)
         this.showTitle = this.showTitle.bind(this)
         this.hideTitle = this.hideTitle.bind(this)
+        this.mainArrowOver = this.mainArrowOver.bind(this)
+        this.mainArrowOut = this.mainArrowOut.bind(this)
         
         Store.on(Constants.APP_START, this.pageInitialAssetsLoaded)
         Store.on(Constants.OPEN_INDEX, this.openIndex)
@@ -31,6 +33,8 @@ class CanvasContainer extends BaseComponent {
         Store.on(Constants.HIDE_TITLE, this.hideTitle)
         Store.on(Constants.PORTRAIT_TRANSITION.DID_REACH_HALF_TIME, this.portraitTransitionDidReachHalfTime)
         PagerStore.on(PagerConstants.PAGE_TRANSITION_DID_FINISH, this.pageTransitionDidFinish)
+        Store.on(Constants.MAIN_ARROW_OVER, this.mainArrowOver)
+        Store.on(Constants.MAIN_ARROW_OUT, this.mainArrowOut)
     }
     render(parent) {
         let scope = {}
@@ -128,6 +132,21 @@ class CanvasContainer extends BaseComponent {
         this.buttonsContainer.style.display = 'none'
         if (newRoute.type === Constants.PRODUCT) this.element.style.display = 'none'
         this.renderer.closeIndex()   
+    }
+    mainArrowOver(dir) {
+        switch (dir) {
+            case Constants.LEFT:
+                dom.classes.add(this.element, 'active-left')
+            break
+            case Constants.RIGHT:
+                dom.classes.add(this.element, 'active-right')
+            break
+        }
+    }
+    mainArrowOut() {
+        if (this.element === undefined) return
+        dom.classes.remove(this.element, 'active-left')
+        dom.classes.remove(this.element, 'active-right')
     }
     updateStage() {
         const newRoute = Router.getNewRoute()

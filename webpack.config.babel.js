@@ -13,7 +13,6 @@ const plugins = [
     new webpack.ProvidePlugin({
       THREE: "three"
     }),
-    new webpack.optimize.CommonsChunkPlugin('vendor', './vendor.bundle.js'),
     new ExtractTextPlugin("style.css", {
         allChunks: true
     }),
@@ -21,6 +20,11 @@ const plugins = [
         'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development') }
     })
 ]
+
+if (env === 'development') {
+    plugins.push(new webpack.optimize.CommonsChunkPlugin('vendor', './vendor.bundle.js', Infinity))
+}
+
 if (env === 'production') {
     plugins.push(
         new webpack.optimize.UglifyJsPlugin({
@@ -33,6 +37,29 @@ if (env === 'production') {
             }
         })
     )
+} 
+
+let entry = undefined
+if (env === 'production') {
+    entry = {
+        jsx: [
+            'gsap',
+            '../www/lib/easeljs-0.8.2.min.js',
+            '../www/lib/preloadjs-0.6.2.min.js',
+            '../www/lib/SplitText.min.js',
+            './js/index.js'
+        ]
+    }
+} else {
+    entry = {
+        jsx: ['./js/index.js'],
+        vendor: [
+            'gsap',
+            '../www/lib/easeljs-0.8.2.min.js',
+            '../www/lib/preloadjs-0.6.2.min.js',
+            '../www/lib/SplitText.min.js'
+        ]
+    }
 }
 module.exports = {
     context: path.join(__dirname, './src'),
@@ -40,15 +67,7 @@ module.exports = {
       'TweenLite': 'TweenLite',
       'createjs': 'createjs'
     },
-    entry: {
-        jsx: './js/index.js',
-        vendor: [
-            'gsap',
-            '../www/lib/easeljs-0.8.2.min.js',
-            '../www/lib/preloadjs-0.6.2.min.js',
-            '../www/lib/SplitText.min.js'
-        ]
-    },
+    entry: entry,
     output: {
         path: ('./www'),
         filename: './bundle.js'

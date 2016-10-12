@@ -17,6 +17,7 @@ class ArrowsContainer extends BaseComponent {
         const generaInfos = Store.generalInfos()
         scope.infos = Store.globalContent()
         scope.general = generaInfos
+        scope.empty = Store.baseMediaPath() + 'media/empty.png'
         super.render('ArrowsContainer', parent, template, scope)
     }
     componentDidMount() {
@@ -88,41 +89,50 @@ class ArrowsContainer extends BaseComponent {
     mouseOverLeft(e) {
         e.preventDefault()
         this.leftArrow.over()
-        // Actions.mainArrowOver(Constants.LEFT)
+        Actions.mainArrowOver(Constants.LEFT)
     }
     mouseOverRight(e) {
         e.preventDefault()
         this.rightArrow.over()
-        // Actions.mainArrowOver(Constants.RIGHT)
+        Actions.mainArrowOver(Constants.RIGHT)
     }
     mouseOutLeft(e) {
         e.preventDefault()
         this.leftArrow.out()
-        // Actions.mainArrowOut(Constants.LEFT)
+        Actions.mainArrowOut(Constants.LEFT)
     }
     mouseOutRight(e) {
         e.preventDefault()
         this.rightArrow.out()
-        // Actions.mainArrowOut(Constants.RIGHT)
+        Actions.mainArrowOut(Constants.RIGHT)
+    }
+    updateArrowImages() {
+        const nextRoute = Store.getNextRoute()
+        const previousRoute = Store.getPreviousRoute()
+        const nextBgImgUrl = Store.baseMediaPath() + 'media/group/' + nextRoute.parent + '/' + nextRoute.target + '/' + 'side.gif'
+        const previousBgImgUrl = Store.baseMediaPath() + 'media/group/' + previousRoute.parent + '/' + previousRoute.target + '/' + 'side.gif'
+        this.leftArrow.updateBgImg(previousBgImgUrl)
+        this.rightArrow.updateBgImg(nextBgImgUrl)
     }
     resize() {
         const windowW = Store.Window.w
         const windowH = Store.Window.h
+        const arrowBgSize = 200
 
         if (!this.domIsReady) return
         this.leftArrow.resize()
         this.rightArrow.resize()
 
-        this.leftArrow.el.style.width = (Constants.PADDING_AROUND * 2) + 'px'
+        this.leftArrow.el.style.width = (arrowBgSize) + 'px'
         this.leftArrow.el.style.height = windowH + 'px'
         this.leftArrow.el.style.left = 0 + 'px'
-        this.leftArrow.iconHolder.style.left = Constants.PADDING_AROUND - (this.leftArrow.size[1] >> 1) + 'px'
+        this.leftArrow.iconHolder.style.left = Constants.PADDING_AROUND + 'px'
         this.leftArrow.iconHolder.style.top = (windowH >> 1) - (this.leftArrow.size[1] >> 1) + 'px'
 
-        this.rightArrow.el.style.width = (Constants.PADDING_AROUND * 2) + 'px'
+        this.rightArrow.el.style.width = (arrowBgSize) + 'px'
         this.rightArrow.el.style.height = windowH + 'px'
-        this.rightArrow.el.style.left = (windowW) - (Constants.PADDING_AROUND * 2) + 'px'
-        this.rightArrow.iconHolder.style.left = Constants.PADDING_AROUND - (this.rightArrow.size[1] >> 1) + 'px'
+        this.rightArrow.el.style.left = (windowW) - (arrowBgSize) + 'px'
+        this.rightArrow.iconHolder.style.left = (arrowBgSize) - Constants.PADDING_AROUND - (this.rightArrow.size[0]) + 'px'
         this.rightArrow.iconHolder.style.top = (windowH >> 1) - (this.rightArrow.size[1] >> 1) + 'px'
 
         this.tl.clear()

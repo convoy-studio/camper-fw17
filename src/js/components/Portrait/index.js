@@ -21,15 +21,20 @@ export default class Portrait extends Page {
         this.didEndedMorphing = this.didEndedMorphing.bind(this)
         this.titleCanvasEnter = this.titleCanvasEnter.bind(this)
         this.titleCanvasLeave = this.titleCanvasLeave.bind(this)
+        this.mainArrowOver = this.mainArrowOver.bind(this)
+        this.mainArrowOut = this.mainArrowOut.bind(this)
         Store.on(Constants.START_MORPHING, this.startMorphing)
         Store.on(Constants.LOAD_MORPHING, this.loadMorphing)
         Store.on(Constants.TITLE_CANVAS_ENTER, this.titleCanvasEnter)
         Store.on(Constants.TITLE_CANVAS_LEAVE, this.titleCanvasLeave)
+        Store.on(Constants.MAIN_ARROW_OVER, this.mainArrowOver)
+        Store.on(Constants.MAIN_ARROW_OUT, this.mainArrowOut)
     }
     componentWillMount() {
         super.componentWillMount()
     }
     componentDidMount() {
+        this.pageWrapper = dom.select('.page-wrapper', this.element)
 
         const bgVideoContainer = dom.select('#background-video-container', this.element)
         const morphingVideoContainer = dom.select('.morphing-video-container', this.element)
@@ -57,10 +62,11 @@ export default class Portrait extends Page {
         if (this.mainTextBtn !== undefined) this.mainTextBtn.out()
     }
     setupAnimations() {
-        this.tlOut.to(this.morphingVideo.parent, 1, { opacity:0, scaleX:3, ease:Expo.easeOut }, 0)
+        this.tlOut.to(this.morphingVideo.parent, 1, { opacity:0, scaleX:3, force3D:true, ease:Expo.easeOut }, 0)
         super.setupAnimations()
     }
     didTransitionInComplete() {
+        dom.classes.add(this.bgVideo.parent, 'show')
         super.didTransitionInComplete()
     }
     willTransitionIn() {
@@ -84,11 +90,28 @@ export default class Portrait extends Page {
         if (this.morphingVideo.isLoaded) return
         this.morphingVideo.load(this.baseVideoPath + 'morphing.mp4', () => {})
     }
+    mainArrowOver(dir) {
+        switch (dir) {
+            case Constants.LEFT:
+                dom.classes.add(this.pageWrapper, 'active-left')
+            break
+            case Constants.RIGHT:
+                dom.classes.add(this.pageWrapper, 'active-right')
+            break
+        }
+    }
+    mainArrowOut() {
+        if (this.pageWrapper === undefined) return
+        dom.classes.remove(this.pageWrapper, 'active-left')
+        dom.classes.remove(this.pageWrapper, 'active-right')
+    }
     removeEventListeners() {
         Store.off(Constants.START_MORPHING, this.startMorphing)
         Store.off(Constants.LOAD_MORPHING, this.loadMorphing)
         Store.off(Constants.TITLE_CANVAS_ENTER, this.titleCanvasEnter)
         Store.off(Constants.TITLE_CANVAS_LEAVE, this.titleCanvasLeave)
+        Store.off(Constants.MAIN_ARROW_OVER, this.mainArrowOver)
+        Store.off(Constants.MAIN_ARROW_OUT, this.mainArrowOut)
     }
     resize() {
         const windowW = Store.Window.w

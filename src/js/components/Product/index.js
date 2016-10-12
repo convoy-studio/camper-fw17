@@ -18,6 +18,8 @@ export default class Product extends Page {
         super(props)
     }
     componentDidMount() {
+        this.pageWrapper = dom.select('.page-wrapper', this.element)
+        
         this.textOver = this.textOver.bind(this)
         this.textOut = this.textOut.bind(this)
         this.textClick = this.textClick.bind(this)
@@ -50,6 +52,11 @@ export default class Product extends Page {
         dom.event.on(this.mainTextBtn.el, 'click', this.textClick)
         dom.event.on(this.mainTextBtn.el, 'mouseenter', this.textOver)
         dom.event.on(this.mainTextBtn.el, 'mouseleave', this.textOut)
+
+        this.mainArrowOver = this.mainArrowOver.bind(this)
+        this.mainArrowOut = this.mainArrowOut.bind(this)
+        Store.on(Constants.MAIN_ARROW_OVER, this.mainArrowOver)
+        Store.on(Constants.MAIN_ARROW_OUT, this.mainArrowOut)
 
         super.componentDidMount()
     }
@@ -86,6 +93,21 @@ export default class Product extends Page {
         }
 
         window.open(content.shop_url, '_blank')
+    }
+    mainArrowOver(dir) {
+        switch (dir) {
+            case Constants.LEFT:
+                dom.classes.add(this.pageWrapper, 'active-left')
+            break
+            case Constants.RIGHT:
+                dom.classes.add(this.pageWrapper, 'active-right')
+            break
+        }
+    }
+    mainArrowOut() {
+        if (this.pageWrapper === undefined) return
+        dom.classes.remove(this.pageWrapper, 'active-left')
+        dom.classes.remove(this.pageWrapper, 'active-right')
     }
     didTransitionInComplete() {
         super.didTransitionInComplete()
@@ -146,6 +168,8 @@ export default class Product extends Page {
         dom.event.off(this.mainTextBtn.el, 'click', this.textClick)
         dom.event.off(this.mainTextBtn.el, 'mouseenter', this.textOver)
         dom.event.off(this.mainTextBtn.el, 'mouseleave', this.textOut)
+        Store.off(Constants.MAIN_ARROW_OVER, this.mainArrowOver)
+        Store.off(Constants.MAIN_ARROW_OUT, this.mainArrowOut)
         this.leftPart.clear()
         this.rightPart.clear()
         this.stage.clear()

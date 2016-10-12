@@ -210,7 +210,6 @@ const Store = assign({}, EventEmitter2.prototype, {
         return data.routing[id].colors
     },
     getPageContentById: (id) => {
-        console.log(data.routing)
         return data.routing[id]
     },
     getGroupSpriteParams: () => {

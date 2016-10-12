@@ -54,10 +54,10 @@ class NormalRenderer {
     	this.stage.update()
     }
     open() {
-        TweenMax.fromTo(this.stage.canvas, 0.5, { scaleX:3, scaleY:0.1, opacity:0 }, { scaleX:1, scaleY:1, opacity:1, ease:Expo.easeOut })
+        TweenMax.fromTo(this.stage.canvas, 0.5, { opacity:0 }, { opacity:1, ease:Expo.easeOut })
     }
     close() {
-        TweenMax.fromTo(this.stage.canvas, 0.7, { scaleX:1, scaleY:1, opacity:1 }, { scaleX:3, scaleY:0.1, opacity:0, ease:Expo.easeOut })
+        TweenMax.fromTo(this.stage.canvas, 0.7, { opacity:1 }, { opacity:0, ease:Expo.easeOut })
     }
     openIndex() {
         TweenMax.set(this.stage.canvas, { scaleX:1, scaleY:1, opacity:1 })

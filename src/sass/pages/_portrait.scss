@@ -1,11 +1,5 @@
 #portrait-page {
-	#background-video-container, .morphing-video-container {
-		@extend .full-block;
-		video {
-			width: 100%;
-			height: 100%;
-		}
-	}
+
 	.morphing-video-container {
 		position: absolute;
 		z-index: 2;
@@ -22,5 +16,11 @@
 		color: $white;
 		white-space: nowrap;
 		@include opacity(0);
+	}
+	#background-video-container {
+		@include anim(.1s, .0s, $easeOutExpo, scale(1.2), 50%, 50%, transform);
+		&.show {
+			@include anim(.6s, .3s, cubic-bezier(0,.99,.73,1.01), scale(1), 50%, 50%, transform);
+		}
 	}
 }

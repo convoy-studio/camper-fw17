@@ -75,6 +75,38 @@
     #arrows-container {
         .arrow {
             @extend .full-block;
+            &.left-arrow {
+                .icon-holder {
+                    @include anim(.6s, .4s, $main_easing_in, translateX(0px) scale(1), 50%, 50%, transform opacity);
+                }
+                .texture-background {
+                    @include anim(.8s, .1s, $main_easing_in_1, translateX(-200px) scaleX(0.8), 60%, 50%, transform opacity);
+                }
+            }
+            &.active.left-arrow {
+                .icon-holder {
+                    @include anim(.8s, .0s, $main_easing_in, translateX(-100px) scale(1), 50%, 50%, transform opacity);
+                }
+                .texture-background {
+                    @include anim(.8s, .0s, $main_easing_in, translateX(-20px) scaleX(1), 60%, 60%, transform opacity);
+                }
+            }
+            &.right-arrow {
+                .icon-holder {
+                    @include anim(.6s, .4s, $main_easing_in, translateX(0px) scale(1), 50%, 50%, transform opacity);
+                }
+                .texture-background {
+                    @include anim(.8s, .1s, $main_easing_in_1, translateX(200px) scaleX(0.8), 60%, 50%, transform opacity);
+                }
+            }
+            &.active.right-arrow {
+                .icon-holder {
+                    @include anim(.8s, .0s, $main_easing_in, translateX(100px) scale(1), 50%, 50%, transform opacity);
+                }
+                .texture-background {
+                    @include anim(.8s, .0s, $main_easing_in, translateX(20px) scaleX(1), 60%, 60%, transform opacity);
+                }
+            }
         }
         .right-arrow {
             svg {
@@ -88,14 +120,23 @@
         }
         .icon-holder {
             position: absolute;
-            z-index: 2;
+            z-index: 3;
         }
-        .background {
+        .background, .texture-background {
             @extend .full;
             @extend .top-left;
-            z-index: 1;
+            z-index: 2;
             position: absolute;
-            // background-color: #ff0000;
+        }
+        .texture-background {
+            z-index: 1;
+            overflow: hidden;
+            .inline-texture {
+                @extend .full;
+                position: absolute;
+                background-size: contain;
+                background-repeat: repeat-y
+            }
         }
     }
     .index-layer-container {

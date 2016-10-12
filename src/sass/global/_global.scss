@@ -3,7 +3,7 @@ html, body {
     padding: 0;
     margin: 0;
     font-family: "FuturaMedium";
-    background-color: white;
+    background-color: $black;
     letter-spacing: 0.88px;
     line-height: $globalLineHeight;
 }
@@ -51,6 +51,21 @@ html {
 
 .page-wrapper {
     position: absolute;
+
+    @include anim(.6s, .0s, $main_easing_in_1, translateX(0px), 50%, 50%, transform opacity);
+    &.active-left {
+        @include anim(.7s, .0s, $main_easing_out, translateX(170px), 50%, 50%, transform opacity);
+    }
+    &.active-right {
+        @include anim(.7s, .0s, $main_easing_out, translateX(-170px), 50%, 50%, transform opacity);
+    }
+    #background-video-container, .morphing-video-container {
+        @extend .full-block;
+        video {
+            width: 100%;
+            height: 100%;
+        }
+    }
 }
 
 #preloader {
@@ -73,12 +88,35 @@ html {
     z-index: 299;
     @extend .top-left;
     @extend .btn;
-    // border: 1px solid yellow;
-    canvas {
-        // border: 1px solid red;
+    
+    .canvas-inline {
+        @include opacity(1);
+        @include anim(.0s, .0s, $main_easing_in_1, scale(1, 1), 50%, 70%, transform opacity);
+        &.open {
+            @include opacity(0);
+            @include anim(.5s, .4s, cubic-bezier(1,.02,.24,1.01), scale(5, 0.1), 50%, 70%, transform opacity);
+        }
     }
+
+    
+    canvas {
+        @include anim(.8s, .0s, $main_easing_in_1, translateX(0px), 50%, 50%, transform);
+    }
+
+    &.active-left {
+        canvas {
+            @include anim(.9s, .0s, $main_easing_out, translateX(200px), 50%, 50%, transform);
+        }
+    }
+    &.active-right {
+        canvas {
+            @include anim(.9s, .0s, $main_easing_out, translateX(-200px), 50%, 50%, transform);
+        }
+    }
+
     .buttons-container {
         position: absolute;
+        z-index: 2;
         li {
             width: 100%;
             position: absolute;

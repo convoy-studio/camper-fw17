@@ -6,6 +6,10 @@ $globalLineHeight: $globalFontSize;
 $iconsSize: 34px;
 $small_title_w: 400px;
 
+$main_easing_in: cubic-bezier(0,1.57,.05,.99);
+$main_easing_in_1: cubic-bezier(1,.01,.26,.96);
+$main_easing_out: cubic-bezier(0,1,.26,.96);
+
 $PADDING_AROUND: 40px;
 $SIDE_EVENT_PADDING: 120px;
 

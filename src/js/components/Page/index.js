@@ -12,6 +12,7 @@ export default class Page extends BasePage {
         super.componentWillMount()
     }
     componentDidMount() {
+        
         super.componentDidMount()
     }
     willTransitionIn() {

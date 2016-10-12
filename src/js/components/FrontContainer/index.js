@@ -54,6 +54,9 @@ class FrontContainer extends BaseComponent {
         if (type === Constants.PRODUCT) {
             this.updateColors()
         }
+        setTimeout(() => {
+            this.arrowsContainer.updateArrowImages()
+        }, 500)
     }
     updateColors() {
         const color = Store.getGroupColor()
